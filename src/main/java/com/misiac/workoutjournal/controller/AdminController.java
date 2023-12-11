@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 //@CrossOrigin
@@ -22,9 +23,9 @@ public class AdminController {
     }
 
     @PostMapping("/muscle-category")
-    public ResponseEntity<String> addMuscleGroupCategory(String newCategory) throws Exception {
+    public ResponseEntity<String> addMuscleGroupCategory(@RequestParam String name) throws Exception {
 
-        adminService.addMuscleGroupCategory(newCategory);
+        adminService.addMuscleGroupCategory(name);
         return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
 
     }

@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -24,7 +26,7 @@ public class Exercise {
     @JoinTable(name = "equipment_jointable",
             joinColumns = @JoinColumn(name = "exercise_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private Set<EquipmentCategory> exerciseEquipmentCategories = new LinkedHashSet<>();
+    private List<EquipmentCategory> equipmentCategories = new ArrayList<>();
 
     @OneToMany(mappedBy = "exercise")
     private Set<MuscleGroup> muscleGroup = new LinkedHashSet<>();

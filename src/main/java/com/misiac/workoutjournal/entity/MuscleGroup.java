@@ -10,6 +10,7 @@ import lombok.Setter;
 @Table(name = "musclegroups")
 public class MuscleGroup {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, length = 45)
     private String id;
 

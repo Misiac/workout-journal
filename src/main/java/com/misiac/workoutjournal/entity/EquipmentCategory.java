@@ -1,9 +1,6 @@
 package com.misiac.workoutjournal.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,10 +10,11 @@ import lombok.Setter;
 @Table(name = "exercise_equipment_categories")
 public class EquipmentCategory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Column(name = "category", nullable = false, length = 45)
-    private String category;
+    @Column(name = "name", nullable = false, length = 45)
+    private String name;
 
 }

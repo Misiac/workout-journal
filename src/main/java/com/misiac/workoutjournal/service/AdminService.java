@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.service;
 
+import com.misiac.workoutjournal.entity.EquipmentCategory;
 import com.misiac.workoutjournal.entity.MuscleGroupCategory;
 import com.misiac.workoutjournal.repository.EquipmentCategoryRepository;
 import com.misiac.workoutjournal.repository.MuscleGroupCategoryRepository;
@@ -29,5 +30,17 @@ public class AdminService {
 
         var newCategory = new MuscleGroupCategory(newCategoryName);
         muscleGroupCategoryRepository.save(newCategory);
+    }
+
+    public void addEquipmentCategory(String newCategoryName) throws Exception {
+
+        var equipmentCategory = equipmentCategoryRepository.findEquipmentCategoryByName(newCategoryName);
+
+        if (equipmentCategory.isPresent()) {
+            throw new Exception("Equipment Category already exists");
+        }
+
+        var newCategory = new EquipmentCategory(newCategoryName);
+        equipmentCategoryRepository.save(newCategory);
     }
 }

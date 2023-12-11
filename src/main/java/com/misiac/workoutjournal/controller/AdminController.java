@@ -27,6 +27,12 @@ public class AdminController {
 
         adminService.addMuscleGroupCategory(name);
         return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
+    }
 
+    @PostMapping("/equipment-category")
+    public ResponseEntity<String> addEquipmentCategory(@RequestParam String name) throws Exception {
+
+        adminService.addEquipmentCategory(name);
+        return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
     }
 }

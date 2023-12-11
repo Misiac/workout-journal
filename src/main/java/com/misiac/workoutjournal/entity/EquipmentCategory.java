@@ -2,10 +2,12 @@ package com.misiac.workoutjournal.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @Entity
 @Table(name = "exercise_equipment_categories")
 public class EquipmentCategory {
@@ -17,4 +19,7 @@ public class EquipmentCategory {
     @Column(name = "name", nullable = false, length = 45)
     private String name;
 
+    public EquipmentCategory(String name) {
+        this.name = name;
+    }
 }

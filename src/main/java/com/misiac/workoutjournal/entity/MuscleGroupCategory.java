@@ -2,12 +2,12 @@ package com.misiac.workoutjournal.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "exercise_musclegroup_categories")
 public class MuscleGroupCategory {

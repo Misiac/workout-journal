@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -22,7 +22,7 @@ public class Workout {
     private User user;
 
     @Column(name = "date", nullable = false)
-    private Instant date;
+    private LocalDateTime date;
 
     @OneToMany(mappedBy = "workout")
     private Set<WorkoutExercise> workoutExercises = new LinkedHashSet<>();

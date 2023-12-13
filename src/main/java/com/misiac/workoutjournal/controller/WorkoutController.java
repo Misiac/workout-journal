@@ -1,6 +1,6 @@
 package com.misiac.workoutjournal.controller;
 
-import com.misiac.workoutjournal.WorkoutService;
+import com.misiac.workoutjournal.service.WorkoutService;
 import com.misiac.workoutjournal.requestmodels.AddWorkoutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +21,9 @@ public class WorkoutController {
     public void addNewWorkout(@RequestHeader(value = "Authorization") String token,
                               @RequestBody AddWorkoutRequest addWorkoutRequest) throws Exception {
 
+        // authorize token, extract email TODO
+        String email = "test@email.com";
+        workoutService.addWorkout(addWorkoutRequest, email);
 
     }
 }

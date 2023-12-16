@@ -81,4 +81,16 @@ public class AdminService {
         Exercise newExercise = exerciseMapper.toExercise(adminExerciseRequest);
         exerciseRepository.save(newExercise);
     }
+
+    public void bindEquipmentCategory(Long exerciseId, String categoryName) {
+    }
+
+    public void unbindEquipmentCategory(Long exerciseId, String categoryName) {
+    }
+
+    public void bindMuscleCategory(Long exerciseId, String categoryName) {
+    }
+
+    public void unbindMuscleCategory(Long exerciseId, String categoryName) {
+    }
 }

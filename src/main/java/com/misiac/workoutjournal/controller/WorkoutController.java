@@ -17,7 +17,7 @@ public class WorkoutController {
         this.workoutService = workoutService;
     }
 
-    @PostMapping()
+    @PostMapping("/new")
     public void addNewWorkout(@RequestHeader(value = "Authorization") String token,
                               @RequestBody WorkoutRequest addWorkoutRequest) throws Exception {
 

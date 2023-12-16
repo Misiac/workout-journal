@@ -3,7 +3,7 @@ package com.misiac.workoutjournal.requestmodels;
 import lombok.Getter;
 
 @Getter
-public class AddExerciseRequest {
+public class ExerciseRequest {
 
     private int exerciseId;
     private float load;

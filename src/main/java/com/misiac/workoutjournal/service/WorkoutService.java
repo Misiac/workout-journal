@@ -5,8 +5,8 @@ import com.misiac.workoutjournal.entity.WorkoutExercise;
 import com.misiac.workoutjournal.repository.ExerciseRepository;
 import com.misiac.workoutjournal.repository.UserRepository;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
-import com.misiac.workoutjournal.requestmodels.AddExerciseRequest;
-import com.misiac.workoutjournal.requestmodels.AddWorkoutRequest;
+import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
+import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +26,7 @@ public class WorkoutService {
     }
 
 
-    public void addWorkout(AddWorkoutRequest addWorkoutRequest, String email) {
+    public void addWorkout(WorkoutRequest addWorkoutRequest, String email) {
 
         Workout workout = new Workout();
 
@@ -35,7 +35,7 @@ public class WorkoutService {
                 userRepository.findUserByEmail(email)
         );
 
-        for (AddExerciseRequest exerciseRequest : addWorkoutRequest.getExercises()) {
+        for (ExerciseRequest exerciseRequest : addWorkoutRequest.getExercises()) {
 
             WorkoutExercise workoutExercise = new WorkoutExercise();
             workoutExercise.setWorkout(workout);

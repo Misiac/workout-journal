@@ -1,13 +1,11 @@
 package com.misiac.workoutjournal.controller;
 
+import com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest;
 import com.misiac.workoutjournal.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 //@CrossOrigin
 @RestController
@@ -22,6 +20,7 @@ public class AdminController {
         this.adminService = adminService;
     }
 
+    //TODO ADD TOKEN VALIDATION
     @PostMapping("/muscle-category")
     public ResponseEntity<String> addMuscleGroupCategory(@RequestParam String name) throws Exception {
 
@@ -34,5 +33,12 @@ public class AdminController {
 
         adminService.addEquipmentCategory(name);
         return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
+    }
+
+    @PostMapping("/exercise")
+    public ResponseEntity<String> addExercise(@RequestBody AdminCreateExerciseRequest adminExerciseRequest) throws Exception {
+
+        adminService.addExercise(adminExerciseRequest);
+        return new ResponseEntity<>("Exercise created successfully", HttpStatus.CREATED);
     }
 }

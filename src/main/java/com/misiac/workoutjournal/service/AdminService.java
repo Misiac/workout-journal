@@ -63,15 +63,18 @@ public class AdminService {
             throw new RuntimeException("Exercise already exists");
         }
         if (adminExerciseRequest.getName() == null) throw new Exception("Request's name is blank");
-        for (String equipmentCategory : adminExerciseRequest.equipmentCategories) {
-            if (equipmentCategoryRepository.findEquipmentCategoryByName(equipmentCategory).isEmpty()) {
-                throw new Exception("Category " + equipmentCategory + " does not exist, create it first");
+        for (String name : adminExerciseRequest.equipmentCategories) {
+            if (equipmentCategoryRepository.findEquipmentCategoryByName(name).isEmpty()) {
+                EquipmentCategory equipmentCategory = new EquipmentCategory(name);
+                equipmentCategoryRepository.save(equipmentCategory);
+
             }
         }
         for (MuscleGroupRequest muscleGroupRequest : adminExerciseRequest.getMuscleGroups()) {
             String name = muscleGroupRequest.getName();
             if (muscleGroupCategoryRepository.findMuscleGroupCategoryByName(name).isEmpty()) {
-                throw new Exception("Category " + name + " does not exist, create it first");
+                MuscleGroupCategory muscleGroupCategory = new MuscleGroupCategory(name);
+                muscleGroupCategoryRepository.save(muscleGroupCategory);
             }
         }
 

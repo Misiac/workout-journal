@@ -46,25 +46,25 @@ public class AdminController {
     public ResponseEntity<String> bindEquipmentCategory
             (@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
         adminService.bindEquipmentCategory(exerciseId, categoryName);
-        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Equipment category successfully bound to the exercise", HttpStatus.OK);
     }
 
     @DeleteMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
     public ResponseEntity<String> unbindEquipmentCategory(@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
         adminService.unbindEquipmentCategory(exerciseId, categoryName);
-        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Equipment category successfully unbound from the exercise", HttpStatus.OK);
     }
 
     @PatchMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
     public ResponseEntity<String> bindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName, @RequestParam boolean isPrimary) throws Exception {
         adminService.bindMuscleCategory(exerciseId, categoryName, isPrimary);
-        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Muscle category successfully bound to the exercise", HttpStatus.OK);
     }
 
     @DeleteMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
     public ResponseEntity<String> unbindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName, @RequestParam boolean isPrimary) throws Exception {
         adminService.unbindMuscleCategory(exerciseId, categoryName, isPrimary);
-        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("Muscle category successfully unbound from the exercise", HttpStatus.OK);
     }
 
 }

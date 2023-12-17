@@ -26,9 +26,9 @@ public class WorkoutExercise {
     private Float load;
 
     @Column(name = "reps", nullable = false)
-    private Long reps;
+    private Integer reps;
 
     @Column(name = "set_number", nullable = false)
-    private Long setNumber;
+    private Integer setNumber;
 
 }

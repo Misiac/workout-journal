@@ -2,6 +2,7 @@ package com.misiac.workoutjournal.service;
 
 import com.misiac.workoutjournal.entity.EquipmentCategory;
 import com.misiac.workoutjournal.entity.Exercise;
+import com.misiac.workoutjournal.entity.MuscleGroup;
 import com.misiac.workoutjournal.entity.MuscleGroupCategory;
 import com.misiac.workoutjournal.mapper.ExerciseMapper;
 import com.misiac.workoutjournal.repository.EquipmentCategoryRepository;
@@ -82,15 +83,70 @@ public class AdminService {
         exerciseRepository.save(newExercise);
     }
 
-    public void bindEquipmentCategory(Long exerciseId, String categoryName) {
+    public void bindEquipmentCategory(Long exerciseId, String categoryName) throws Exception {
+        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
+        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        var category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName);
+        if (category.isEmpty()) {
+            throw new Exception("Category does not exist");
+        }
+        if (exercise.getEquipmentCategories().contains(category.get())) {
+            throw new Exception("Exercise already has this category");
+        }
+        exercise.getEquipmentCategories().add(category.get());
+        exerciseRepository.save(exercise);
     }
 
-    public void unbindEquipmentCategory(Long exerciseId, String categoryName) {
+    public void unbindEquipmentCategory(Long exerciseId, String categoryName) throws Exception {
+        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
+        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        var category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName);
+        if (category.isEmpty()) {
+            throw new Exception("Category does not exist");
+        }
+        if (!exercise.getEquipmentCategories().contains(category.get())) {
+            throw new Exception("Exercise does not have this category");
+        }
+        exercise.getEquipmentCategories().remove(category.get());
+        exerciseRepository.save(exercise);
     }
 
-    public void bindMuscleCategory(Long exerciseId, String categoryName) {
+    public void bindMuscleCategory(Long exerciseId, String categoryName, boolean isPrimary) throws Exception {
+        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
+        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        var category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName);
+        if (category.isEmpty()) {
+            throw new Exception("Category does not exist");
+        }
+        MuscleGroup muscleGroup = new MuscleGroup();
+        muscleGroup.setCategory(category.get());
+        muscleGroup.setExercise(exercise);
+        muscleGroup.setIsPrimary((byte) (isPrimary ? 1 : 0));
+
+        if (exercise.getMuscleGroups().contains(muscleGroup)) {
+            throw new Exception("Exercise already has this category");
+        }
+        exercise.getMuscleGroups().add(muscleGroup);
+
+        exerciseRepository.save(exercise);
     }
 
-    public void unbindMuscleCategory(Long exerciseId, String categoryName) {
+    public void unbindMuscleCategory(Long exerciseId, String categoryName, boolean isPrimary) throws Exception {
+        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
+        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        var category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName);
+        if (category.isEmpty()) {
+            throw new Exception("Category does not exist");
+        }
+        MuscleGroup muscleGroup = new MuscleGroup();
+        muscleGroup.setCategory(category.get());
+        muscleGroup.setExercise(exercise);
+        muscleGroup.setIsPrimary((byte) (isPrimary ? 1 : 0));
+
+        if (!exercise.getMuscleGroups().contains(muscleGroup)) {
+            throw new Exception("Exercise does not have this category");
+        }
+        exercise.getMuscleGroups().remove(muscleGroup);
+        exerciseRepository.save(exercise);
     }
 }

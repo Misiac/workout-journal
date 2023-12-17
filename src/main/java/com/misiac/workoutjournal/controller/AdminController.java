@@ -43,27 +43,28 @@ public class AdminController {
     }
 
     @PatchMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
-    public ResponseEntity<String> bindEquipmentCategory(@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
+    public ResponseEntity<String> bindEquipmentCategory
+            (@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
         adminService.bindEquipmentCategory(exerciseId, categoryName);
-        return new ResponseEntity<>("",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
     public ResponseEntity<String> unbindEquipmentCategory(@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
         adminService.unbindEquipmentCategory(exerciseId, categoryName);
-        return new ResponseEntity<>("",HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
-    public ResponseEntity<String> bindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
-        adminService.bindMuscleCategory(exerciseId, categoryName);
-        return new ResponseEntity<>("",HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> bindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName, @RequestParam boolean isPrimary) throws Exception {
+        adminService.bindMuscleCategory(exerciseId, categoryName, isPrimary);
+        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
-    public ResponseEntity<String> unbindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
-        adminService.unbindMuscleCategory(exerciseId, categoryName);
-        return new ResponseEntity<>("",HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> unbindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName, @RequestParam boolean isPrimary) throws Exception {
+        adminService.unbindMuscleCategory(exerciseId, categoryName, isPrimary);
+        return new ResponseEntity<>("", HttpStatus.NO_CONTENT);
     }
 
 }

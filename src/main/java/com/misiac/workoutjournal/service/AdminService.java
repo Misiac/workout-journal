@@ -84,8 +84,7 @@ public class AdminService {
     }
 
     public void bindEquipmentCategory(Long exerciseId, String categoryName) throws Exception {
-        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
-        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
         var category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
@@ -98,8 +97,7 @@ public class AdminService {
     }
 
     public void unbindEquipmentCategory(Long exerciseId, String categoryName) throws Exception {
-        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
-        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
         var category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
@@ -112,8 +110,7 @@ public class AdminService {
     }
 
     public void bindMuscleCategory(Long exerciseId, String categoryName, boolean isPrimary) throws Exception {
-        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
-        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
         var category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
@@ -128,8 +125,7 @@ public class AdminService {
     }
 
     public void unbindMuscleCategory(Long exerciseId, String categoryName) throws Exception {
-        int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
-        Exercise exercise = exerciseRepository.findExerciseById(tempInt);
+        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
         var category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");

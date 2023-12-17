@@ -62,8 +62,8 @@ public class AdminController {
     }
 
     @DeleteMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
-    public ResponseEntity<String> unbindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName, @RequestParam boolean isPrimary) throws Exception {
-        adminService.unbindMuscleCategory(exerciseId, categoryName, isPrimary);
+    public ResponseEntity<String> unbindMuscleCategory(@PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
+        adminService.unbindMuscleCategory(exerciseId, categoryName);
         return new ResponseEntity<>("Muscle category successfully unbound from the exercise", HttpStatus.OK);
     }
 

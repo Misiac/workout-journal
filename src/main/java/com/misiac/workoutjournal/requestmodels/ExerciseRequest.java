@@ -10,5 +10,4 @@ public class ExerciseRequest {
     private int reps;
     private int setNumber;
 
-
 }

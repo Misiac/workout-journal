@@ -29,7 +29,7 @@ public class MuscleGroup {
 
 
     // MuscleGroup objects are equal, when exercise and category references are equal
-    // An muscle group on an exercise can't be both primary and secondary
+    // A muscle group on an exercise can't be both primary and secondary
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

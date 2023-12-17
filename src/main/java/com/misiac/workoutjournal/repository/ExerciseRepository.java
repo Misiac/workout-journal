@@ -8,11 +8,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface ExerciseRepository extends JpaRepository<Exercise, Integer> {
+public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     Optional<Exercise> findExerciseByName(String name);
 
-    Exercise findExerciseById(int exerciseId);
+    Exercise findExerciseById(long exerciseId);
 
 @Query(value = "SELECT e.name " +
                "FROM exercises e " +

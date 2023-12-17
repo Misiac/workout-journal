@@ -12,7 +12,7 @@ public class WorkoutExercise {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Integer id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workout_id", nullable = false)
@@ -26,9 +26,9 @@ public class WorkoutExercise {
     private Float load;
 
     @Column(name = "reps", nullable = false)
-    private Integer reps;
+    private Long reps;
 
     @Column(name = "set_number", nullable = false)
-    private Integer setNumber;
+    private Long setNumber;
 
 }

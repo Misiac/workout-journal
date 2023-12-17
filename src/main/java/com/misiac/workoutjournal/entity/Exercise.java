@@ -28,7 +28,7 @@ public class Exercise {
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<EquipmentCategory> equipmentCategories = new ArrayList<>();
 
-    @OneToMany(mappedBy = "exercise", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MuscleGroup> muscleGroups = new LinkedHashSet<>();
 
 }

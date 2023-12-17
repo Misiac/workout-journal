@@ -18,14 +18,13 @@ public class Workout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "workout")
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
     private Set<WorkoutExercise> workoutExercises = new LinkedHashSet<>();
-
 }

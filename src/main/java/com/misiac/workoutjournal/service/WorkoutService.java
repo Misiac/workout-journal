@@ -1,51 +1,39 @@
 package com.misiac.workoutjournal.service;
 
 import com.misiac.workoutjournal.entity.Workout;
-import com.misiac.workoutjournal.entity.WorkoutExercise;
-import com.misiac.workoutjournal.repository.ExerciseRepository;
-import com.misiac.workoutjournal.repository.UserRepository;
+import com.misiac.workoutjournal.mapper.WorkoutMapper;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
-import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
 import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class WorkoutService {
 
     private final WorkoutRepository workoutRepository;
-    private final ExerciseRepository exerciseRepository;
-    private final UserRepository userRepository;
+
+    private final WorkoutMapper workoutMapper;
 
 
     @Autowired
-    public WorkoutService(WorkoutRepository workoutRepository, ExerciseRepository exerciseRepository, UserRepository userRepository) {
+    public WorkoutService(WorkoutRepository workoutRepository, WorkoutMapper workoutMapper) {
         this.workoutRepository = workoutRepository;
-        this.exerciseRepository = exerciseRepository;
-        this.userRepository = userRepository;
+        this.workoutMapper = workoutMapper;
     }
 
 
     public void addWorkout(WorkoutRequest addWorkoutRequest, String email) {
 
-        Workout workout = new Workout();
-
-        workout.setDate(addWorkoutRequest.getDate());
-        workout.setUser(
-                userRepository.findUserByEmail(email)
-        );
-
-        for (ExerciseRequest exerciseRequest : addWorkoutRequest.getExercises()) {
-
-            WorkoutExercise workoutExercise = new WorkoutExercise();
-            workoutExercise.setWorkout(workout);
-            workoutExercise.setExercise(
-                    exerciseRepository.findExerciseById(exerciseRequest.getExerciseId()));
-            workoutExercise.setLoad(exerciseRequest.getLoad());
-            workoutExercise.setReps(exerciseRequest.getReps());
-            workoutExercise.setSetNumber(exerciseRequest.getSetNumber());
-        }
+        Workout workout = workoutMapper.toWorkout(addWorkoutRequest, email);
         workoutRepository.save(workout);
+    }
+
+    public List<Workout> getWorkouts(String email) {
+        List<Workout> workouts = workoutRepository.findWorkoutsByUserEmail(email);
+        workouts.forEach(v -> System.out.println(v.getWorkoutExercises()));
+        return workouts;
 
     }
 }

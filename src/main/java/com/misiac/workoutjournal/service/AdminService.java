@@ -118,35 +118,39 @@ public class AdminService {
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
         }
-        MuscleGroup muscleGroup = new MuscleGroup();
-        muscleGroup.setCategory(category.get());
-        muscleGroup.setExercise(exercise);
-        muscleGroup.setIsPrimary((byte) (isPrimary ? 1 : 0));
+        MuscleGroup muscleGroup = constructMuscleGroup(category.get(), isPrimary, exercise);
 
         if (exercise.getMuscleGroups().contains(muscleGroup)) {
             throw new Exception("Exercise already has this category");
         }
         exercise.getMuscleGroups().add(muscleGroup);
-
         exerciseRepository.save(exercise);
     }
 
-    public void unbindMuscleCategory(Long exerciseId, String categoryName, boolean isPrimary) throws Exception {
+    public void unbindMuscleCategory(Long exerciseId, String categoryName) throws Exception {
         int tempInt = exerciseId.intValue(); //TODO DELETE AFTER CHANGING THE ID IN DB TO LONG
         Exercise exercise = exerciseRepository.findExerciseById(tempInt);
         var category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
         }
-        MuscleGroup muscleGroup = new MuscleGroup();
-        muscleGroup.setCategory(category.get());
-        muscleGroup.setExercise(exercise);
-        muscleGroup.setIsPrimary((byte) (isPrimary ? 1 : 0));
+        MuscleGroup muscleGroup = constructMuscleGroup(category.get(), null, exercise);
 
         if (!exercise.getMuscleGroups().contains(muscleGroup)) {
             throw new Exception("Exercise does not have this category");
         }
         exercise.getMuscleGroups().remove(muscleGroup);
         exerciseRepository.save(exercise);
+    }
+
+    public static MuscleGroup constructMuscleGroup(MuscleGroupCategory mgc, Boolean isPrimary, Exercise exercise) {
+        MuscleGroup muscleGroup = new MuscleGroup();
+        muscleGroup.setCategory(mgc);
+        if (isPrimary != null) {
+            muscleGroup.setIsPrimary((byte) (isPrimary ? 1 : 0));
+        }
+        muscleGroup.setExercise(exercise);
+
+        return muscleGroup;
     }
 }

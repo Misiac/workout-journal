@@ -27,6 +27,9 @@ public class MuscleGroup {
     @Column(name = "is_primary")
     private Byte isPrimary;
 
+
+    // MuscleGroup objects are equal, when exercise and category references are equal
+    // An muscle group on an exercise can't be both primary and secondary
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -34,16 +37,14 @@ public class MuscleGroup {
 
         MuscleGroup that = (MuscleGroup) o;
 
-        if (!exercise.equals(that.exercise)) return false;
-        if (!Objects.equals(category, that.category)) return false;
-        return Objects.equals(isPrimary, that.isPrimary);
+        if (!Objects.equals(exercise, that.exercise)) return false;
+        return Objects.equals(category, that.category);
     }
 
     @Override
     public int hashCode() {
-        int result = exercise.hashCode();
+        int result = exercise != null ? exercise.hashCode() : 0;
         result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (isPrimary != null ? isPrimary.hashCode() : 0);
         return result;
     }
 }

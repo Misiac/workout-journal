@@ -31,9 +31,7 @@ public class WorkoutService {
     }
 
     public List<Workout> getWorkouts(String email) {
-        List<Workout> workouts = workoutRepository.findWorkoutsByUserEmail(email);
-        workouts.forEach(v -> System.out.println(v.getWorkoutExercises()));
-        return workouts;
+        return workoutRepository.findWorkoutsByUserEmail(email);
 
     }
 }

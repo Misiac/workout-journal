@@ -5,9 +5,9 @@ import com.misiac.workoutjournal.mapper.WorkoutMapper;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
 import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class WorkoutService {
@@ -30,8 +30,8 @@ public class WorkoutService {
         workoutRepository.save(workout);
     }
 
-    public List<Workout> getWorkouts(String email) {
-        return workoutRepository.findWorkoutsByUserEmail(email);
+    public Page<Workout> getWorkoutsForUser(String email, Pageable pageable) {
+        return workoutRepository.findWorkoutsByUserEmailOrderByDateDesc(email, pageable);
 
     }
 }

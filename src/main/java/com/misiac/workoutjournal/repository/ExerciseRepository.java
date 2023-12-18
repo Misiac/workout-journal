@@ -14,12 +14,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     Exercise findExerciseById(long exerciseId);
 
-@Query(value = "SELECT e.name " +
-               "FROM exercises e " +
-               "JOIN equipment_jointable ej ON e.id = ej.exercise_id " +
-               "JOIN exercise_equipment_categories ec ON ej.category_id = ec.id " +
-               "WHERE ec.name = :name", nativeQuery = true)
-List<String> findExercisesByEquipmentCategoriesNative(@Param("name")String name);
 
 @Query(value = "SELECT e " +
                "FROM Exercise e " +

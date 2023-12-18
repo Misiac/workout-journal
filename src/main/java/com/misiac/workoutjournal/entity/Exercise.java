@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,12 +23,14 @@ public class Exercise {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "equipment_jointable",
             joinColumns = @JoinColumn(name = "exercise_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<EquipmentCategory> equipmentCategories = new ArrayList<>();
 
+    @JsonIgnore
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MuscleGroup> muscleGroups = new LinkedHashSet<>();
 

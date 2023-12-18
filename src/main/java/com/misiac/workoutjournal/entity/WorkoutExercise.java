@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +15,15 @@ public class WorkoutExercise {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @JsonBackReference
     @ManyToOne(optional = false)
     @JoinColumn(name = "workout_id", nullable = false)
-    private Workout workout;
+    private Workout parentWorkout;
+
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
-    private Exercise exercise;
+    private Exercise exerciseType;
 
     @Column(name = "`load`", nullable = false)
     private Float load;
@@ -30,5 +33,6 @@ public class WorkoutExercise {
 
     @Column(name = "set_number", nullable = false)
     private Integer setNumber;
+
 
 }

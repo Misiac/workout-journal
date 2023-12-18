@@ -1,12 +1,15 @@
 package com.misiac.workoutjournal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,6 +21,7 @@ public class Workout {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -25,6 +29,8 @@ public class Workout {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
-    private Set<WorkoutExercise> workoutExercises = new LinkedHashSet<>();
+    @JsonPropertyOrder(alphabetic = true)
+    @JsonManagedReference
+    @OneToMany(mappedBy = "parentWorkout", cascade = CascadeType.ALL)
+    private List<WorkoutExercise> workoutExercises = new LinkedList<>();
 }

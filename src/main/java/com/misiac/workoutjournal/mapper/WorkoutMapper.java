@@ -9,8 +9,8 @@ import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Component
 public class WorkoutMapper {
@@ -26,7 +26,7 @@ public class WorkoutMapper {
     public Workout toWorkout(WorkoutRequest workoutRequest, String email) {
 
         Workout workout = new Workout();
-        Set<WorkoutExercise> workoutExercises = new LinkedHashSet<>();
+        List<WorkoutExercise> workoutExercises = new LinkedList<>();
 
         workout.setDate(workoutRequest.getDate());
         workout.setUser(
@@ -36,12 +36,12 @@ public class WorkoutMapper {
         for (ExerciseRequest exerciseRequest : workoutRequest.getExercises()) {
 
             WorkoutExercise workoutExercise = new WorkoutExercise();
-            workoutExercise.setExercise(
+            workoutExercise.setExerciseType(
                     exerciseRepository.findExerciseById(exerciseRequest.getExerciseId()));
             workoutExercise.setLoad(exerciseRequest.getLoad());
             workoutExercise.setReps(exerciseRequest.getReps());
             workoutExercise.setSetNumber(exerciseRequest.getSetNumber());
-            workoutExercise.setWorkout(workout);
+            workoutExercise.setParentWorkout(workout);
             workoutExercises.add(workoutExercise);
         }
         workout.setWorkoutExercises(workoutExercises);

@@ -20,4 +20,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
                "JOIN e.equipmentCategories ec " +
                "WHERE ec.name = :name")
 List<Exercise> findExercisesByEquipmentCategories(@Param("name")String name);
+
+@Query(value = "")
+List<Exercise> findExercisesByMuscleGroups(@Param("name")String name, boolean isPrimary);
 }

@@ -45,12 +45,20 @@ public class WorkoutController {
         return new ResponseEntity<>("Workout deleted successfully", HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/exercise/{id}")
     public ResponseEntity<String> updateExercise(
             @RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId,
             @RequestBody ExerciseRequest exerciseRequest) throws Exception {
         String email = "testuser@email.com";
         workoutService.updateExercise(email, workoutExerciseId, exerciseRequest);
         return new ResponseEntity<>("Exercise updated successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping("/exercise/{id}")
+    public ResponseEntity<String> deleteExercise(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId) throws Exception {
+        String email = "testuser@email.com";
+        workoutService.deleteExercise(email, workoutExerciseId);
+        return new ResponseEntity<>("Exercise updated successfully", HttpStatus.OK);
+
     }
 }

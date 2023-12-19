@@ -88,4 +88,15 @@ public class WorkoutService {
         workoutExerciseRepository.save(workoutExercise);
 
     }
+
+    public void deleteExercise(String email, Long workoutExerciseId) throws Exception {
+
+        Optional<WorkoutExercise> workoutExerciseOpt = workoutExerciseRepository.findById(workoutExerciseId);
+
+        if (workoutExerciseOpt.isEmpty()) {
+            throw new Exception("Workout exercise does not exist");
+        }
+        workoutExerciseRepository.delete(workoutExerciseOpt.get());
+
+    }
 }

@@ -2,7 +2,6 @@ package com.misiac.workoutjournal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +28,6 @@ public class Workout {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @JsonPropertyOrder(alphabetic = true)
     @JsonManagedReference
     @OneToMany(mappedBy = "parentWorkout", cascade = CascadeType.ALL)
     private List<WorkoutExercise> workoutExercises = new LinkedList<>();

@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class ExerciseRequest {
 
-    private int exerciseId;
+    private long exerciseId;
     private float load;
     private int reps;
     private int setNumber;

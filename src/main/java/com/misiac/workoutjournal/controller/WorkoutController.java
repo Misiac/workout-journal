@@ -25,11 +25,12 @@ public class WorkoutController {
     }
 
     @PostMapping("/new")
-    public void addNewWorkout(@RequestHeader(value = "Authorization") String token,
-                              @RequestBody WorkoutRequest addWorkoutRequest) throws Exception {
+    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
+                                                @RequestBody WorkoutRequest addWorkoutRequest) throws Exception {
         // authorize token, extract email TODO
         String email = "testuser@email.com";
         workoutService.addWorkout(addWorkoutRequest, email);
+        return new ResponseEntity<>("Workout created successfully", HttpStatus.CREATED);
     }
 
     @GetMapping()
@@ -58,7 +59,7 @@ public class WorkoutController {
     public ResponseEntity<String> deleteExercise(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId) throws Exception {
         String email = "testuser@email.com";
         workoutService.deleteExercise(email, workoutExerciseId);
-        return new ResponseEntity<>("Exercise updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>("Exercise deleted successfully", HttpStatus.OK);
 
     }
 }

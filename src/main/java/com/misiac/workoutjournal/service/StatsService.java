@@ -27,4 +27,10 @@ public class StatsService {
                 .mapToLong(WorkoutExercise::getReps)
                 .sum();
     }
+
+    public Long getTotalWorkouts(String email) {
+        User user = userRepository.findUserByEmail(email);
+        return (long) user.getWorkouts().size();
+    }
+
 }

@@ -24,4 +24,11 @@ public class StatsController {
         String email = "testuser@email.com";
         return statsService.getTotalReps(email);
     }
+
+    @GetMapping("/total/workouts")
+    public Long getTotalWorkouts(@RequestHeader(value = "Authorization") String token) {
+        String email = "testuser@email.com";
+        return statsService.getTotalWorkouts(email);
+    }
+
 }

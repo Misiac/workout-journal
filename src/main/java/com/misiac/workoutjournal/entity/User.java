@@ -20,7 +20,7 @@ public class User {
     @Column(name = "email", nullable = false, length = 45)
     private String email;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private Set<Workout> workouts = new LinkedHashSet<>();
 
 }

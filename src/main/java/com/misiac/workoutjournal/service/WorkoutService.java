@@ -110,9 +110,6 @@ public class WorkoutService {
             exercisesSeries.get(i - 1).setSetNumber(i);
             workoutExerciseRepository.save(exercisesSeries.get(i - 1));
         }
-        exercisesSeries.forEach(v -> System.out.println(v.getExerciseType().getName()));
-
-
     }
 
     //This method extract a sublist of exercises which contain a given workout exercise and is surrounded by the exercises of the same type

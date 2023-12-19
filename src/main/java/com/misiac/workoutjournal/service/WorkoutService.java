@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -96,7 +97,51 @@ public class WorkoutService {
         if (workoutExerciseOpt.isEmpty()) {
             throw new Exception("Workout exercise does not exist");
         }
-        workoutExerciseRepository.delete(workoutExerciseOpt.get());
+        WorkoutExercise deletionExercise = workoutExerciseOpt.get();
+        Workout workout = deletionExercise.getParentWorkout();
+        List<WorkoutExercise> workoutExercises = workout.getWorkoutExercises();
+        List<WorkoutExercise> exercisesSeries = null;
+        int firstIndex = -1;
 
+        exercisesSeries = extractExerciseSeries(workoutExercises, deletionExercise);
+        exercisesSeries.remove(deletionExercise);
+        workoutExerciseRepository.delete(workoutExerciseOpt.get());
+        for (int i = 1; i <= exercisesSeries.size(); i++) {
+            exercisesSeries.get(i - 1).setSetNumber(i);
+            workoutExerciseRepository.save(exercisesSeries.get(i - 1));
+        }
+        exercisesSeries.forEach(v -> System.out.println(v.getExerciseType().getName()));
+
+
+    }
+
+    //This method extract a sublist of exercises which contain a given workout exercise and is surrounded by the exercises of the same type
+    // it mainly serves for deletion => when deleting an exercise you have to change all set numbers down
+    private static List<WorkoutExercise> extractExerciseSeries(List<WorkoutExercise> workoutExercises, WorkoutExercise deletionExercise) {
+
+        int firstIndex = -1;
+        List<WorkoutExercise> exercisesSeries = null;
+        for (int i = 0; i < workoutExercises.size(); i++) {
+            var exercise = workoutExercises.get(i);
+            if (exercise.getExerciseType() == deletionExercise.getExerciseType()) {
+                if (firstIndex == -1) {
+                    firstIndex = i;
+                }
+                WorkoutExercise nextExercise;
+                try {
+                    nextExercise = workoutExercises.get(i + 1);
+                } catch (IndexOutOfBoundsException e) {
+                    exercisesSeries = workoutExercises.subList(firstIndex, i + 1);
+                    break;
+                }
+
+                if (nextExercise.getExerciseType() != deletionExercise.getExerciseType()) {
+                    exercisesSeries = workoutExercises.subList(firstIndex, i + 1);
+                    if (exercisesSeries.contains(deletionExercise)) break;
+                    else firstIndex = -1;
+                }
+            }
+        }
+        return exercisesSeries;
     }
 }

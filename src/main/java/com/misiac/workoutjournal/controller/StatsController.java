@@ -37,4 +37,11 @@ public class StatsController {
         return statsService.getTotalSets(email);
     }
 
+    @GetMapping("/total/volume")
+    public Double getTotalVolume(@RequestHeader(value = "Authorization") String token) {
+        String email = "testuser@email.com";
+        return statsService.getTotalVolume(email);
+    }
+
+
 }

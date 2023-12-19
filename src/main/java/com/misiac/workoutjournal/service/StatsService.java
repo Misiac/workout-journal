@@ -1,7 +1,6 @@
 package com.misiac.workoutjournal.service;
 
 import com.misiac.workoutjournal.entity.User;
-import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
 import com.misiac.workoutjournal.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,4 +41,13 @@ public class StatsService {
                 .sum();
     }
 
+    public Double getTotalVolume(String email) {
+
+        User user = userRepository.findUserByEmail(email);
+        return user.getWorkouts().stream()
+                .flatMap(workout -> workout.getWorkoutExercises().stream())
+                .mapToDouble(we -> we.getLoad() * we.getReps())
+                .sum();
+
+    }
 }

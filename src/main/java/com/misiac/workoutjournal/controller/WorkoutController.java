@@ -43,7 +43,7 @@ public class WorkoutController {
     public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId) throws Exception {
         String email = "testuser@email.com";
         workoutService.deleteWorkout(email, workoutId);
-        return new ResponseEntity<>("xD", HttpStatus.OK);
+        return new ResponseEntity<>("Workout deleted successfully", HttpStatus.OK);
     }
 
 }

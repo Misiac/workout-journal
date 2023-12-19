@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest.*;
+import java.util.Optional;
+
+import static com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest.MuscleGroupRequest;
 
 @Service
 @Transactional
@@ -84,7 +86,11 @@ public class AdminService {
     }
 
     public void bindEquipmentCategory(Long exerciseId, String categoryName) throws Exception {
-        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
+        Optional<Exercise> exerciseOptional = exerciseRepository.findById(exerciseId);
+        if (exerciseOptional.isEmpty()) {
+            throw new Exception("Exercise type does not exist");
+        }
+        Exercise exercise = exerciseOptional.get();
         var category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
@@ -97,7 +103,11 @@ public class AdminService {
     }
 
     public void unbindEquipmentCategory(Long exerciseId, String categoryName) throws Exception {
-        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
+        Optional<Exercise> exerciseOptional = exerciseRepository.findById(exerciseId);
+        if (exerciseOptional.isEmpty()) {
+            throw new Exception("Exercise type does not exist");
+        }
+        Exercise exercise = exerciseOptional.get();
         var category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
@@ -110,7 +120,11 @@ public class AdminService {
     }
 
     public void bindMuscleCategory(Long exerciseId, String categoryName, boolean isPrimary) throws Exception {
-        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
+        Optional<Exercise> exerciseOptional = exerciseRepository.findById(exerciseId);
+        if (exerciseOptional.isEmpty()) {
+            throw new Exception("Exercise type does not exist");
+        }
+        Exercise exercise = exerciseOptional.get();
         var category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
@@ -125,7 +139,11 @@ public class AdminService {
     }
 
     public void unbindMuscleCategory(Long exerciseId, String categoryName) throws Exception {
-        Exercise exercise = exerciseRepository.findExerciseById(exerciseId);
+        Optional<Exercise> exerciseOptional = exerciseRepository.findById(exerciseId);
+        if (exerciseOptional.isEmpty()) {
+            throw new Exception("Exercise type does not exist");
+        }
+        Exercise exercise = exerciseOptional.get();
         var category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName);
         if (category.isEmpty()) {
             throw new Exception("Category does not exist");
@@ -146,7 +164,6 @@ public class AdminService {
             muscleGroup.setIsPrimary((byte) (isPrimary ? 1 : 0));
         }
         muscleGroup.setExercise(exercise);
-
         return muscleGroup;
     }
 }

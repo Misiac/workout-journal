@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.LinkedList;
 import java.util.List;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 @Component
 public class WorkoutMapper {
     private final ExerciseRepository exerciseRepository;
@@ -37,7 +38,7 @@ public class WorkoutMapper {
 
             WorkoutExercise workoutExercise = new WorkoutExercise();
             workoutExercise.setExerciseType(
-                    exerciseRepository.findExerciseById(exerciseRequest.getExerciseId()));
+                    exerciseRepository.findById(exerciseRequest.getExerciseId()).get());
             workoutExercise.setLoad(exerciseRequest.getLoad());
             workoutExercise.setReps(exerciseRequest.getReps());
             workoutExercise.setSetNumber(exerciseRequest.getSetNumber());

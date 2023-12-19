@@ -22,11 +22,9 @@ public class StatsService {
         User user = userRepository.findUserByEmail(email);
         long total = 0;
 
-        for (Workout workout : user.getWorkouts()) {
-            for (WorkoutExercise workoutExercise : workout.getWorkoutExercises()) {
-                total += workoutExercise.getReps();
-            }
-        }
-        return total;
+        return user.getWorkouts().stream()
+                .flatMap(workout -> workout.getWorkoutExercises().stream())
+                .mapToLong(WorkoutExercise::getReps)
+                .sum();
     }
 }

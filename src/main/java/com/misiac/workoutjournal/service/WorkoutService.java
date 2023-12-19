@@ -100,7 +100,7 @@ public class WorkoutService {
         WorkoutExercise deletionExercise = workoutExerciseOpt.get();
         Workout workout = deletionExercise.getParentWorkout();
         List<WorkoutExercise> workoutExercises = workout.getWorkoutExercises();
-        List<WorkoutExercise> exercisesSeries = null;
+        List<WorkoutExercise> exercisesSeries;
         int firstIndex = -1;
 
         exercisesSeries = extractExerciseSeries(workoutExercises, deletionExercise);

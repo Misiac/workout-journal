@@ -19,7 +19,7 @@ public class StatsController {
         this.statsService = statsService;
     }
 
-    @GetMapping("/total-reps")
+    @GetMapping("/total/reps")
     public Long getTotalReps(@RequestHeader(value = "Authorization") String token) {
         String email = "testuser@email.com";
         return statsService.getTotalReps(email);

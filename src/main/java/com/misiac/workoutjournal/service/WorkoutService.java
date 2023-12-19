@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.service;
 
+import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.mapper.WorkoutMapper;
 import com.misiac.workoutjournal.repository.UserRepository;
@@ -39,5 +40,19 @@ public class WorkoutService {
     public Page<Workout> getWorkoutsForUser(String email, Pageable pageable) {
         return workoutRepository.findWorkoutsByUserEmailOrderByDateDesc(email, pageable);
 
+    }
+
+    public void deleteWorkout(String email, Long workoutId) throws Exception {
+
+        Optional<Workout> deletionOptional = workoutRepository.findById(workoutId);
+        if (deletionOptional.isEmpty()) {
+            throw new Exception("Workout does not exist");
+        }
+        Workout deletion = deletionOptional.get();
+        User user = userRepository.findUserByEmail(email);
+        if (!user.getWorkouts().contains(deletion)) {
+            throw new Exception("This workout does not belong to this user");
+        }
+        workoutRepository.delete(deletion);
     }
 }

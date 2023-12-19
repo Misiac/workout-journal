@@ -20,7 +20,6 @@ public class WorkoutExercise {
     @JoinColumn(name = "workout_id", nullable = false)
     private Workout parentWorkout;
 
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exerciseType;

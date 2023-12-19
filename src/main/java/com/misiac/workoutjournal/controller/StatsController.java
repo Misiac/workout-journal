@@ -31,4 +31,10 @@ public class StatsController {
         return statsService.getTotalWorkouts(email);
     }
 
+    @GetMapping("/total/sets")
+    public Long getTotalSets(@RequestHeader(value = "Authorization") String token) {
+        String email = "testuser@email.com";
+        return statsService.getTotalSets(email);
+    }
+
 }

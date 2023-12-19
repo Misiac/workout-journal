@@ -33,4 +33,13 @@ public class StatsService {
         return (long) user.getWorkouts().size();
     }
 
+    public Long getTotalSets(String email) {
+        User user = userRepository.findUserByEmail(email);
+        long total = 0;
+
+        return user.getWorkouts().stream()
+                .mapToLong(workout -> workout.getWorkoutExercises().size())
+                .sum();
+    }
+
 }

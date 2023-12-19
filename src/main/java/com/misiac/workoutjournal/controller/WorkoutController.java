@@ -1,6 +1,7 @@
 package com.misiac.workoutjournal.controller;
 
 import com.misiac.workoutjournal.entity.Workout;
+import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
 import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import com.misiac.workoutjournal.service.WorkoutService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,7 @@ public class WorkoutController {
     public void addNewWorkout(@RequestHeader(value = "Authorization") String token,
                               @RequestBody WorkoutRequest addWorkoutRequest) throws Exception {
         // authorize token, extract email TODO
-
         String email = "testuser@email.com";
-
         workoutService.addWorkout(addWorkoutRequest, email);
     }
 
@@ -46,4 +45,12 @@ public class WorkoutController {
         return new ResponseEntity<>("Workout deleted successfully", HttpStatus.OK);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateExercise(
+            @RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId,
+            @RequestBody ExerciseRequest exerciseRequest) throws Exception {
+        String email = "testuser@email.com";
+        workoutService.updateExercise(email, workoutExerciseId, exerciseRequest);
+        return new ResponseEntity<>("Exercise updated successfully", HttpStatus.OK);
+    }
 }

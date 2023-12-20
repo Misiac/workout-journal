@@ -2,12 +2,9 @@ package com.misiac.workoutjournal.controller;
 
 import com.misiac.workoutjournal.service.StatsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/stats")
 public class StatsController {

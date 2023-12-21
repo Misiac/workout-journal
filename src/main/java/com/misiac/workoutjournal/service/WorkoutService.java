@@ -4,8 +4,8 @@ import com.misiac.workoutjournal.entity.Exercise;
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
-import com.misiac.workoutjournal.exception.EntityDoesNotExist;
-import com.misiac.workoutjournal.exception.Unauthorized;
+import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
+import com.misiac.workoutjournal.exception.UnauthorizedException;
 import com.misiac.workoutjournal.mapper.WorkoutMapper;
 import com.misiac.workoutjournal.repository.ExerciseRepository;
 import com.misiac.workoutjournal.repository.UserRepository;
@@ -62,12 +62,12 @@ public class WorkoutService {
 
         Optional<Workout> deletionOptional = workoutRepository.findById(workoutId);
         if (deletionOptional.isEmpty()) {
-            throw new EntityDoesNotExist(WORKOUT_DOES_NOT_EXIST);
+            throw new EntityDoesNotExistException(WORKOUT_DOES_NOT_EXIST);
         }
         Workout deletion = deletionOptional.get();
         User user = userRepository.findUserByEmail(email);
         if (!user.getWorkouts().contains(deletion)) {
-            throw new Unauthorized(WORKOUT_DOES_NOT_BELONG);
+            throw new UnauthorizedException(WORKOUT_DOES_NOT_BELONG);
         }
         workoutRepository.delete(deletion);
     }
@@ -77,16 +77,16 @@ public class WorkoutService {
         Optional<WorkoutExercise> workoutExerciseOpt = workoutExerciseRepository.findById(workoutExerciseId);
 
         if (workoutExerciseOpt.isEmpty()) {
-            throw new EntityDoesNotExist(WORKOUT_EXERCISE_DOES_NOT_EXIST);
+            throw new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST);
         }
         WorkoutExercise workoutExercise = workoutExerciseOpt.get();
         User user = userRepository.findUserByEmail(email);
         if (workoutExercise.getParentWorkout().getUser() != user) {
-            throw new Unauthorized(WE_DOES_NOT_BELONG);
+            throw new UnauthorizedException(WE_DOES_NOT_BELONG);
         }
         if (exerciseRequest.getExerciseId() != workoutExercise.getExerciseType().getId()) {
             Optional<Exercise> newExercise = exerciseRepository.findById(exerciseRequest.getExerciseId());
-            if (newExercise.isEmpty()) throw new EntityDoesNotExist(EXERCISE_DOES_NOT_EXIST);
+            if (newExercise.isEmpty()) throw new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST);
             workoutExercise.setExerciseType(newExercise.get());
         }
         workoutExercise.setLoad(exerciseRequest.getLoad());
@@ -101,12 +101,12 @@ public class WorkoutService {
         Optional<WorkoutExercise> workoutExerciseOpt = workoutExerciseRepository.findById(workoutExerciseId);
 
         if (workoutExerciseOpt.isEmpty()) {
-            throw new EntityDoesNotExist(WORKOUT_EXERCISE_DOES_NOT_EXIST);
+            throw new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST);
         }
         WorkoutExercise deletionExercise = workoutExerciseOpt.get();
         User user = userRepository.findUserByEmail(email);
         if (deletionExercise.getParentWorkout().getUser() != user) {
-            throw new Unauthorized(WE_DOES_NOT_BELONG);
+            throw new UnauthorizedException(WE_DOES_NOT_BELONG);
         }
         Workout workout = deletionExercise.getParentWorkout();
         List<WorkoutExercise> workoutExercises = workout.getWorkoutExercises();

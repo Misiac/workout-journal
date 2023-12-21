@@ -1,6 +1,6 @@
 package com.misiac.workoutjournal.controller;
 
-import com.misiac.workoutjournal.exception.Unauthorized;
+import com.misiac.workoutjournal.exception.UnauthorizedException;
 import com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest;
 import com.misiac.workoutjournal.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class AdminController {
             adminService.addMuscleGroupCategory(name);
             return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
         } else {
-            throw new Unauthorized(ADMIN_REQUIRED);
+            throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
 
@@ -40,7 +40,7 @@ public class AdminController {
             adminService.addEquipmentCategory(name);
             return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
         } else {
-            throw new Unauthorized(ADMIN_REQUIRED);
+            throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
 
@@ -51,7 +51,7 @@ public class AdminController {
             adminService.addExercise(adminExerciseRequest);
             return new ResponseEntity<>(EXERCISE_CREATED, HttpStatus.CREATED);
         } else {
-            throw new Unauthorized(ADMIN_REQUIRED);
+            throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
 
@@ -63,7 +63,7 @@ public class AdminController {
             adminService.bindEquipmentCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);
         } else {
-            throw new Unauthorized(ADMIN_REQUIRED);
+            throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
 
@@ -74,7 +74,7 @@ public class AdminController {
             adminService.unbindEquipmentCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
         } else {
-            throw new Unauthorized(ADMIN_REQUIRED);
+            throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
 
@@ -86,7 +86,7 @@ public class AdminController {
             adminService.bindMuscleCategory(exerciseId, categoryName, isPrimary);
             return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);
         } else {
-            throw new Unauthorized(ADMIN_REQUIRED);
+            throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
 
@@ -98,7 +98,7 @@ public class AdminController {
             adminService.unbindMuscleCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
         } else {
-            throw new Unauthorized(ADMIN_REQUIRED);
+            throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
 

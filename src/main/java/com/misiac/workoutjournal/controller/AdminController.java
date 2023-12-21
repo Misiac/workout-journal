@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.controller;
 
+import com.misiac.workoutjournal.exception.Unauthorized;
 import com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest;
 import com.misiac.workoutjournal.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +25,22 @@ public class AdminController {
     }
 
     @PostMapping("/muscle-category")
-    public ResponseEntity<String> addMuscleGroupCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) throws Exception {
+    public ResponseEntity<String> addMuscleGroupCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) {
         if (validateAdmin(token)) {
             adminService.addMuscleGroupCategory(name);
             return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
         } else {
-            throw new Exception("Admin privileges required");
+            throw new Unauthorized(ADMIN_REQUIRED);
         }
     }
 
     @PostMapping("/equipment-category")
-    public ResponseEntity<String> addEquipmentCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) throws Exception {
+    public ResponseEntity<String> addEquipmentCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) {
         if (validateAdmin(token)) {
             adminService.addEquipmentCategory(name);
             return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
         } else {
-            throw new Exception("Admin privileges required");
+            throw new Unauthorized(ADMIN_REQUIRED);
         }
     }
 
@@ -50,54 +51,54 @@ public class AdminController {
             adminService.addExercise(adminExerciseRequest);
             return new ResponseEntity<>(EXERCISE_CREATED, HttpStatus.CREATED);
         } else {
-            throw new Exception("Admin privileges required");
+            throw new Unauthorized(ADMIN_REQUIRED);
         }
     }
 
     @PatchMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
     public ResponseEntity<String> bindEquipmentCategory
             (@RequestHeader(value = "Authorization") String token, @PathVariable Long exerciseId,
-             @PathVariable String categoryName) throws Exception {
+             @PathVariable String categoryName) {
         if (validateAdmin(token)) {
             adminService.bindEquipmentCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);
         } else {
-            throw new Exception("Admin privileges required");
+            throw new Unauthorized(ADMIN_REQUIRED);
         }
     }
 
     @DeleteMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
     public ResponseEntity<String> unbindEquipmentCategory(@RequestHeader(value = "Authorization") String token,
-                                                          @PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
+                                                          @PathVariable Long exerciseId, @PathVariable String categoryName) {
         if (validateAdmin(token)) {
             adminService.unbindEquipmentCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
         } else {
-            throw new Exception("Admin privileges required");
+            throw new Unauthorized(ADMIN_REQUIRED);
         }
     }
 
     @PatchMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
     public ResponseEntity<String> bindMuscleCategory(@RequestHeader(value = "Authorization") String token,
                                                      @PathVariable Long exerciseId, @PathVariable String categoryName,
-                                                     @RequestParam boolean isPrimary) throws Exception {
+                                                     @RequestParam boolean isPrimary) {
         if (validateAdmin(token)) {
             adminService.bindMuscleCategory(exerciseId, categoryName, isPrimary);
             return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);
         } else {
-            throw new Exception("Admin privileges required");
+            throw new Unauthorized(ADMIN_REQUIRED);
         }
     }
 
     @DeleteMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
     public ResponseEntity<String> unbindMuscleCategory(@RequestHeader(value = "Authorization") String token,
                                                        @PathVariable Long exerciseId,
-                                                       @PathVariable String categoryName) throws Exception {
+                                                       @PathVariable String categoryName) {
         if (validateAdmin(token)) {
             adminService.unbindMuscleCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
         } else {
-            throw new Exception("Admin privileges required");
+            throw new Unauthorized(ADMIN_REQUIRED);
         }
     }
 

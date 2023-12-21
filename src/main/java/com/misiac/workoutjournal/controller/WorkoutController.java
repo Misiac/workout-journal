@@ -31,7 +31,7 @@ public class WorkoutController {
 
     @PostMapping("/new")
     public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
-                                                @RequestBody WorkoutRequest addWorkoutRequest) throws Exception {
+                                                @RequestBody WorkoutRequest addWorkoutRequest){
         String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.addWorkout(addWorkoutRequest, email);
         return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
@@ -44,7 +44,7 @@ public class WorkoutController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId) throws Exception {
+    public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId){
         String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.deleteWorkout(email, workoutId);
         return new ResponseEntity<>(WORKOUT_DELETED, HttpStatus.OK);
@@ -53,14 +53,14 @@ public class WorkoutController {
     @PutMapping("/exercise/{id}")
     public ResponseEntity<String> updateExercise(
             @RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId,
-            @RequestBody ExerciseRequest exerciseRequest) throws Exception {
+            @RequestBody ExerciseRequest exerciseRequest){
         String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.updateExercise(email, workoutExerciseId, exerciseRequest);
         return new ResponseEntity<>(EXERCISE_UPDATED, HttpStatus.OK);
     }
 
     @DeleteMapping("/exercise/{id}")
-    public ResponseEntity<String> deleteExercise(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId) throws Exception {
+    public ResponseEntity<String> deleteExercise(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId){
         String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.deleteExercise(email, workoutExerciseId);
         return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JWTExtractor {
-    public static String extractTokenParameter(String token, String extraction) {
+    public static String extractTokenParameter(String token, ExtractionType extraction) {
 
         String raw = token.replace("Bearer ", "");
         String[] chunks = raw.split("\\.");
@@ -19,7 +19,7 @@ public class JWTExtractor {
         for (String entry : entries) {
             String[] keyValue = entry.split(":");
 
-            if (keyValue[0].equals("\"" + extraction + "\"")) {
+            if (keyValue[0].equals("\"" + extraction.value + "\"")) {
                 int remove = 1;
 
                 if (keyValue[1].endsWith("}")) {
@@ -31,9 +31,20 @@ public class JWTExtractor {
                 map.put(keyValue[0], keyValue[1]);
             }
         }
-        if (map.containsKey("\"" + extraction + "\"")) {
-            return map.get("\"" + extraction + "\"");
+        if (map.containsKey("\"" + extraction.value + "\"")) {
+            return map.get("\"" + extraction.value + "\"");
         }
         return null;
+    }
+
+    public enum ExtractionType {
+        EMAIL("sub"),
+        ROLE("userType");
+        private String value;
+
+        ExtractionType(String value) {
+            this.value = value;
+        }
+
     }
 }

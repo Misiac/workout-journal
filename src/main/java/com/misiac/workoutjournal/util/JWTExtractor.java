@@ -40,7 +40,7 @@ public class JWTExtractor {
     public enum ExtractionType {
         EMAIL("sub"),
         ROLE("userType");
-        private String value;
+        private final String value;
 
         ExtractionType(String value) {
             this.value = value;

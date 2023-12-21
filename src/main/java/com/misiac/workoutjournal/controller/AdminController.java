@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.misiac.workoutjournal.util.AdminValidator.validateAdmin;
+import static com.misiac.workoutjournal.util.MessageProvider.*;
 
 @CrossOrigin("http://localhost:3000")
 @RestController
@@ -26,7 +27,7 @@ public class AdminController {
     public ResponseEntity<String> addMuscleGroupCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) throws Exception {
         if (validateAdmin(token)) {
             adminService.addMuscleGroupCategory(name);
-            return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
         } else {
             throw new Exception("Admin privileges required");
         }
@@ -36,7 +37,7 @@ public class AdminController {
     public ResponseEntity<String> addEquipmentCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) throws Exception {
         if (validateAdmin(token)) {
             adminService.addEquipmentCategory(name);
-            return new ResponseEntity<>("Category created successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
         } else {
             throw new Exception("Admin privileges required");
         }
@@ -47,7 +48,7 @@ public class AdminController {
                                               @RequestBody AdminCreateExerciseRequest adminExerciseRequest) throws Exception {
         if (validateAdmin(token)) {
             adminService.addExercise(adminExerciseRequest);
-            return new ResponseEntity<>("Exercise created successfully", HttpStatus.CREATED);
+            return new ResponseEntity<>(EXERCISE_CREATED, HttpStatus.CREATED);
         } else {
             throw new Exception("Admin privileges required");
         }
@@ -59,7 +60,7 @@ public class AdminController {
              @PathVariable String categoryName) throws Exception {
         if (validateAdmin(token)) {
             adminService.bindEquipmentCategory(exerciseId, categoryName);
-            return new ResponseEntity<>("Equipment category successfully bound to the exercise", HttpStatus.OK);
+            return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);
         } else {
             throw new Exception("Admin privileges required");
         }
@@ -70,7 +71,7 @@ public class AdminController {
                                                           @PathVariable Long exerciseId, @PathVariable String categoryName) throws Exception {
         if (validateAdmin(token)) {
             adminService.unbindEquipmentCategory(exerciseId, categoryName);
-            return new ResponseEntity<>("Equipment category successfully unbound from the exercise", HttpStatus.OK);
+            return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
         } else {
             throw new Exception("Admin privileges required");
         }
@@ -82,7 +83,7 @@ public class AdminController {
                                                      @RequestParam boolean isPrimary) throws Exception {
         if (validateAdmin(token)) {
             adminService.bindMuscleCategory(exerciseId, categoryName, isPrimary);
-            return new ResponseEntity<>("Muscle category successfully bound to the exercise", HttpStatus.OK);
+            return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);
         } else {
             throw new Exception("Admin privileges required");
         }
@@ -94,7 +95,7 @@ public class AdminController {
                                                        @PathVariable String categoryName) throws Exception {
         if (validateAdmin(token)) {
             adminService.unbindMuscleCategory(exerciseId, categoryName);
-            return new ResponseEntity<>("Muscle category successfully unbound from the exercise", HttpStatus.OK);
+            return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
         } else {
             throw new Exception("Admin privileges required");
         }

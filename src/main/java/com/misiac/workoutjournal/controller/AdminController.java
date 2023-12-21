@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.misiac.workoutjournal.util.AdminValidator.validateAdmin;
 
-//@CrossOrigin
+@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/admin")
 

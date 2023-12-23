@@ -2,16 +2,15 @@ package com.misiac.workoutjournal.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+
+@Entity
 @Table(name = "workout_exercises")
 public class WorkoutExercise {
     @Id

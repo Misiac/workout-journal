@@ -10,6 +10,4 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
     Page<Workout> findWorkoutsByUserEmailOrderByDateDesc(String userEmail, Pageable pageable);
-
-
 }

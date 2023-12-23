@@ -35,4 +35,5 @@ public final class MessageProvider {
     public static final String WORKOUT_EXERCISE_DOES_NOT_EXIST = "Workout exercise " + ENTITY_DOES_NOT_EXIST;
     public static final String WE_DOES_NOT_BELONG = "This workout exercise does not belong to this user";
     public static final String WORKOUT_DOES_NOT_BELONG = "This workout does not belong to this user";
+    public static final String REQUEST_NAME_BLANK = "Request's name is blank";
 }

@@ -17,7 +17,7 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             "FROM Exercise e " +
             "JOIN e.equipmentCategories ec " +
             "WHERE ec.name = :name")
-    List<Exercise> findExercisesByEquipmentCategories(@Param("name") String name);
+    List<Exercise> findExercisesByEquipmentCategory(@Param("name") String name);
 
     @Query(value = "SELECT e " +
             "FROM Exercise e " +
@@ -25,5 +25,5 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
             "JOIN mg.category c " +
             "WHERE mg.isPrimary = CASE WHEN :isPrimary = true THEN 1 ELSE 0 END " +
             "AND c.name = :name")
-    List<Exercise> findExercisesByMuscleGroups(@Param("name") String name, @Param("isPrimary") boolean isPrimary);
+    List<Exercise> findExercisesByMuscleGroup(@Param("name") String name, @Param("isPrimary") boolean isPrimary);
 }

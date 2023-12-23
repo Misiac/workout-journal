@@ -34,8 +34,11 @@ class WorkoutRepositoryTest {
         userRepository.save(user);
         workoutRepository.save(workout);
 
-        Assertions.assertNotNull(workout);
+        Workout savedWorkout = workoutRepository.findById(workout.getId()).orElse(null);
+
+        Assertions.assertNotNull(savedWorkout);
         Assertions.assertTrue(workout.getId() > 0);
+        Assertions.assertEquals(workout.getDate(), savedWorkout.getDate());
     }
 
 }

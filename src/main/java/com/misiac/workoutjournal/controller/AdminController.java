@@ -46,7 +46,7 @@ public class AdminController {
 
     @PostMapping("/exercise")
     public ResponseEntity<String> addExercise(@RequestHeader(value = "Authorization") String token,
-                                              @RequestBody AdminCreateExerciseRequest adminExerciseRequest) throws Exception {
+                                              @RequestBody AdminCreateExerciseRequest adminExerciseRequest) {
         if (validateAdmin(token)) {
             adminService.addExercise(adminExerciseRequest);
             return new ResponseEntity<>(EXERCISE_CREATED, HttpStatus.CREATED);

@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
@@ -60,11 +59,9 @@ public class WorkoutService {
 
     public void deleteWorkout(String email, Long workoutId) {
 
-        Optional<Workout> deletionOptional = workoutRepository.findById(workoutId);
-        if (deletionOptional.isEmpty()) {
-            throw new EntityDoesNotExistException(WORKOUT_DOES_NOT_EXIST);
-        }
-        Workout deletion = deletionOptional.get();
+        Workout deletion = workoutRepository.findById(workoutId).orElseThrow(
+                () -> new EntityDoesNotExistException(WORKOUT_DOES_NOT_EXIST));
+
         User user = userRepository.findUserByEmail(email);
         if (!user.getWorkouts().contains(deletion)) {
             throw new UnauthorizedException(WORKOUT_DOES_NOT_BELONG);
@@ -74,47 +71,41 @@ public class WorkoutService {
 
     public void updateExercise(String email, Long workoutExerciseId, ExerciseRequest exerciseRequest) {
 
-        Optional<WorkoutExercise> workoutExerciseOpt = workoutExerciseRepository.findById(workoutExerciseId);
+        WorkoutExercise workoutExercise = workoutExerciseRepository.findById(workoutExerciseId)
+                .orElseThrow(() -> new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST));
 
-        if (workoutExerciseOpt.isEmpty()) {
-            throw new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST);
-        }
-        WorkoutExercise workoutExercise = workoutExerciseOpt.get();
         User user = userRepository.findUserByEmail(email);
         if (workoutExercise.getParentWorkout().getUser() != user) {
             throw new UnauthorizedException(WE_DOES_NOT_BELONG);
         }
         if (exerciseRequest.getExerciseId() != workoutExercise.getExerciseType().getId()) {
-            Optional<Exercise> newExercise = exerciseRepository.findById(exerciseRequest.getExerciseId());
-            if (newExercise.isEmpty()) throw new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST);
-            workoutExercise.setExerciseType(newExercise.get());
+
+            Exercise newExercise = exerciseRepository.findById(exerciseRequest.getExerciseId())
+                    .orElseThrow(() -> new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST));
+            workoutExercise.setExerciseType(newExercise);
         }
         workoutExercise.setLoad(exerciseRequest.getLoad());
         workoutExercise.setReps(exerciseRequest.getReps());
 
         workoutExerciseRepository.save(workoutExercise);
-
     }
 
     public void deleteExercise(String email, Long workoutExerciseId) {
 
-        Optional<WorkoutExercise> workoutExerciseOpt = workoutExerciseRepository.findById(workoutExerciseId);
+        WorkoutExercise deletion = workoutExerciseRepository.findById(workoutExerciseId)
+                .orElseThrow(() -> new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST));
 
-        if (workoutExerciseOpt.isEmpty()) {
-            throw new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST);
-        }
-        WorkoutExercise deletionExercise = workoutExerciseOpt.get();
         User user = userRepository.findUserByEmail(email);
-        if (deletionExercise.getParentWorkout().getUser() != user) {
+        if (deletion.getParentWorkout().getUser() != user) {
             throw new UnauthorizedException(WE_DOES_NOT_BELONG);
         }
-        Workout workout = deletionExercise.getParentWorkout();
+        Workout workout = deletion.getParentWorkout();
         List<WorkoutExercise> workoutExercises = workout.getWorkoutExercises();
         List<WorkoutExercise> exercisesSeries;
 
-        exercisesSeries = extractExerciseSeries(workoutExercises, deletionExercise);
-        exercisesSeries.remove(deletionExercise);
-        workoutExerciseRepository.delete(workoutExerciseOpt.get());
+        exercisesSeries = extractExerciseSeries(workoutExercises, deletion);
+        exercisesSeries.remove(deletion);
+        workoutExerciseRepository.delete(deletion);
         for (int i = 1; i <= exercisesSeries.size(); i++) {
             exercisesSeries.get(i - 1).setSetNumber(i);
             workoutExerciseRepository.save(exercisesSeries.get(i - 1));

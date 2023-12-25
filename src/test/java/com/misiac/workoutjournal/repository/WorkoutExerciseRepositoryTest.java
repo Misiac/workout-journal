@@ -70,6 +70,8 @@ class WorkoutExerciseRepositoryTest {
         Assertions.assertEquals(10, findUpdated.getReps());
     }
 
+
+        // TODO - fix this
     @Test
     @DisplayName("Update workout exercise with null value")
     void testUpdateWithNullValue() {

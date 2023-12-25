@@ -15,7 +15,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings("OptionalGetWithoutIsPresent")
 @Component
 public class ExerciseMapper {
 
@@ -37,7 +36,7 @@ public class ExerciseMapper {
 
         for (String equipmentCategoryName : adminExerciseRequest.equipmentCategories) {
             var equipmentCategory = equipmentCategoryRepository.findEquipmentCategoryByName(equipmentCategoryName);
-            equipmentCategories.add(equipmentCategory.get());
+            equipmentCategories.add(equipmentCategory.orElseThrow());
         }
         exercise.setEquipmentCategories(equipmentCategories);
 
@@ -48,7 +47,7 @@ public class ExerciseMapper {
             var muscleGroupCategory = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(requestCategoryName).get();
             muscleGroup.setCategory(muscleGroupCategory);
             muscleGroup.setIsPrimary((byte) (muscleGroupRequest.isPrimary() ? 1 : 0));
-            muscleGroup.setExercise(exercise); // further inspection needed => Hibernate should automatically reverse map on line 54, but it does not
+            muscleGroup.setExercise(exercise);
             muscleGroups.add(muscleGroup);
         }
         exercise.setMuscleGroups(muscleGroups);

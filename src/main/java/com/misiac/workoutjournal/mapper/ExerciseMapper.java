@@ -44,7 +44,9 @@ public class ExerciseMapper {
 
             MuscleGroup muscleGroup = new MuscleGroup();
             String requestCategoryName = muscleGroupRequest.getName();
-            var muscleGroupCategory = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(requestCategoryName).get();
+            var muscleGroupCategory = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(requestCategoryName)
+                    .orElseThrow();
+
             muscleGroup.setCategory(muscleGroupCategory);
             muscleGroup.setIsPrimary((byte) (muscleGroupRequest.isPrimary() ? 1 : 0));
             muscleGroup.setExercise(exercise);

@@ -34,9 +34,9 @@ class WorkoutRepositoryTest {
 
     @Test
     @DisplayName("Saving workout with Identity Generation ID")
-    public void testSaveWorkoutBlank() {
+    void testSaveWorkoutBlank() {
 
-        Workout workout = constructTestWorkout();
+        Workout workout = constructTestWorkoutAndUser();
         workoutRepository.save(workout);
 
         Workout savedWorkout = workoutRepository.findById(workout.getId()).orElse(null);
@@ -48,13 +48,13 @@ class WorkoutRepositoryTest {
 
     @Test
     @DisplayName("Cascade: saving workout without saving its exercises")
-    public void testWorkoutExercisesCascade() {
+    void testWorkoutExercisesCascade() {
 
         Exercise exercise = new Exercise();
         exercise.setName("Lat Raise");
         exerciseRepository.save(exercise);
 
-        Workout workout = constructTestWorkout();
+        Workout workout = constructTestWorkoutAndUser();
 
         for (int i = 1; i < 3; i++) {
             WorkoutExercise we = WorkoutExercise.builder()
@@ -74,11 +74,16 @@ class WorkoutRepositoryTest {
 
     @Test
     @DisplayName("Custom searching with Pageable and User Email Desc")
-    public void testCustomSearchingWithUserEmailAndPageable() throws InterruptedException {
+    void testCustomSearchingWithUserEmailAndPageable() throws InterruptedException {
 
-        Workout workout1 = constructTestWorkout();
+        Workout workout1 = constructTestWorkoutAndUser();
         Thread.sleep(500);
-        Workout workout2 = constructTestWorkout();
+        Workout workout2 = Workout.builder()
+                .user(workout1.getUser())
+                .date(LocalDateTime.now())
+                .workoutExercises(new LinkedList<>())
+                .build();
+
         workoutRepository.save(workout1);
         workoutRepository.save(workout2);
 
@@ -95,7 +100,7 @@ class WorkoutRepositoryTest {
 
     @Test
     @DisplayName("Saving workout without user throws Exception")
-    public void testSavingWorkoutWithoutUser() {
+    void testSavingWorkoutWithoutUser() {
 
         Workout workout = Workout.builder()
                 .date(LocalDateTime.now())
@@ -107,7 +112,7 @@ class WorkoutRepositoryTest {
         );
     }
 
-    private Workout constructTestWorkout() {
+    private Workout constructTestWorkoutAndUser() {
         User user = new User();
         user.setEmail(TEST_EMAIL);
 

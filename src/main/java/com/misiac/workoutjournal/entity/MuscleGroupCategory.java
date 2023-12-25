@@ -8,6 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+
 @Entity
 @Table(name = "exercise_musclegroup_categories")
 public class MuscleGroupCategory {
@@ -16,7 +17,7 @@ public class MuscleGroupCategory {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", nullable = false, length = 50)
+    @Column(name = "name", nullable = false, length = 50, unique = true)
     private String name;
 
     public MuscleGroupCategory(String name) {

@@ -26,11 +26,11 @@ public class SecurityConfiguration {
                 }));
 
 
-//         ADD CORS FILTERS
+        // ADD CORS FILTERS
         httpSecurity.cors(httpSecurityCorsConfigurer -> {
         });
 
-//        ADD content negotiation strategy
+        //ADD content negotiation strategy
         httpSecurity.setSharedObject(ContentNegotiationStrategy.class,
                 new HeaderContentNegotiationStrategy());
 

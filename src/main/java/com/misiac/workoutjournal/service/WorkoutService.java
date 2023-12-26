@@ -112,9 +112,11 @@ public class WorkoutService {
         }
     }
 
-    //This method extract a sublist of exercises which contain a given workout exercise and is surrounded by the exercises of the same type
-    // it mainly serves for deletion => when deleting an exercise you have to change all set numbers down
-    private static List<WorkoutExercise> extractExerciseSeries(List<WorkoutExercise> workoutExercises, WorkoutExercise deletionExercise) {
+    //This method extract a sublist of exercises which contain a given workout exercise
+    // and is surrounded by the exercises of the same type.
+    // It mainly serves for deletion => when deleting an exercise you have to change all
+    // set numbers down by 1, maintaining order
+    protected static List<WorkoutExercise> extractExerciseSeries(List<WorkoutExercise> workoutExercises, WorkoutExercise deletionExercise) {
 
         int firstIndex = -1;
         List<WorkoutExercise> exercisesSeries = null;

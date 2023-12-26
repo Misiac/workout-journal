@@ -19,7 +19,6 @@ public class StatsService {
 
     public Long getTotalReps(String email) {
         User user = userRepository.findUserByEmail(email);
-        long total = 0;
 
         return user.getWorkouts().stream()
                 .flatMap(workout -> workout.getWorkoutExercises().stream())
@@ -34,7 +33,6 @@ public class StatsService {
 
     public Long getTotalSets(String email) {
         User user = userRepository.findUserByEmail(email);
-        long total = 0;
 
         return user.getWorkouts().stream()
                 .mapToLong(workout -> workout.getWorkoutExercises().size())
@@ -48,6 +46,5 @@ public class StatsService {
                 .flatMap(workout -> workout.getWorkoutExercises().stream())
                 .mapToDouble(we -> we.getLoad() * we.getReps())
                 .sum();
-
     }
 }

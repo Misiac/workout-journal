@@ -1,11 +1,14 @@
 package com.misiac.workoutjournal.util;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class JWTExtractor {
-    public static String extractTokenParameter(String token, ExtractionType extraction) {
+    public String extractTokenParameter(String token, ExtractionType extraction) {
 
         String raw = token.replace("Bearer ", "");
         String[] chunks = raw.split("\\.");
@@ -45,6 +48,5 @@ public class JWTExtractor {
         ExtractionType(String value) {
             this.value = value;
         }
-
     }
 }

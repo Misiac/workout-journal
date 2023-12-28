@@ -29,9 +29,8 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class WorkoutServiceTest {
-
-    @ExtendWith(MockitoExtension.class)
 
     @Mock
     private WorkoutRepository workoutRepository;
@@ -43,7 +42,6 @@ class WorkoutServiceTest {
     private ExerciseRepository exerciseRepository;
     @Mock
     private WorkoutMapper workoutMapper;
-
 
     @InjectMocks
     WorkoutService workoutService;
@@ -107,6 +105,7 @@ class WorkoutServiceTest {
         Assertions.assertThrows(UnauthorizedException.class,
                 () -> workoutService.deleteWorkout(email, workoutId)
         );
+        verify(workoutRepository, times(0)).delete(workout);
     }
 
 
@@ -156,15 +155,15 @@ class WorkoutServiceTest {
         workoutExercise1.setSetNumber(1);
         workoutExercise1.setParentWorkout(workout);
         WorkoutExercise deletionExercise = new WorkoutExercise();
-        deletionExercise.setSetNumber(2);
+        deletionExercise.setSetNumber(1);
         deletionExercise.setParentWorkout(workout);
         WorkoutExercise workoutExercise3 = new WorkoutExercise();
-        workoutExercise3.setSetNumber(3);
+        workoutExercise3.setSetNumber(2);
         workoutExercise3.setParentWorkout(workout);
 
         workout.setWorkoutExercises(new LinkedList<>(List.of(workoutExercise1, deletionExercise, workoutExercise3)));
 
-        List<WorkoutExercise> mockExtract = new LinkedList<>(List.of(workoutExercise1, deletionExercise));
+        List<WorkoutExercise> mockExtract = new LinkedList<>(List.of(deletionExercise, workoutExercise3));
         try (MockedStatic<WorkoutService> mc = Mockito.mockStatic(WorkoutService.class)) {
 
             when(workoutExerciseRepository.findById(any(Long.class))).thenReturn(Optional.of(deletionExercise));
@@ -176,6 +175,45 @@ class WorkoutServiceTest {
             workoutService.deleteExercise("email", any(Long.class));
             Assertions.assertFalse(mockExtract.contains(deletionExercise));
             verify(workoutExerciseRepository, times(1)).delete(deletionExercise);
+            Assertions.assertEquals(1, workoutExercise3.getSetNumber());
         }
+
+    }
+
+    @Test
+    @DisplayName("extractExerciseSeries default test")
+    void testExtractExerciseSeries() {
+        Exercise latRaise = new Exercise();
+        latRaise.setId(1L);
+        latRaise.setName("Lat Raise");
+        Exercise DumbbellCurl = new Exercise();
+        DumbbellCurl.setId(2L);
+        DumbbellCurl.setName("Dumbbell Curl");
+
+        WorkoutExercise exercise1 = new WorkoutExercise();
+        exercise1.setExerciseType(DumbbellCurl);
+        WorkoutExercise exercise2 = new WorkoutExercise();
+        exercise2.setExerciseType(latRaise);
+        WorkoutExercise exercise3 = new WorkoutExercise();
+        exercise3.setExerciseType(DumbbellCurl);
+        WorkoutExercise exercise4 = new WorkoutExercise();
+        exercise4.setExerciseType(latRaise);
+        WorkoutExercise deletion = new WorkoutExercise();
+        deletion.setExerciseType(latRaise);
+        WorkoutExercise exercise6 = new WorkoutExercise();
+        exercise6.setExerciseType(DumbbellCurl);
+        WorkoutExercise exercise7 = new WorkoutExercise();
+        exercise7.setExerciseType(latRaise);
+        WorkoutExercise exercise8 = new WorkoutExercise();
+        exercise8.setExerciseType(DumbbellCurl);
+
+        List<WorkoutExercise> extracted =
+                WorkoutService.extractExerciseSeries(
+                        List.of(exercise1, exercise2, exercise3, exercise4, deletion, exercise6, exercise7, exercise8), deletion
+                );
+        Assertions.assertEquals(2, extracted.size());
+        Assertions.assertTrue(extracted.contains(deletion));
+        Assertions.assertTrue(extracted.contains(exercise4));
+
     }
 }

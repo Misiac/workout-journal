@@ -18,8 +18,9 @@ import java.util.Set;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class StatsServiceTest {
-    @ExtendWith(MockitoExtension.class)
+
 
     @Mock
     private UserRepository userRepository;

@@ -116,7 +116,7 @@ public class WorkoutService {
     // and is surrounded by the exercises of the same type.
     // It mainly serves for deletion => when deleting an exercise you have to change all
     // set numbers down by 1, maintaining order
-    protected static List<WorkoutExercise> extractExerciseSeries(List<WorkoutExercise> workoutExercises, WorkoutExercise deletionExercise) {
+     static List<WorkoutExercise> extractExerciseSeries(List<WorkoutExercise> workoutExercises, WorkoutExercise deletionExercise) {
 
         int firstIndex = -1;
         List<WorkoutExercise> exercisesSeries = null;

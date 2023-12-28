@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.misiac.workoutjournal.util.JWTExtractor.extractTokenParameter;
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
 @CrossOrigin("http://localhost:3000")
@@ -23,29 +22,31 @@ import static com.misiac.workoutjournal.util.MessageProvider.*;
 public class WorkoutController {
 
     private final WorkoutService workoutService;
+    private final JWTExtractor jwtExtractor;
 
     @Autowired
-    public WorkoutController(WorkoutService workoutService) {
+    public WorkoutController(WorkoutService workoutService, JWTExtractor jwtExtractor) {
         this.workoutService = workoutService;
+        this.jwtExtractor = jwtExtractor;
     }
 
     @PostMapping("/new")
     public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
-                                                @RequestBody WorkoutRequest addWorkoutRequest){
-        String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+                                                @RequestBody WorkoutRequest addWorkoutRequest) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.addWorkout(addWorkoutRequest, email);
         return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
     }
 
     @GetMapping()
     public Page<Workout> getWorkoutsForUser(@RequestHeader(value = "Authorization") String token, Pageable pageable) {
-        String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         return workoutService.getWorkoutsForUser(email, pageable);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId){
-        String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+    public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.deleteWorkout(email, workoutId);
         return new ResponseEntity<>(WORKOUT_DELETED, HttpStatus.OK);
     }
@@ -53,15 +54,15 @@ public class WorkoutController {
     @PutMapping("/exercise/{id}")
     public ResponseEntity<String> updateExercise(
             @RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId,
-            @RequestBody ExerciseRequest exerciseRequest){
-        String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+            @RequestBody ExerciseRequest exerciseRequest) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.updateExercise(email, workoutExerciseId, exerciseRequest);
         return new ResponseEntity<>(EXERCISE_UPDATED, HttpStatus.OK);
     }
 
     @DeleteMapping("/exercise/{id}")
-    public ResponseEntity<String> deleteExercise(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId){
-        String email = extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+    public ResponseEntity<String> deleteExercise(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.deleteExercise(email, workoutExerciseId);
         return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
 

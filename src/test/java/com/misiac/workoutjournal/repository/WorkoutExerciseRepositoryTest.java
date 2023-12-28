@@ -4,7 +4,6 @@ import com.misiac.workoutjournal.entity.Exercise;
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +15,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -67,7 +68,7 @@ class WorkoutExerciseRepositoryTest {
         weRepository.save(updated);
 
         WorkoutExercise findUpdated = weRepository.findById(workoutExercise.getId()).orElseThrow();
-        Assertions.assertEquals(10, findUpdated.getReps());
+        assertEquals(10, findUpdated.getReps());
     }
 
 
@@ -87,9 +88,9 @@ class WorkoutExerciseRepositoryTest {
 
         weRepository.save(updated);
 
-        Assertions.assertThrows(DataIntegrityViolationException.class,
+        assertThrows(DataIntegrityViolationException.class,
                 () -> weRepository.save(updated));
-        Assertions.assertEquals(5, weRepository.findById(workoutExercise.getId()).orElseThrow().getReps());
+        assertEquals(5, weRepository.findById(workoutExercise.getId()).orElseThrow().getReps());
     }
 
     @Test
@@ -110,8 +111,8 @@ class WorkoutExerciseRepositoryTest {
 
         Workout updatedWorkout = workoutRepository.findById(workoutId).orElseThrow();
 
-        Assertions.assertTrue(weRepository.findById(workoutExercise.getId()).isEmpty());
-        Assertions.assertTrue(updatedWorkout.getWorkoutExercises().isEmpty());
+        assertTrue(weRepository.findById(workoutExercise.getId()).isEmpty());
+        assertTrue(updatedWorkout.getWorkoutExercises().isEmpty());
     }
 
     private WorkoutExercise constructTestWorkoutExercise(Workout parent) {

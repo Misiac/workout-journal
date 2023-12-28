@@ -4,7 +4,6 @@ import com.misiac.workoutjournal.entity.Exercise;
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -41,9 +42,9 @@ class WorkoutRepositoryTest {
 
         Workout savedWorkout = workoutRepository.findById(workout.getId()).orElse(null);
 
-        Assertions.assertNotNull(savedWorkout);
-        Assertions.assertTrue(workout.getId() > 0);
-        Assertions.assertEquals(workout.getDate(), savedWorkout.getDate());
+        assertNotNull(savedWorkout);
+        assertTrue(workout.getId() > 0);
+        assertEquals(workout.getDate(), savedWorkout.getDate());
     }
 
     @Test
@@ -69,7 +70,7 @@ class WorkoutRepositoryTest {
         }
         workoutRepository.save(workout);
         Workout savedWorkout = workoutRepository.findById(workout.getId()).orElseThrow();
-        Assertions.assertEquals(2, savedWorkout.getWorkoutExercises().size());
+        assertEquals(2, savedWorkout.getWorkoutExercises().size());
     }
 
     @Test
@@ -90,9 +91,9 @@ class WorkoutRepositoryTest {
         Pageable pageable = Pageable.ofSize(5);
         Page<Workout> workouts = workoutRepository.findWorkoutsByUserEmailOrderByDateDesc(TEST_EMAIL, pageable);
 
-        Assertions.assertEquals(2, workouts.getTotalElements());
-        Assertions.assertEquals(TEST_EMAIL, workouts.getContent().getFirst().getUser().getEmail());
-        Assertions.assertTrue(
+        assertEquals(2, workouts.getTotalElements());
+        assertEquals(TEST_EMAIL, workouts.getContent().getFirst().getUser().getEmail());
+        assertTrue(
                 workouts.getContent().getFirst().getDate().isAfter(
                         workouts.getContent().getLast().getDate())
         );
@@ -107,7 +108,7 @@ class WorkoutRepositoryTest {
                 .workoutExercises(new LinkedList<>())
                 .build();
 
-        Assertions.assertThrows(DataIntegrityViolationException.class,
+        assertThrows(DataIntegrityViolationException.class,
                 () -> workoutRepository.save(workout)
         );
     }

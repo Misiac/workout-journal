@@ -2,7 +2,6 @@ package com.misiac.workoutjournal.controller;
 
 import com.misiac.workoutjournal.service.StatsService;
 import com.misiac.workoutjournal.util.JWTExtractor;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,7 +45,7 @@ class StatsControllerTest {
 
 
         verify(statsService, times(1)).getTotalReps(TEST_EMAIL);
-        Assertions.assertEquals(40L, Long.parseLong(response));
+        assertEquals(40L, Long.parseLong(response));
     }
 
     @Test
@@ -61,7 +61,7 @@ class StatsControllerTest {
 
 
         verify(statsService, times(1)).getTotalWorkouts(TEST_EMAIL);
-        Assertions.assertEquals(40L, Long.parseLong(response));
+        assertEquals(40L, Long.parseLong(response));
     }
 
     @Test
@@ -77,7 +77,7 @@ class StatsControllerTest {
 
 
         verify(statsService, times(1)).getTotalSets(TEST_EMAIL);
-        Assertions.assertEquals(40L, Long.parseLong(response));
+        assertEquals(40L, Long.parseLong(response));
     }
 
     @Test
@@ -93,6 +93,6 @@ class StatsControllerTest {
 
 
         verify(statsService, times(1)).getTotalVolume(TEST_EMAIL);
-        Assertions.assertEquals(452.5, Double.parseDouble(response));
+        assertEquals(452.5, Double.parseDouble(response));
     }
 }

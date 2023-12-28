@@ -4,7 +4,6 @@ import com.misiac.workoutjournal.entity.EquipmentCategory;
 import com.misiac.workoutjournal.entity.Exercise;
 import com.misiac.workoutjournal.entity.MuscleGroup;
 import com.misiac.workoutjournal.entity.MuscleGroupCategory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -33,8 +34,8 @@ class ExerciseRepositoryTest {
 
         Exercise savedExercise = exerciseRepository.findExerciseByName("Lat Raise").orElse(null);
 
-        Assertions.assertNotNull(savedExercise);
-        Assertions.assertEquals(exercise.getName(), savedExercise.getName());
+        assertNotNull(savedExercise);
+        assertEquals(exercise.getName(), savedExercise.getName());
     }
 
     @Test
@@ -52,9 +53,9 @@ class ExerciseRepositoryTest {
 
         Exercise savedExercise = exerciseRepository.findExercisesByEquipmentCategory("Dumbbell").getFirst();
 
-        Assertions.assertNotNull(savedExercise);
-        Assertions.assertEquals(exercise.getName(), savedExercise.getName());
-        Assertions.assertEquals("Dumbbell", savedExercise.getEquipmentCategories().getFirst().getName());
+        assertNotNull(savedExercise);
+        assertEquals(exercise.getName(), savedExercise.getName());
+        assertEquals("Dumbbell", savedExercise.getEquipmentCategories().getFirst().getName());
 
     }
 
@@ -76,9 +77,9 @@ class ExerciseRepositoryTest {
 
         Exercise savedExercise = exerciseRepository.findExercisesByMuscleGroup("Shoulders", true).getFirst();
 
-        Assertions.assertNotNull(savedExercise);
-        Assertions.assertEquals("Lat Raise", savedExercise.getName());
-        Assertions.assertTrue(savedExercise.getMuscleGroups().contains(muscleGroup));
+        assertNotNull(savedExercise);
+        assertEquals("Lat Raise", savedExercise.getName());
+        assertTrue(savedExercise.getMuscleGroups().contains(muscleGroup));
     }
 
     @Test
@@ -87,7 +88,7 @@ class ExerciseRepositoryTest {
         Exercise exercise = new Exercise();
         exercise.setName("This is a very long exercise name that is over 50 characters long");
 
-        Assertions.assertThrows(
+        assertThrows(
                 DataIntegrityViolationException.class, () -> exerciseRepository.save(exercise)
         );
     }

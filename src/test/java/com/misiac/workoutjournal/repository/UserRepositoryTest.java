@@ -2,7 +2,6 @@ package com.misiac.workoutjournal.repository;
 
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -34,9 +35,9 @@ class UserRepositoryTest {
 
         User savedUser = userRepository.findById(user.getId()).orElse(null);
 
-        Assertions.assertNotNull(savedUser);
-        Assertions.assertTrue(user.getId() > 0);
-        Assertions.assertEquals(TEST_EMAIL, savedUser.getEmail());
+        assertNotNull(savedUser);
+        assertTrue(user.getId() > 0);
+        assertEquals(TEST_EMAIL, savedUser.getEmail());
     }
 
     @Test
@@ -50,7 +51,7 @@ class UserRepositoryTest {
         User user2 = new User();
         user2.setEmail(TEST_EMAIL);
 
-        Assertions.assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(user2));
+        assertThrows(DataIntegrityViolationException.class, () -> userRepository.save(user2));
     }
 
     @Test
@@ -63,8 +64,8 @@ class UserRepositoryTest {
 
         User foundUser = userRepository.findUserByEmail(TEST_EMAIL);
 
-        Assertions.assertNotNull(foundUser);
-        Assertions.assertEquals(TEST_EMAIL, foundUser.getEmail());
+        assertNotNull(foundUser);
+        assertEquals(TEST_EMAIL, foundUser.getEmail());
     }
 
     @Test
@@ -83,10 +84,10 @@ class UserRepositoryTest {
 
         userRepository.delete(user);
 
-        Assertions.assertNull(
+        assertNull(
                 userRepository.findUserByEmail(TEST_EMAIL)
         );
 
-        Assertions.assertNull(workoutRepository.findById(workout.getId()).orElse(null));
+        assertNull(workoutRepository.findById(workout.getId()).orElse(null));
     }
 }

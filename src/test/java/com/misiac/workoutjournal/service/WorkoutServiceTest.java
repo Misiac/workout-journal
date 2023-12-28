@@ -12,7 +12,6 @@ import com.misiac.workoutjournal.repository.WorkoutExerciseRepository;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
 import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
 import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -102,7 +102,7 @@ class WorkoutServiceTest {
         when(workoutRepository.findById(workoutId)).thenReturn(Optional.of(workout));
         when(userRepository.findUserByEmail(email)).thenReturn(user2);
 
-        Assertions.assertThrows(UnauthorizedException.class,
+        assertThrows(UnauthorizedException.class,
                 () -> workoutService.deleteWorkout(email, workoutId)
         );
         verify(workoutRepository, times(0)).delete(workout);
@@ -138,9 +138,9 @@ class WorkoutServiceTest {
         workoutService.updateExercise("email", 1L, exerciseRequest);
 
         verify(workoutExerciseRepository, times(1)).save(workoutExercise);
-        Assertions.assertEquals(5, workoutExercise.getReps());
-        Assertions.assertEquals(5, workoutExercise.getLoad());
-        Assertions.assertEquals(newExercise, workoutExercise.getExerciseType());
+        assertEquals(5, workoutExercise.getReps());
+        assertEquals(5, workoutExercise.getLoad());
+        assertEquals(newExercise, workoutExercise.getExerciseType());
     }
 
     @Test
@@ -173,9 +173,9 @@ class WorkoutServiceTest {
                     .thenReturn(mockExtract);
 
             workoutService.deleteExercise("email", any(Long.class));
-            Assertions.assertFalse(mockExtract.contains(deletionExercise));
+            assertFalse(mockExtract.contains(deletionExercise));
             verify(workoutExerciseRepository, times(1)).delete(deletionExercise);
-            Assertions.assertEquals(1, workoutExercise3.getSetNumber());
+            assertEquals(1, workoutExercise3.getSetNumber());
         }
 
     }
@@ -211,9 +211,9 @@ class WorkoutServiceTest {
                 WorkoutService.extractExerciseSeries(
                         List.of(exercise1, exercise2, exercise3, exercise4, deletion, exercise6, exercise7, exercise8), deletion
                 );
-        Assertions.assertEquals(2, extracted.size());
-        Assertions.assertTrue(extracted.contains(deletion));
-        Assertions.assertTrue(extracted.contains(exercise4));
+        assertEquals(2, extracted.size());
+        assertTrue(extracted.contains(deletion));
+        assertTrue(extracted.contains(exercise4));
 
     }
 }

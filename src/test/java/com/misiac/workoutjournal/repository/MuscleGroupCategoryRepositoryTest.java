@@ -1,7 +1,6 @@
 package com.misiac.workoutjournal.repository;
 
 import com.misiac.workoutjournal.entity.MuscleGroupCategory;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +8,8 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -27,8 +28,8 @@ class MuscleGroupCategoryRepositoryTest {
         mgcRepository.save(muscleGroupCategory);
         var savedCategory = mgcRepository.findById(muscleGroupCategory.getId());
 
-        Assertions.assertTrue(savedCategory.isPresent());
-        Assertions.assertEquals(muscleGroupCategory.getName(), savedCategory.get().getName());
+        assertTrue(savedCategory.isPresent());
+        assertEquals(muscleGroupCategory.getName(), savedCategory.get().getName());
     }
 
     @Test
@@ -42,8 +43,8 @@ class MuscleGroupCategoryRepositoryTest {
 
         var savedCategory = mgcRepository.findMuscleGroupCategoryByName(mgc.getName());
 
-        Assertions.assertTrue(savedCategory.isPresent());
-        Assertions.assertEquals(mgc.getName(), savedCategory.get().getName());
+        assertTrue(savedCategory.isPresent());
+        assertEquals(mgc.getName(), savedCategory.get().getName());
     }
 
     @Test
@@ -57,7 +58,7 @@ class MuscleGroupCategoryRepositoryTest {
 
         var savedCategory = mgcRepository.findMuscleGroupCategoryByName("Shoulders");
 
-        Assertions.assertTrue(savedCategory.isEmpty());
+        assertTrue(savedCategory.isEmpty());
 
     }
 
@@ -71,7 +72,7 @@ class MuscleGroupCategoryRepositoryTest {
         MuscleGroupCategory duplicateMgc = new MuscleGroupCategory();
         duplicateMgc.setName("Chest");
 
-        Assertions.assertThrows(DataIntegrityViolationException.class,
+        assertThrows(DataIntegrityViolationException.class,
                 () -> mgcRepository.save(duplicateMgc));
     }
 }

@@ -49,7 +49,7 @@ class AdminControllerTest {
                         .param("name", "Shoulders"))
                 .andExpect(status().isCreated());
 
-        verify(adminService, times(1)).addMuscleGroupCategory("Shoulders");
+        verify(adminService, times(1)).addMuscleGroupCategory(eq("Shoulders"));
     }
 
     @Test
@@ -63,7 +63,7 @@ class AdminControllerTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(result -> assertInstanceOf(UnauthorizedException.class, result.getResolvedException()));
 
-        verify(adminService, times(0)).addMuscleGroupCategory("Shoulders");
+        verify(adminService, times(0)).addMuscleGroupCategory(any());
 
     }
 
@@ -77,7 +77,7 @@ class AdminControllerTest {
                         .param("name", "Bench"))
                 .andExpect(status().isCreated());
 
-        verify(adminService, times(1)).addEquipmentCategory("Bench");
+        verify(adminService, times(1)).addEquipmentCategory(eq("Bench"));
     }
 
     @Test
@@ -91,7 +91,7 @@ class AdminControllerTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(result -> assertInstanceOf(UnauthorizedException.class, result.getResolvedException()));
 
-        verify(adminService, times(0)).addEquipmentCategory("Bench");
+        verify(adminService, times(0)).addEquipmentCategory(any());
     }
 
 
@@ -143,7 +143,7 @@ class AdminControllerTest {
                         .header("Authorization", TEST_TOKEN))
                 .andExpect(status().isOk());
 
-        verify(adminService, times(1)).bindEquipmentCategory(2L, "Bench");
+        verify(adminService, times(1)).bindEquipmentCategory(eq(2L), eq("Bench"));
     }
 
     @Test
@@ -168,7 +168,7 @@ class AdminControllerTest {
                         .header("Authorization", TEST_TOKEN))
                 .andExpect(status().isOk());
 
-        verify(adminService, times(1)).unbindEquipmentCategory(2L, "Bench");
+        verify(adminService, times(1)).unbindEquipmentCategory(eq(2L), eq("Bench"));
     }
 
     @Test
@@ -181,7 +181,7 @@ class AdminControllerTest {
                 .andExpect(status().isUnauthorized())
                 .andExpect(result -> assertInstanceOf(UnauthorizedException.class, result.getResolvedException()));
 
-        verify(adminService, times(0)).unbindEquipmentCategory(anyLong(),anyString());
+        verify(adminService, times(0)).unbindEquipmentCategory(anyLong(), anyString());
     }
 
     @Test
@@ -195,7 +195,7 @@ class AdminControllerTest {
                 .andExpect(status().isOk());
 
         verify(adminService, times(1))
-                .bindMuscleCategory(2L, "Shoulders", true);
+                .bindMuscleCategory(eq(2L), eq("Shoulders"), eq(true));
 
     }
 
@@ -224,7 +224,7 @@ class AdminControllerTest {
                 .andExpect(status().isOk());
 
         verify(adminService, times(1))
-                .unbindMuscleCategory(2L, "Shoulders");
+                .unbindMuscleCategory(eq(2L), eq("Shoulders"));
     }
 
     @Test

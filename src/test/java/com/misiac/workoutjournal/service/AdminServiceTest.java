@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.service;
 
+import com.misiac.workoutjournal.entity.MuscleGroupCategory;
 import com.misiac.workoutjournal.mapper.ExerciseMapper;
 import com.misiac.workoutjournal.repository.EquipmentCategoryRepository;
 import com.misiac.workoutjournal.repository.ExerciseRepository;
@@ -11,9 +12,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Optional;
+
+import static org.mockito.Mockito.*;
+
+@ExtendWith(MockitoExtension.class)
 class AdminServiceTest {
 
-    @ExtendWith(MockitoExtension.class)
 
     @Mock
     private EquipmentCategoryRepository equipmentCategoryRepository;
@@ -28,8 +33,11 @@ class AdminServiceTest {
     private AdminService adminService;
 
     @Test
-    @DisplayName("")
+    @DisplayName("AddMuscleGroupCategory normal conditions")
     void addMuscleGroupCategory() {
+        when(muscleGroupCategoryRepository.findMuscleGroupCategoryByName("Shoulders")).thenReturn(Optional.empty());
+        adminService.addMuscleGroupCategory("Shoulders");
+        verify(muscleGroupCategoryRepository, times(1)).save(any(MuscleGroupCategory.class));
     }
 
     @Test

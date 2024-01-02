@@ -126,10 +126,7 @@ class WorkoutServiceTest {
 
         Exercise newExercise = new Exercise();
         newExercise.setId(5L);
-        ExerciseRequest exerciseRequest = new ExerciseRequest();
-        exerciseRequest.setLoad(5);
-        exerciseRequest.setReps(5);
-        exerciseRequest.setExerciseId(5);
+        ExerciseRequest exerciseRequest = new ExerciseRequest(5L, 5, 5, 1);
 
         when(workoutExerciseRepository.findById(1L)).thenReturn(Optional.of(workoutExercise));
         when(userRepository.findUserByEmail(anyString())).thenReturn(user);

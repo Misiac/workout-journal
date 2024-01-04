@@ -11,6 +11,7 @@ import java.util.Set;
 
 @Getter
 @Setter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "exercises")
@@ -34,4 +35,7 @@ public class Exercise {
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MuscleGroup> muscleGroups = new LinkedHashSet<>();
 
+    public Exercise(String name) {
+        this.name = name;
+    }
 }

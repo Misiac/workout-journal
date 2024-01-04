@@ -65,6 +65,5 @@ public class WorkoutController {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.deleteExercise(email, workoutExerciseId);
         return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
-
     }
 }

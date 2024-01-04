@@ -147,7 +147,7 @@ public class AdminService {
         exerciseRepository.save(exercise);
     }
 
-    public static MuscleGroup constructMuscleGroup(MuscleGroupCategory mgc, Boolean isPrimary, Exercise exercise) {
+    MuscleGroup constructMuscleGroup(MuscleGroupCategory mgc, Boolean isPrimary, Exercise exercise) {
         MuscleGroup muscleGroup = new MuscleGroup();
         muscleGroup.setCategory(mgc);
         if (isPrimary != null) {

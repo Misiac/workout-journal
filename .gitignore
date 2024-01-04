@@ -1,6 +1,5 @@
 HELP.md
 target/
-.mvn/wrapper/maven-wrapper.jar
 **/src/main/**/target/
 **/src/test/**/target/
 
@@ -31,10 +30,7 @@ build/
 
 ### VS Code ###
 .vscode/
-.mvn/
-/mvnw
-mvnw
-mvnw.cmd
+
 ### Maven template
 pom.xml.tag
 pom.xml.releaseBackup
@@ -43,6 +39,5 @@ pom.xml.next
 release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
-.mvn/timing.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 /qodana.yaml

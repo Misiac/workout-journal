@@ -1,0 +1,17 @@
+.wave-footer-container {
+    position: fixed;
+    bottom: -10px;
+    left: 0;
+    width: 100%;
+    z-index: -100;
+}
+
+#okta-sign-in.auth-container.main-container {
+    margin-top: 0 !important;
+}
+
+.colored-div {
+    height: 10vh;
+    background-color: #288dff;
+    margin-top: -50px;
+}

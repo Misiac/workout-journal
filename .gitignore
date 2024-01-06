@@ -41,3 +41,6 @@ dependency-reduced-pom.xml
 buildNumber.properties
 # https://github.com/takari/maven-wrapper#usage-without-binary-jar
 /qodana.yaml
+
+### API KEYS
+.env

@@ -27,8 +27,8 @@ CREATE TABLE `equipment_jointable` (
   `category_id` bigint NOT NULL,
   KEY `excercise_id_idx` (`exercise_id`),
   KEY `category_id_FK_idx` (`category_id`),
-  CONSTRAINT `FK_category_id-equipment` FOREIGN KEY (`category_id`) REFERENCES `exercise_equipment_categories` (`id`),
-  CONSTRAINT `FK_exercise_id-equipment` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`)
+  CONSTRAINT `FK_equipment_jointable-category` FOREIGN KEY (`category_id`) REFERENCES `exercise_equipment_categories` (`id`),
+  CONSTRAINT `FK_equipment_jointable-exercise` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -132,8 +132,8 @@ CREATE TABLE `musclegroups` (
   PRIMARY KEY (`id`),
   KEY `excercise_id_idx` (`exercise_id`),
   KEY `category_id_idx` (`category_id`),
-  CONSTRAINT `category_id` FOREIGN KEY (`category_id`) REFERENCES `exercise_musclegroup_categories` (`id`),
-  CONSTRAINT `excercise_id` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`)
+  CONSTRAINT `FK_musclegroups-category` FOREIGN KEY (`category_id`) REFERENCES `exercise_musclegroup_categories` (`id`),
+  CONSTRAINT `FK_musclegroups-exercise` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -156,7 +156,7 @@ DROP TABLE IF EXISTS `users`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` bigint NOT NULL AUTO_INCREMENT,
-  `email` varchar(45) NOT NULL,
+  `email` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email_UNIQUE` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -190,8 +190,8 @@ CREATE TABLE `workout_exercises` (
   KEY `FK__idx` (`exercise_id`),
   KEY `FK_workout_id_idx` (`id`),
   KEY `FK_workout_id_idx1` (`workout_id`),
-  CONSTRAINT `FK_exercise_id` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`),
-  CONSTRAINT `FK_workout_id` FOREIGN KEY (`workout_id`) REFERENCES `workouts` (`id`)
+  CONSTRAINT `FK_workout_exercises-exercises` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`),
+  CONSTRAINT `FK_workout_exercises-workout` FOREIGN KEY (`workout_id`) REFERENCES `workouts` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -218,7 +218,7 @@ CREATE TABLE `workouts` (
   `date` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `user_idx` (`user_id`),
-  CONSTRAINT `user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
+  CONSTRAINT `FK_workouts-user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -241,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-05  0:37:44
+-- Dump completed on 2024-01-06 20:03:36

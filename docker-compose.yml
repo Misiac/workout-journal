@@ -36,6 +36,21 @@ services:
       - ./wj-db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - workout-journal-network
+
+  wj-frontend:
+    build:
+      context: wj-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - wj-db
+      - wj-backend
+    restart: always
+    #    environment:
+    networks:
+      - workout-journal-network
+
 volumes:
   mysql-database-data-volume:
 networks:

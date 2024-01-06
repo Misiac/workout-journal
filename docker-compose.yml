@@ -33,7 +33,7 @@ services:
       MYSQL_DATABASE: workout-journal-db
     volumes:
       - mysql-database-data-volume:/var/lib/mysql
-      - ./wj-db-script/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./wj-db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - workout-journal-network
 volumes:

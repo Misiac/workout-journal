@@ -128,7 +128,7 @@ CREATE TABLE `musclegroups` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `exercise_id` bigint NOT NULL,
   `category_id` bigint NOT NULL,
-  `is_primary` tinyint DEFAULT '0',
+  `is_primary` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `excercise_id_idx` (`exercise_id`),
   KEY `category_id_idx` (`category_id`),
@@ -241,4 +241,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-06 20:03:36
+-- Dump completed on 2024-01-06 20:13:12

@@ -29,7 +29,7 @@ public class MuscleGroup {
     @JoinColumn(name = "category_id", nullable = false)
     private MuscleGroupCategory category;
 
-    @Column(name = "is_primary")
+    @Column(name = "is_primary", nullable = false)
     private Byte isPrimary;
 
 

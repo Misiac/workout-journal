@@ -71,27 +71,27 @@ class WorkoutExerciseRepositoryTest {
         assertEquals(10, findUpdated.getReps());
     }
 
-//
-//        // TODO - fix this
-//    @Test
-//    @DisplayName("Update workout exercise with null value")
-//    void testUpdateWithNullValue() {
-//
-//        Workout workout = workoutRepository.findById(workoutId).orElseThrow();
-//        WorkoutExercise workoutExercise = constructTestWorkoutExercise(workout);
-//
-//        workout.getWorkoutExercises().add(workoutExercise);
-//        workoutRepository.save(workout);
-//
-//        WorkoutExercise updated = weRepository.findById(workoutExercise.getId()).orElseThrow();
-//        updated.setReps(null);
-//
-//        weRepository.save(updated);
-//
-//        assertThrows(DataIntegrityViolationException.class,
-//                () -> weRepository.save(updated));
-//        assertEquals(5, weRepository.findById(workoutExercise.getId()).orElseThrow().getReps());
-//    }
+
+        // TODO - fix this
+    @Test
+    @DisplayName("Update workout exercise with null value")
+    void testUpdateWithNullValue() {
+
+        Workout workout = workoutRepository.findById(workoutId).orElseThrow();
+        WorkoutExercise workoutExercise = constructTestWorkoutExercise(workout);
+
+        workout.getWorkoutExercises().add(workoutExercise);
+        workoutRepository.save(workout);
+
+        WorkoutExercise updated = weRepository.findById(workoutExercise.getId()).orElseThrow();
+        updated.setReps(null);
+
+        weRepository.save(updated);
+
+        assertThrows(DataIntegrityViolationException.class,
+                () -> weRepository.save(updated));
+        assertEquals(5, weRepository.findById(workoutExercise.getId()).orElseThrow().getReps());
+    }
 
     @Test
     @DisplayName("Delete workout exercise from Workout")

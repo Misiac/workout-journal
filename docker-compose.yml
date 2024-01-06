@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  wj-backend:
+    build:
+      context: wj-backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - wj-db
+    environment:
+      DATASOURCE_HOSTNAME: wj-db
+      DATASOURCE_PORT: 3306
+      DATASOURCE_DB_NAME: workout-journal-db
+      DATASOURCE_USERNAME: user
+      DATASOURCE_PASSWORD: userpass
+      OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
+      OKTA_ISSUER: ${OKTA_ISSUER}
+    networks:
+      - workout-journal-network
+
+  wj-db:
+    image: mysql:latest
+    ports:
+      - "3307:3306"
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: user
+      MYSQL_PASSWORD: userpass
+      MYSQL_DATABASE: workout-journal-db
+    volumes:
+      - mysql-database-data-volume:/var/lib/mysql
+      - ./wj-db-script/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - workout-journal-network
+volumes:
+  mysql-database-data-volume:
+networks:
+  workout-journal-network:
+
+
+
+

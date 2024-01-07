@@ -47,7 +47,10 @@ services:
       - wj-db
       - wj-backend
     restart: always
-    #    environment:
+    environment:
+      OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
+      OKTA_ISSUER: ${OKTA_ISSUER}
+      REDIRECT_URI: http://localhost:3000/login/callback
     networks:
       - workout-journal-network
 

@@ -34,10 +34,8 @@ public class SecurityConfiguration {
 
 
         // ADD CORS FILTERS
-        httpSecurity.cors(httpSecurityCorsConfigurer -> {
-            httpSecurityCorsConfigurer
-                    .configurationSource(corsConfigurationSource());
-        });
+        httpSecurity.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer
+                .configurationSource(corsConfigurationSource()));
 
         //ADD content negotiation strategy
         httpSecurity.setSharedObject(ContentNegotiationStrategy.class,

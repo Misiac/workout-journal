@@ -25,8 +25,7 @@ export const App = () => {
             toRelativeUrl(originalUri || "/", window.location.origin)
         );
     };
-
-
+    
     return (
         <div className="">
             <Security

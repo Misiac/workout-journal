@@ -1,6 +1,24 @@
 version: '3.8'
 
 services:
+
+  wj-frontend:
+    build:
+      context: wj-frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
+        REACT_APP_OKTA_ISSUER: ${OKTA_ISSUER}
+        REACT_APP_REDIRECT_URI: http://localhost:3000/login/callback
+    ports:
+      - "3000:80"
+    depends_on:
+      - wj-db
+      - wj-backend
+    restart: always
+    networks:
+      - workout-journal-network
+
   wj-backend:
     build:
       context: wj-backend
@@ -34,23 +52,6 @@ services:
     volumes:
       - mysql-database-data-volume:/var/lib/mysql
       - ./wj-db/init.sql:/docker-entrypoint-initdb.d/init.sql
-    networks:
-      - workout-journal-network
-
-  wj-frontend:
-    build:
-      context: wj-frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:80"
-    depends_on:
-      - wj-db
-      - wj-backend
-    restart: always
-    environment:
-      OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
-      OKTA_ISSUER: ${OKTA_ISSUER}
-      REDIRECT_URI: http://localhost:3000/login/callback
     networks:
       - workout-journal-network
 

@@ -3,11 +3,13 @@ package com.misiac.workoutjournal.controller;
 import com.misiac.workoutjournal.service.StatsService;
 import com.misiac.workoutjournal.util.JWTExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import static com.misiac.workoutjournal.util.JWTExtractor.ExtractionType;
 
-@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/stats")
 public class StatsController {

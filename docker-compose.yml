@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
 
   wj-frontend:
@@ -29,6 +28,7 @@ services:
     depends_on:
       - wj-db
     environment:
+      ALLOWED_ORIGINS: http://localhost:3000
       DATASOURCE_HOSTNAME: wj-db
       DATASOURCE_PORT: 3306
       DATASOURCE_DB_NAME: workout-journal-db

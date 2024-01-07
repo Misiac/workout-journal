@@ -11,10 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
-@CrossOrigin("http://localhost:3000")
 @RestController
 @RequestMapping("/api/admin")
-
 public class AdminController {
 
     private final AdminService adminService;

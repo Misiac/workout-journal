@@ -6,7 +6,6 @@ import com.misiac.workoutjournal.entity.MuscleGroup;
 import com.misiac.workoutjournal.entity.MuscleGroupCategory;
 import com.misiac.workoutjournal.exception.EntityAlreadyExistsException;
 import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
-import com.misiac.workoutjournal.exception.IncorrectInputException;
 import com.misiac.workoutjournal.mapper.ExerciseMapper;
 import com.misiac.workoutjournal.repository.EquipmentCategoryRepository;
 import com.misiac.workoutjournal.repository.ExerciseRepository;
@@ -60,10 +59,6 @@ public class AdminService {
         exerciseRepository.findExerciseByName(adminExerciseRequest.getName()).ifPresent(e -> {
             throw new EntityAlreadyExistsException(EXERCISE_ALREADY_EXISTS);
         });
-
-        if (adminExerciseRequest.getName() == null) {
-            throw new IncorrectInputException(REQUEST_NAME_BLANK);
-        }
 
         for (String name : adminExerciseRequest.equipmentCategories) {
             if (equipmentCategoryRepository.findEquipmentCategoryByName(name).isEmpty()) {

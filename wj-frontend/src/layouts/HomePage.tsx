@@ -40,8 +40,6 @@ export const HomePage = () => {
         fetchTotalSets();
     }, []);  // Empty dependency array to run the effect only once
 
-
-
     return (
         <>
             <Navbar/>

@@ -8,7 +8,7 @@ import React from "react";
 import {Redirect} from "react-router-dom";
 import HomePage from "./layouts/HomePage";
 import WelcomePage from "./layouts/WelcomePage";
-import AdminPage from "./layouts/AdminPage";
+import AdminPage from "./layouts/AdminPage/AdminPage";
 
 
 const oktaAuth = new OktaAuth(oktaConfig);
@@ -25,6 +25,8 @@ export const App = () => {
             toRelativeUrl(originalUri || "/", window.location.origin)
         );
     };
+
+    document.title = 'Workout Journal'
 
     return (
         <div className="">

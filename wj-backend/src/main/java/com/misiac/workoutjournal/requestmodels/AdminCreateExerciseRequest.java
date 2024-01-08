@@ -1,5 +1,7 @@
 package com.misiac.workoutjournal.requestmodels;
 
+import com.misiac.workoutjournal.util.MessageProvider;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AdminCreateExerciseRequest {
 
+    @NotBlank(message = MessageProvider.REQUEST_NAME_BLANK)
     public String name;
     public List<String> equipmentCategories;
     public List<MuscleGroupRequest> muscleGroups;
@@ -19,7 +22,7 @@ public class AdminCreateExerciseRequest {
     public static class MuscleGroupRequest {
 
         private String name;
-        private boolean isPrimary;
+        private Boolean isPrimary;
 
     }
 }

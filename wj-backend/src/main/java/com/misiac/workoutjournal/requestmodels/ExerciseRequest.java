@@ -1,5 +1,9 @@
 package com.misiac.workoutjournal.requestmodels;
 
+import com.misiac.workoutjournal.util.MessageProvider;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +13,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ExerciseRequest {
 
-    private long exerciseId;
-    private float load;
-    private int reps;
-    private int setNumber;
+    @NotNull(message = MessageProvider.EXERCISE_ID_NULL)
+    @Positive(message = MessageProvider.EXERCISE_ID_NEGATIVE)
+    private Long exerciseId;
+
+    @PositiveOrZero(message = MessageProvider.LOAD_NEGATIVE)
+    private Float load;
+
+    @NotNull(message = MessageProvider.REPS_NULL)
+    @Positive(message = MessageProvider.REPS_NEGATIVE)
+    private Integer reps;
+
+    @NotNull(message = MessageProvider.SET_NUMBER_NULL)
+    @Positive(message = MessageProvider.SET_NUMBER_NEGATIVE)
+    private Integer setNumber;
 
 }

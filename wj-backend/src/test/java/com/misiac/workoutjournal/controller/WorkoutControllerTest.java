@@ -95,7 +95,7 @@ class WorkoutControllerTest {
     @Test
     @DisplayName("UpdateExercise normal conditions")
     void testUpdateExercise() throws Exception {
-        ExerciseRequest exerciseRequest = new ExerciseRequest(1, 5L, 5, 1);
+        ExerciseRequest exerciseRequest = new ExerciseRequest(1L, 5F, 5, 1);
 
         when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
 

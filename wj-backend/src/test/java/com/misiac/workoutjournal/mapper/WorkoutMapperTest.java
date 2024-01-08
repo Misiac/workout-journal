@@ -40,9 +40,9 @@ class WorkoutMapperTest {
         Exercise exercise = new Exercise("Lat Raise");
         WorkoutRequest workoutRequest = new WorkoutRequest(date,
                 List.of(
-                        new ExerciseRequest(1, 10L, 20, 1),
-                        new ExerciseRequest(1, 9L, 19, 2),
-                        new ExerciseRequest(1, 8L, 18, 3)));
+                        new ExerciseRequest(1L, 10F, 20, 1),
+                        new ExerciseRequest(1L, 9F, 19, 2),
+                        new ExerciseRequest(1L, 8F, 18, 3)));
 
         when(userRepository.findUserByEmail("test@email.com")).thenReturn(new User());
         when(exerciseRepository.findById(any())).thenReturn(Optional.of(exercise));

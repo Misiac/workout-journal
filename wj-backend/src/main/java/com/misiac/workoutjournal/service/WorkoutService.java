@@ -78,7 +78,7 @@ public class WorkoutService {
         if (workoutExercise.getParentWorkout().getUser() != user) {
             throw new UnauthorizedException(WE_DOES_NOT_BELONG);
         }
-        if (exerciseRequest.getExerciseId() != workoutExercise.getExerciseType().getId()) {
+        if (!exerciseRequest.getExerciseId().equals(workoutExercise.getExerciseType().getId())) {
 
             Exercise newExercise = exerciseRepository.findById(exerciseRequest.getExerciseId())
                     .orElseThrow(() -> new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST));

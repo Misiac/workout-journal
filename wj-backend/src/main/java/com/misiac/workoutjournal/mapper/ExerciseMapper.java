@@ -48,7 +48,7 @@ public class ExerciseMapper {
                     .orElseThrow();
 
             muscleGroup.setCategory(muscleGroupCategory);
-            muscleGroup.setIsPrimary((byte) (muscleGroupRequest.isPrimary() ? 1 : 0));
+            muscleGroup.setIsPrimary((byte) (muscleGroupRequest.getIsPrimary() ? 1 : 0));
             muscleGroup.setExercise(exercise);
             muscleGroups.add(muscleGroup);
         }

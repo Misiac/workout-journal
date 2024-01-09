@@ -3,6 +3,7 @@ package com.misiac.workoutjournal.handler;
 import com.misiac.workoutjournal.exception.EntityAlreadyExistsException;
 import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
 import com.misiac.workoutjournal.exception.UnauthorizedException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -31,6 +32,13 @@ public class ExceptionsHandler {
     public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException e) {
         StringBuilder sb = new StringBuilder();
         e.getBindingResult().getAllErrors().forEach(err -> sb.append(err.getDefaultMessage()).append("\n"));
+        return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> constraintViolationException(ConstraintViolationException e) {
+        StringBuilder sb = new StringBuilder();
+        e.getConstraintViolations().forEach(err -> sb.append(err.getMessage()).append("\n"));
         return new ResponseEntity<>(sb.toString(), HttpStatus.BAD_REQUEST);
     }
 }

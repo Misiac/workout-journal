@@ -5,13 +5,16 @@ import com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest;
 import com.misiac.workoutjournal.service.AdminService;
 import com.misiac.workoutjournal.util.AdminValidator;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
+@Validated
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
@@ -26,7 +29,10 @@ public class AdminController {
     }
 
     @PostMapping("/muscle-category")
-    public ResponseEntity<String> addMuscleGroupCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) {
+    public ResponseEntity<String> addMuscleGroupCategory(@RequestHeader(value = "Authorization") String token,
+                                                         @RequestParam @NotBlank(message=REQUEST_NAME_BLANK) String name)
+
+    {
         if (adminValidator.validateAdmin(token)) {
             adminService.addMuscleGroupCategory(name);
             return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
@@ -36,7 +42,8 @@ public class AdminController {
     }
 
     @PostMapping("/equipment-category")
-    public ResponseEntity<String> addEquipmentCategory(@RequestHeader(value = "Authorization") String token, @RequestParam String name) {
+    public ResponseEntity<String> addEquipmentCategory(@RequestHeader(value = "Authorization") String token,
+                                                       @RequestParam @NotBlank(message = REQUEST_NAME_BLANK) String name) {
         if (adminValidator.validateAdmin(token)) {
             adminService.addEquipmentCategory(name);
             return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
@@ -59,7 +66,7 @@ public class AdminController {
     @PatchMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
     public ResponseEntity<String> bindEquipmentCategory
             (@RequestHeader(value = "Authorization") String token, @PathVariable Long exerciseId,
-             @PathVariable String categoryName) {
+             @PathVariable  String categoryName) {
         if (adminValidator.validateAdmin(token)) {
             adminService.bindEquipmentCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);

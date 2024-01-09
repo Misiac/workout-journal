@@ -29,7 +29,7 @@ public final class MessageProvider {
     public static final String WORKOUT_DOES_NOT_BELONG = "This workout does not belong to this user";
 
     //DTOs
-    public static final String REQUEST_NAME_BLANK = "Request's name can't be blank";
+    public static final String REQUEST_NAME_BLANK = "Name can't be blank";
     public static final String EXERCISE_ID_NULL = "Exercise ID can't be null";
     public static final String EXERCISE_ID_NEGATIVE = "Exercise ID has to be positive number";
     public static final String LOAD_NEGATIVE = "Load can't be negative";

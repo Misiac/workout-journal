@@ -4,6 +4,7 @@ import com.misiac.workoutjournal.exception.UnauthorizedException;
 import com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest;
 import com.misiac.workoutjournal.service.AdminService;
 import com.misiac.workoutjournal.util.AdminValidator;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,7 @@ public class AdminController {
 
     @PostMapping("/exercise")
     public ResponseEntity<String> addExercise(@RequestHeader(value = "Authorization") String token,
-                                              @RequestBody AdminCreateExerciseRequest adminExerciseRequest) {
+                                              @Valid @RequestBody AdminCreateExerciseRequest adminExerciseRequest) {
         if (adminValidator.validateAdmin(token)) {
             adminService.addExercise(adminExerciseRequest);
             return new ResponseEntity<>(EXERCISE_CREATED, HttpStatus.CREATED);

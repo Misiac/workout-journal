@@ -34,7 +34,7 @@ public class ExerciseMapper {
         List<EquipmentCategory> equipmentCategories = new LinkedList<>();
         Set<MuscleGroup> muscleGroups = new LinkedHashSet<>();
 
-        for (String equipmentCategoryName : adminExerciseRequest.equipmentCategories) {
+        for (String equipmentCategoryName : adminExerciseRequest.getEquipmentCategories()) {
             var equipmentCategory = equipmentCategoryRepository.findEquipmentCategoryByName(equipmentCategoryName);
             equipmentCategories.add(equipmentCategory.orElseThrow());
         }

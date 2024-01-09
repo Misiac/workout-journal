@@ -60,7 +60,7 @@ public class AdminService {
             throw new EntityAlreadyExistsException(EXERCISE_ALREADY_EXISTS);
         });
 
-        for (String name : adminExerciseRequest.equipmentCategories) {
+        for (String name : adminExerciseRequest.getEquipmentCategories()) {
             if (equipmentCategoryRepository.findEquipmentCategoryByName(name).isEmpty()) {
                 EquipmentCategory equipmentCategory = new EquipmentCategory(name);
                 equipmentCategoryRepository.save(equipmentCategory);

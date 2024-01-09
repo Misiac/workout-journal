@@ -12,9 +12,9 @@ import java.util.List;
 public class AdminCreateExerciseRequest {
 
     @NotBlank(message = MessageProvider.REQUEST_NAME_BLANK)
-    public String name;
-    public List<String> equipmentCategories;
-    public List<MuscleGroupRequest> muscleGroups;
+    private String name;
+    private List<String> equipmentCategories;
+    private List<MuscleGroupRequest> muscleGroups;
 
 
     @Getter

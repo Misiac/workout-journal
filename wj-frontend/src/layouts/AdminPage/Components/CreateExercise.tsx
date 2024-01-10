@@ -2,11 +2,16 @@ import React, {useState} from "react";
 import {AdminCreateExerciseRequest, MuscleGroupRequest} from "../../../models/AdminCreateExerciseModel";
 import {useOktaAuth} from "@okta/okta-react";
 
-export const CreateExercise = () => {
+export const CreateExercise: React.FC<{
+    reloadTrigger: boolean
+    setReloadTrigger: any
+}> = (props) => {
 
     const {authState} = useOktaAuth();
 
-    const [responseInfo, setResponseInfo] = useState()
+    const [displayInfo, setDisplayInfo] = useState(false)
+    const [responseInfo, setResponseInfo] = useState('')
+    const [wasRequestSuccessful, setWasRequestSuccessful] = useState(false)
 
     const [name, setName] = useState('')
 
@@ -45,10 +50,25 @@ export const CreateExercise = () => {
 
         const response = await fetch(url, requestOptions)
         const responseText = await response.text();
-        console.log(responseText)
         if (!response.ok) {
-            throw new Error('Something went wrong!');
+            setWasRequestSuccessful(false)
+        } else {
+            setWasRequestSuccessful(true);
+
+            props.setReloadTrigger(!props.reloadTrigger);
+
+            setName('');
+            setEqCat1('');
+            setEqCat2('');
+            setMuscleCat1('');
+            setMuscleCat2('');
+            setIsPrimary1(false);
+            setIsPrimary2(false);
+
         }
+
+        setResponseInfo(responseText);
+        setDisplayInfo(true);
 
     }
 
@@ -57,15 +77,10 @@ export const CreateExercise = () => {
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create new exercise</h1>
 
             <form className="w-full max-w-lg py-5">
-                {responseInfo &&
-                    <div className='alert alert-success' role='alert'>
-                        added successfully
-                    </div>
-                }
 
                 <div className="flex flex-wrap -mx-3 mb-4">
                     <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-                        <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                        <label className="block uppercase tracking-wide text-gray-700 text-m font-bold mb-2"
                                htmlFor="grid-first-name">
                             Name
                         </label>
@@ -134,9 +149,24 @@ export const CreateExercise = () => {
                                htmlFor="additional-category-checkbox">Primary?</label>
                     </div>
                 </div>
+                {displayInfo && wasRequestSuccessful &&
+                    <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                         role="alert">
+                        <span className="block sm:inline">{responseInfo}</span>
 
+                    </div>
+
+                }
+                {displayInfo && !wasRequestSuccessful &&
+                    <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                         role="alert">
+                        <span className="block sm:inline">{responseInfo}</span>
+
+                    </div>
+
+                }
                 <div className="flex flex-wrap -mx-3">
-                    <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                    <div className="w-full md:w-1/2 px-3 py-3 mb-6 md:mb-0">
                         {/* Create Button */}
                         <button
                             className="bg-regal-blue text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue hover:bg-blue-700"

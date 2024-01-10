@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
+import img2 from "../../../resources/2.png"
 
 export const CreateNewCategory = () => {
 
@@ -52,6 +53,9 @@ export const CreateNewCategory = () => {
 
     return (
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex justify-end">
+            <div className="mr-auto">
+                <img src={img2} alt="Exercise" className="w-250 h-256 object-cover"/>
+            </div>
             <div className="ml-auto">
                 <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create new category</h1>
 
@@ -120,6 +124,7 @@ export const CreateNewCategory = () => {
                     </div>
                 </form>
             </div>
+
         </div>
     )
 

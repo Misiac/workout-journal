@@ -3,7 +3,6 @@ import {Route, useHistory} from "react-router";
 import {oktaConfig} from "./lib/oktaConfig";
 import {OktaAuth, toRelativeUrl} from "@okta/okta-auth-js";
 import {LoginCallback, SecureRoute, Security} from "@okta/okta-react";
-import LoginWidget from "./Auth/LoginWidget";
 import React from "react";
 import {Redirect} from "react-router-dom";
 import HomePage from "./layouts/HomePage";

@@ -52,12 +52,12 @@ export const CreateNewCategory = () => {
     }
 
     return (
-        <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center justify-center">
             <div className="mr-auto">
                 <img src={img2} alt="Exercise" className="w-250 h-256 object-cover"/>
             </div>
             <div className="ml-auto ">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create new category</h1>
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900 ">Create new category</h1>
 
                 <form className="w-full max-w-lg py-5">
                     <div className="flex flex-wrap -mx-3">
@@ -67,7 +67,7 @@ export const CreateNewCategory = () => {
                                 Name
                             </label>
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-first-name" type="text" placeholder="Category"
                                 onChange={e => setName(e.target.value)} value={name}/>
 
@@ -98,14 +98,14 @@ export const CreateNewCategory = () => {
                     </div>
 
                     {displayInfo && wasRequestSuccessful &&
-                        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                        <div className="bg-green-100 border border-gray-200 text-green-700 px-4 py-3 rounded relative"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
                         </div>
-                    }
 
+                    }
                     {displayInfo && !wasRequestSuccessful &&
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                        <div className="bg-red-100 border border-gray-200 text-red-700 px-4 py-3 rounded relative"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
                         </div>

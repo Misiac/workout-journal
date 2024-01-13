@@ -17,7 +17,7 @@ const LoginWidget = ({config}) => {
     }
 
     return authState.isAuthenticated ?
-        <Redirect to={{pathname: '/home'}}/>
+        <Redirect to={{pathname: '/workouts'}}/>
         :
 
         <OktaSignInWidget config={config} onSuccess={onSuccess} onError={onError}>

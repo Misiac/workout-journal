@@ -4,7 +4,7 @@ import WaveFooter from "./WaveFooter";
 import React from "react";
 import logo from "../resources/logo.png"
 
-export const WelcomePage = () => {
+export const LoginPage = () => {
     return (
        <>
   <div className='flex items-center justify-center h-screen'>
@@ -21,4 +21,4 @@ export const WelcomePage = () => {
     );
 }
 
-export default WelcomePage;
+export default LoginPage;

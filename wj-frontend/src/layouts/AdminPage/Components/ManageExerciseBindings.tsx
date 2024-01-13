@@ -119,7 +119,7 @@ export const ManageExerciseBindings: React.FC<{
                         />
                         <div
                             className={`box block h-8 w-14 rounded-full ${
-                                isChecked ? 'bg-regal-blue' : 'bg-dark'
+                                isChecked ? 'bg-regal-blue' : 'bg-black'
                             }`}
                         ></div>
                         <div
@@ -181,7 +181,7 @@ export const ManageExerciseBindings: React.FC<{
                                 Category name
                             </label>
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-first-name" type="text" placeholder="Category"
                                 onChange={e => setName(e.target.value)} value={name}/>
                             {currentCategoryOption == 'Musclegroup' && currentBindOption == 'Bind' &&
@@ -202,14 +202,14 @@ export const ManageExerciseBindings: React.FC<{
                     </div>
 
                     {displayInfo && wasRequestSuccessful &&
-                        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                        <div className="bg-green-100 border border-gray-200 text-green-700 px-4 py-3 rounded relative"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
                         </div>
-                    }
 
+                    }
                     {displayInfo && !wasRequestSuccessful &&
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                        <div className="bg-red-100 border border-gray-200 text-red-700 px-4 py-3 rounded relative"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
                         </div>

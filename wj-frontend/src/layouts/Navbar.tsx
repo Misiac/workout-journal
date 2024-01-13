@@ -15,7 +15,7 @@ export const Navbar = () => {
 
                                 <div className="hidden md:block">
                                     <div className="ml-10 flex items-baseline space-x-4">
-                                        <NavLink to='/home'
+                                        <NavLink to='/workouts'
                                            className="text-white rounded-md px-3 py-2 text-md font-medium "
                                            aria-current="page">Workout</NavLink>
                                         <a className="text-gray-400 hover:text-gray-400  rounded-md px-3 py-2 text-sm font-medium">Diet</a>

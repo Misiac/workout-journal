@@ -88,7 +88,7 @@ export const CreateExercise: React.FC<{
                                 Name
                             </label>
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-first-name" type="text" placeholder="Lat Raise"
                                 onChange={e => setName(e.target.value)} value={name}/>
                         </div>
@@ -101,7 +101,7 @@ export const CreateExercise: React.FC<{
                                 Equipment categories
                             </label>
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white "
                                 id="grid-city" type="text" placeholder="1" onChange={e => setEqCat1(e.target.value)}
                                 value={eqCat1}/>
                         </div>
@@ -112,33 +112,33 @@ export const CreateExercise: React.FC<{
                                 Muscle group categories
                             </label>
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white "
                                 id="grid-city" type="text" placeholder="1" onChange={e => setMuscleCat1(e.target.value)}
                                 value={muscleCat1}/>
 
                             {/* Checkbox for Muscle group categories */}
                             <input
                                 className="mt-2 ml-2"
-                                id="muscle-group-checkbox"
+                                id="muscle-group-checkbox-exercise"
                                 type="checkbox"
                                 onChange={e => handleIsPrimary1Change()}
                             />
                             <label className="text-gray-700 text-xs ml-1"
-                                   htmlFor="muscle-group-checkbox">Primary?</label>
+                                   htmlFor="muscle-group-checkbox-exercise">Primary?</label>
                         </div>
                     </div>
 
                     <div className="flex flex-wrap -mx-3 mb-6">
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-city" type="text" placeholder="2" onChange={e => setEqCat2(e.target.value)}
                                 value={eqCat2}/>
                         </div>
 
                         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 relative">
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-city" type="text" placeholder="2" onChange={e => setMuscleCat2(e.target.value)}
                                 value={muscleCat2}/>
 
@@ -154,20 +154,17 @@ export const CreateExercise: React.FC<{
                         </div>
                     </div>
                     {displayInfo && wasRequestSuccessful &&
-                        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative"
+                        <div className="bg-green-100 border border-gray-200 text-green-700 px-4 py-3 rounded relative"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
-
                         </div>
 
                     }
                     {displayInfo && !wasRequestSuccessful &&
-                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+                        <div className="bg-red-100 border border-gray-200 text-red-700 px-4 py-3 rounded relative"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
-
                         </div>
-
                     }
                     <div className="flex flex-wrap -mx-3">
                         <div className="w-full md:w-1/2 px-3 py-3 mb-6 md:mb-0">

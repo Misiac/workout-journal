@@ -1,4 +1,3 @@
-import Navbar from "../Navbar";
 import React, {useState} from "react";
 import CreateExercise from "./Components/CreateExercise";
 import CreateNewCategory from "./Components/CreateNewCategory";
@@ -13,7 +12,6 @@ export const AdminPage = () => {
     if (authState?.accessToken?.claims.userType !== 'admin') {
         return (
             <>
-                <Navbar/>
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <h1 className="text-3xl font-bold tracking-tight text-gray-900">You are not authorized to view this
                         page</h1>
@@ -23,8 +21,6 @@ export const AdminPage = () => {
     }
     return (
         <>
-            <Navbar/>
-
             <header className="bg-white shadow">
                 <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
                     <CreateExercise setReloadTrigger={setReloadTrigger} reloadTrigger={reloadTrigger}/>
@@ -36,10 +32,7 @@ export const AdminPage = () => {
                 </div>
             </header>
             <main>
-
             </main>
-
-
         </>
     );
 }

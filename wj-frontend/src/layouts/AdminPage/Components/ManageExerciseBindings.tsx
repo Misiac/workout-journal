@@ -75,13 +75,11 @@ export const ManageExerciseBindings: React.FC<{
             url = url.concat('/muscle-categories')
         }
 
-        url = url.concat(`/${name}`)
+        url = url.concat('/', encodeURIComponent(name), '');
 
         if (currentCategoryOption == 'Musclegroup' && currentBindOption == 'Bind') {
             url = url.concat(`?isPrimary=${isChecked}`);
         }
-
-        console.log(url)
 
         const requestOptions = {
             method: currentBindOption == 'Bind' ? 'PATCH' : 'DELETE',
@@ -161,8 +159,9 @@ export const ManageExerciseBindings: React.FC<{
                     <select id="exercises"
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                             value={selectedExercise}
-                            onChange={(e) => setSelectedExercise(e.target.value)}>
-                        <option value="" disabled selected>
+                            onChange={(e) => setSelectedExercise(e.target.value)}
+                            defaultValue={1}>
+                        <option value="" disabled>
                             Choose an exercise
                         </option>
                         {exerciseOptions.map((exercise) => (

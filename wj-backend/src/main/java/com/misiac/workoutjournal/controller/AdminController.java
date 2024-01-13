@@ -30,9 +30,7 @@ public class AdminController {
 
     @PostMapping("/muscle-category")
     public ResponseEntity<String> addMuscleGroupCategory(@RequestHeader(value = "Authorization") String token,
-                                                         @RequestParam @NotBlank(message=REQUEST_NAME_BLANK) String name)
-
-    {
+                                                         @RequestParam @NotBlank(message = REQUEST_NAME_BLANK) String name) {
         if (adminValidator.validateAdmin(token)) {
             adminService.addMuscleGroupCategory(name);
             return new ResponseEntity<>(CATEGORY_CREATED, HttpStatus.CREATED);
@@ -64,9 +62,9 @@ public class AdminController {
     }
 
     @PatchMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
-    public ResponseEntity<String> bindEquipmentCategory
-            (@RequestHeader(value = "Authorization") String token, @PathVariable Long exerciseId,
-             @PathVariable  String categoryName) {
+    public ResponseEntity<String> bindEquipmentCategory(@RequestHeader(value = "Authorization") String token,
+                                                        @PathVariable Long exerciseId,
+                                                        @PathVariable @NotBlank(message = REQUEST_NAME_BLANK) String categoryName) {
         if (adminValidator.validateAdmin(token)) {
             adminService.bindEquipmentCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_BOUND, HttpStatus.OK);
@@ -77,7 +75,8 @@ public class AdminController {
 
     @DeleteMapping("/exercise/{exerciseId}/equipment-categories/{categoryName}")
     public ResponseEntity<String> unbindEquipmentCategory(@RequestHeader(value = "Authorization") String token,
-                                                          @PathVariable Long exerciseId, @PathVariable String categoryName) {
+                                                          @PathVariable Long exerciseId,
+                                                          @PathVariable @NotBlank(message = REQUEST_NAME_BLANK) String categoryName) {
         if (adminValidator.validateAdmin(token)) {
             adminService.unbindEquipmentCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
@@ -88,7 +87,8 @@ public class AdminController {
 
     @PatchMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
     public ResponseEntity<String> bindMuscleCategory(@RequestHeader(value = "Authorization") String token,
-                                                     @PathVariable Long exerciseId, @PathVariable String categoryName,
+                                                     @PathVariable Long exerciseId,
+                                                     @PathVariable @NotBlank(message = REQUEST_NAME_BLANK) String categoryName,
                                                      @RequestParam boolean isPrimary) {
         if (adminValidator.validateAdmin(token)) {
             adminService.bindMuscleCategory(exerciseId, categoryName, isPrimary);
@@ -101,7 +101,7 @@ public class AdminController {
     @DeleteMapping("/exercise/{exerciseId}/muscle-categories/{categoryName}")
     public ResponseEntity<String> unbindMuscleCategory(@RequestHeader(value = "Authorization") String token,
                                                        @PathVariable Long exerciseId,
-                                                       @PathVariable String categoryName) {
+                                                       @PathVariable @NotBlank(message = REQUEST_NAME_BLANK) String categoryName) {
         if (adminValidator.validateAdmin(token)) {
             adminService.unbindMuscleCategory(exerciseId, categoryName);
             return new ResponseEntity<>(CATEGORY_UNBOUND, HttpStatus.OK);
@@ -109,6 +109,4 @@ public class AdminController {
             throw new UnauthorizedException(ADMIN_REQUIRED);
         }
     }
-
-
 }

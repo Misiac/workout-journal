@@ -15,3 +15,11 @@
     background-color: #288dff;
     margin-top: -50px;
 }
+
+.scroll-container {
+    width: 20%;
+}
+
+.card {
+    flex: 0 0 auto;
+}

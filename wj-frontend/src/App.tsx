@@ -6,9 +6,9 @@ import {SecureRoute, Security} from "@okta/okta-react";
 import React from "react";
 import {Redirect} from "react-router-dom";
 import WorkoutsPage from "./layouts/WorkoutsPage/WorkoutsPage";
-import LoginPage from "./layouts/LoginPage";
 import AdminPage from "./layouts/AdminPage/AdminPage";
-import Navbar from "./layouts/Navbar";
+import Navbar from "./layouts/Navigation/Navbar";
+import LoginPage from "./layouts/LoginPage";
 
 
 const oktaAuth = new OktaAuth(oktaConfig);

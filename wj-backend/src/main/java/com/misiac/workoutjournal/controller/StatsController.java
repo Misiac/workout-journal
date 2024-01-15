@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.controller;
 
+import com.misiac.workoutjournal.responsemodels.RadarDataDTO;
 import com.misiac.workoutjournal.service.StatsService;
 import com.misiac.workoutjournal.util.JWTExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +48,9 @@ public class StatsController {
         return statsService.getTotalVolume(email);
     }
 
-
+    @GetMapping("/radar")
+    public RadarDataDTO getRadarData(@RequestHeader(value = "Authorization") String token) {
+        String email = jwtExtractor.extractTokenParameter(token, ExtractionType.EMAIL);
+        return statsService.getRadarData(email);
+    }
 }

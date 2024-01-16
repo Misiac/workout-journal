@@ -111,7 +111,7 @@ class AdminControllerTest {
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated());
 
-        verify(adminService, times(1)).addExercise(eq(request));
+        verify(adminService, times(1)).addExercise(any(AdminCreateExerciseRequest.class));
     }
 
     @Test

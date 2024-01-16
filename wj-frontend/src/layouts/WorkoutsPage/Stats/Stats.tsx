@@ -1,21 +1,65 @@
-import TotalVolumeCard from "./Components/TotalVolumeCard";
-import TotalRepsCard from "./Components/TotalRepsCard";
-import TotalSetsCard from "./Components/TotalSetsCard";
-import TotalWorkoutsCard from "./Components/TotalWorkoutsCard";
 import MuscleRadar from "./Components/MuscleRadar";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {useOktaAuth} from "@okta/okta-react";
+import StatCard from "./Components/StatCard";
 
 
 export const Stats = () => {
+    const {authState} = useOktaAuth();
 
+    const [reps, setReps] = useState('')
+    const [sets, setSets] = useState('')
+    const [volume, setVolume] = useState('')
+    const [workouts, setWorkouts] = useState('')
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const url = 'http://localhost:8080/api/stats/total';
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            try {
+                const response = await fetch(url, requestOptions);
+
+                if (!response.ok) {
+                    throw new Error('Something went wrong!');
+                }
+
+                const data = await response.json();
+                setReps(data.reps)
+                setSets(data.sets)
+                setWorkouts(data.workouts)
+                setVolume(data.volume)
+
+            } catch (error) {
+                console.error('Error fetching exercise data', error);
+            }
+        };
+
+        fetchData();
+    }, [authState]);
     return (
         <>
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
             <div className="grid grid-cols-4 grid-rows-2 gap-6 py-6">
-                <div className=""><TotalRepsCard/></div>
-                <div className="col-start-1 row-start-2"><TotalSetsCard/></div>
-                <div className="col-start-2 row-start-1"><TotalVolumeCard/></div>
-                <div className="col-start-2 row-start-2"><TotalWorkoutsCard/></div>
+                <div className="">
+                    <StatCard heading={reps} caption={'Total Reps'} gradientDirection={'tl'}/>
+                </div>
+
+                <div className="col-start-1 row-start-2">
+                    <StatCard heading={sets} caption={'Total Sets'} gradientDirection={'bl'}/>
+                </div>
+                <div className="col-start-2 row-start-1">
+                    <StatCard heading={volume + ' Kg'} caption={'Total Volume'} gradientDirection={'tr'}/>
+                </div>
+                <div className="col-start-2 row-start-2">
+                    <StatCard heading={workouts} caption={'Total Workouts'} gradientDirection={'br'}/>
+                </div>
                 <div className="col-span-2 row-span-3 col-start-3 row-start-1 items-center justify-center flex">
                     <MuscleRadar/>
                 </div>

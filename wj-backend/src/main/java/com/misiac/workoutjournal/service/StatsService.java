@@ -3,6 +3,7 @@ package com.misiac.workoutjournal.service;
 import com.misiac.workoutjournal.entity.*;
 import com.misiac.workoutjournal.repository.UserRepository;
 import com.misiac.workoutjournal.responsemodels.RadarDataDTO;
+import com.misiac.workoutjournal.responsemodels.StatsDTO;
 import com.misiac.workoutjournal.util.RadarAllocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +21,7 @@ public class StatsService {
     }
 
 
-    public Long getTotalReps(String email) {
-        User user = userRepository.findUserByEmail(email);
+    public Long getTotalReps(User user) {
 
         return user.getWorkouts().stream()
                 .flatMap(workout -> workout.getWorkoutExercises().stream())
@@ -29,22 +29,19 @@ public class StatsService {
                 .sum();
     }
 
-    public Long getTotalWorkouts(String email) {
-        User user = userRepository.findUserByEmail(email);
+    public Long getTotalWorkouts(User user) {
         return (long) user.getWorkouts().size();
     }
 
-    public Long getTotalSets(String email) {
-        User user = userRepository.findUserByEmail(email);
+    public Long getTotalSets(User user) {
 
         return user.getWorkouts().stream()
                 .mapToLong(workout -> workout.getWorkoutExercises().size())
                 .sum();
     }
 
-    public Double getTotalVolume(String email) {
+    public Double getTotalVolume(User user) {
 
-        User user = userRepository.findUserByEmail(email);
         return user.getWorkouts().stream()
                 .flatMap(workout -> workout.getWorkoutExercises().stream())
                 .mapToDouble(we -> we.getLoad() * we.getReps())
@@ -64,5 +61,17 @@ public class StatsService {
             }
         }
         return radarDataDTO;
+    }
+
+    public StatsDTO getTotalStats(String email) {
+
+        User user = userRepository.findUserByEmail(email);
+
+        return new StatsDTO(
+                getTotalReps(user),
+                getTotalVolume(user),
+                getTotalSets(user),
+                getTotalWorkouts(user)
+        );
     }
 }

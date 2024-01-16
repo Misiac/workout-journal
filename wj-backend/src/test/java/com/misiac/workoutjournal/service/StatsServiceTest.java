@@ -4,11 +4,13 @@ import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
 import com.misiac.workoutjournal.repository.UserRepository;
+import com.misiac.workoutjournal.responsemodels.StatsDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
@@ -99,6 +101,21 @@ class StatsServiceTest {
         Long result = statsService.getTotalReps(user);
 
         assertEquals(0, result);
+    }
+
+    @Test
+    @DisplayName("GetTotalStats normal conditions")
+    void testGetTotalStats() {
+
+        var user = constructUser();
+        Mockito.when(userRepository.findUserByEmail("email")).thenReturn(user);
+
+        StatsDTO statsDTO = statsService.getTotalStats("email");
+
+        assertEquals(6, statsDTO.getReps());
+        assertEquals(1, statsDTO.getWorkouts());
+        assertEquals(2, statsDTO.getSets());
+        assertEquals(33, statsDTO.getVolume(), 0.01);
     }
 
 

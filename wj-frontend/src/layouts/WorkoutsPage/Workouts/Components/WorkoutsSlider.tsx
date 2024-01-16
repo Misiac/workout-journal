@@ -4,7 +4,7 @@ import React from "react";
 export const WorkoutsSlider = () => {
     return (
 
-            <div className="scroll-container overflow-y-auto h-full">
+            <div className="scroll-container overflow-y-auto h-full w-1/5">
                 <div className="flex flex-col gap-4">
                     <SliderCard/>
                     <SliderCard/>

@@ -17,9 +17,9 @@ public class ExerciseController {
     public ExerciseController(ExerciseService exerciseService) {
         this.exerciseService = exerciseService;
     }
+
     @GetMapping("/tiny")
     public List<ExerciseTinyDTO> getAllExercisesTiny() {
         return exerciseService.getAllExercisesTiny();
     }
-
 }

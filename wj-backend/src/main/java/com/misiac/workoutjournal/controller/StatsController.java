@@ -31,7 +31,7 @@ public class StatsController {
         return statsService.getRadarData(email);
     }
 
-    @GetMapping("total")
+    @GetMapping("/total")
     public StatsDTO getStats(@RequestHeader(value = "Authorization") String token) {
         String email = jwtExtractor.extractTokenParameter(token, ExtractionType.EMAIL);
         return statsService.getTotalStats(email);

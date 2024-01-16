@@ -12,7 +12,6 @@ public interface ExerciseRepository extends JpaRepository<Exercise, Long> {
 
     Optional<Exercise> findExerciseByName(String name);
 
-
     @Query("SELECT e " +
             "FROM Exercise e " +
             "JOIN e.equipmentCategories ec " +

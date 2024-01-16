@@ -1,7 +1,10 @@
 package com.misiac.workoutjournal.controller;
 
+import com.misiac.workoutjournal.responsemodels.StatsDTO;
 import com.misiac.workoutjournal.service.StatsService;
 import com.misiac.workoutjournal.util.JWTExtractor;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = StatsController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -24,7 +31,20 @@ class StatsControllerTest {
 
     public static final String TEST_EMAIL = "test@email.com";
     public static final String TEST_TOKEN = "dummyToken";
-    //TODO
 
+    @Test
+    @DisplayName("test GetStats normal conditions")
+    void testGetStats() throws Exception {
+        StatsDTO expectedStatsDTO = new StatsDTO(1L, 2.0, 3L, 4L);
+        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL))
+                .thenReturn(TEST_EMAIL);
 
+        when(statsService.getTotalStats(TEST_EMAIL)).thenReturn(expectedStatsDTO);
+
+        mockMvc.perform(get("/api/stats/total")
+                        .header("Authorization", TEST_TOKEN))
+                .andExpect(status().isOk()).andReturn().getResponse().getContentType();
+
+        verify(statsService, times(1)).getTotalStats(TEST_EMAIL);
+    }
 }

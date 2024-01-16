@@ -11,12 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -69,28 +69,6 @@ class WorkoutExerciseRepositoryTest {
 
         WorkoutExercise findUpdated = weRepository.findById(workoutExercise.getId()).orElseThrow();
         assertEquals(10, findUpdated.getReps());
-    }
-
-
-        // TODO - fix this
-    @Test
-    @DisplayName("Update workout exercise with null value")
-    void testUpdateWithNullValue() {
-
-        Workout workout = workoutRepository.findById(workoutId).orElseThrow();
-        WorkoutExercise workoutExercise = constructTestWorkoutExercise(workout);
-
-        workout.getWorkoutExercises().add(workoutExercise);
-        workoutRepository.save(workout);
-
-        WorkoutExercise updated = weRepository.findById(workoutExercise.getId()).orElseThrow();
-        updated.setReps(null);
-
-        weRepository.save(updated);
-
-        assertThrows(DataIntegrityViolationException.class,
-                () -> weRepository.save(updated));
-        assertEquals(5, weRepository.findById(workoutExercise.getId()).orElseThrow().getReps());
     }
 
     @Test

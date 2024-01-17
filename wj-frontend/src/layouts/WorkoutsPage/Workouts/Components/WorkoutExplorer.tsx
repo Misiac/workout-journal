@@ -1,24 +1,18 @@
-import test from "../../../../resources/test.png"
 import Exercise from "./Exercise";
 
 export const WorkoutExplorer = () => {
     return (
         <>
             <div className="w-full overflow-y-auto">
-                <div className="flex flex-wrap w-full px-4  gap-y-4 items-start justify-items-start ">
-                    <Exercise/>
-                    <Exercise/>
-                    <Exercise/>
-                    <Exercise/>
-                    <Exercise/>
-                    <Exercise/>
-                    <Exercise/>
-                    <Exercise/>
-                    <Exercise/>
-                     <Exercise/>
-                     <Exercise/>
-                     <Exercise/>
-                     <Exercise/>
+                <div className="grid grid-cols-2 px-4 gap-y-4 ">
+                    <Exercise test={'1'}/>
+                    <Exercise test={'3'}/>
+                    <Exercise test={'4'}/>
+                    <Exercise test={'5'}/>
+                    <Exercise test={'6'}/>
+                    <Exercise test={'7'}/>
+                    <Exercise test={'8'}/>
+                    <Exercise test={'9'}/>
                 </div>
             </div>
         </>

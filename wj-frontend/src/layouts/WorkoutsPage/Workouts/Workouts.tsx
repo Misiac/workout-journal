@@ -8,8 +8,8 @@ export const Workouts = () => {
             <h1 className="text-3xl font-bold tracking-tight text-gray-900 py-6">Workouts</h1>
             <div className="flex flex-row mx-auto h-[60vh]">
 
-                    <WorkoutsSlider/>
-                    <WorkoutExplorer/>
+                <WorkoutsSlider/>
+                <WorkoutExplorer/>
             </div>
         </>
     );

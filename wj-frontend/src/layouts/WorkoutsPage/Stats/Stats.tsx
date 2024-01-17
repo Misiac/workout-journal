@@ -48,17 +48,17 @@ export const Stats = () => {
             <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
             <div className="grid grid-cols-4 grid-rows-2 gap-6 py-6">
                 <div className="">
-                    <StatCard heading={reps} caption={'Total Reps'} gradientDirection={'tl'}/>
+                    <StatCard heading={reps} caption={'Total Reps'} gradientMode={'bg-gradient-to-tl'}/>
                 </div>
 
                 <div className="col-start-1 row-start-2">
-                    <StatCard heading={sets} caption={'Total Sets'} gradientDirection={'bl'}/>
+                    <StatCard heading={sets} caption={'Total Sets'} gradientMode={'bg-gradient-to-bl'}/>
                 </div>
                 <div className="col-start-2 row-start-1">
-                    <StatCard heading={volume + ' Kg'} caption={'Total Volume'} gradientDirection={'tr'}/>
+                    <StatCard heading={volume + ' Kg'} caption={'Total Volume'} gradientMode={'bg-gradient-to-tr'}/>
                 </div>
                 <div className="col-start-2 row-start-2">
-                    <StatCard heading={workouts} caption={'Total Workouts'} gradientDirection={'br'}/>
+                    <StatCard heading={workouts} caption={'Total Workouts'} gradientMode={'bg-gradient-to-br'}/>
                 </div>
                 <div className="col-span-2 row-span-3 col-start-3 row-start-1 items-center justify-center flex">
                     <MuscleRadar/>

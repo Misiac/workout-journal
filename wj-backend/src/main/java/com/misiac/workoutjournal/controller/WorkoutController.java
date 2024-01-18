@@ -38,6 +38,7 @@ public class WorkoutController {
         return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
     }
 
+    // chyba do wywalenia
     @GetMapping()
     public Page<Workout> getWorkoutsForUser(@RequestHeader(value = "Authorization") String token, Pageable pageable) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
@@ -71,6 +72,11 @@ public class WorkoutController {
     public List<WorkoutTiny> getWorkoutsTiny(@RequestHeader(value = "Authorization") String token) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         return workoutService.getExercisesTiny(email);
+    }
 
+    @GetMapping("/{id}")
+    public Workout getSpecificWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long id) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+        return workoutService.getSpecificWorkout(email, id);
     }
 }

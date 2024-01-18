@@ -58,7 +58,19 @@ public class WorkoutService {
     }
 
     public List<WorkoutRepository.WorkoutTiny> getExercisesTiny(String email) {
-        return workoutRepository.findByUserEmail(email);
+        return workoutRepository.findByUserEmailOrderByDateDesc(email);
+    }
+
+    public Workout getSpecificWorkout(String email, Long id) {
+
+        Workout workout = workoutRepository.findById(id).orElseThrow(
+                () -> new EntityDoesNotExistException(WORKOUT_DOES_NOT_EXIST));
+
+        User user = userRepository.findUserByEmail(email);
+        if (!user.getWorkouts().contains(workout)) {
+            throw new UnauthorizedException(WORKOUT_DOES_NOT_BELONG);
+        }
+        return workout;
     }
 
     public void deleteWorkout(String email, Long workoutId) {
@@ -147,4 +159,6 @@ public class WorkoutService {
         }
         return exercisesSeries;
     }
+
+
 }

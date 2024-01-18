@@ -14,7 +14,8 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
     Page<Workout> findWorkoutsByUserEmailOrderByDateDesc(String userEmail, Pageable pageable);
 
-    List<WorkoutTiny> findByUserEmail(String userEmail);
+    List<WorkoutTiny> findByUserEmailOrderByDateDesc(String userEmail);
+
 
     interface WorkoutTiny {
         Long getId();

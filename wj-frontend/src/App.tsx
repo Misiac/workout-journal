@@ -1,28 +1,28 @@
 import "./App.css";
-import {Route, useHistory, useLocation} from "react-router";
+import {Route, useLocation, Navigate, useNavigate, Routes} from "react-router";
 import {oktaConfig} from "./lib/oktaConfig";
 import {OktaAuth, toRelativeUrl} from "@okta/okta-auth-js";
-import {SecureRoute, Security} from "@okta/okta-react";
+import {Security} from "@okta/okta-react";
 import React from "react";
-import {Redirect} from "react-router-dom";
-import WorkoutsPage from "./layouts/WorkoutsPage/WorkoutsPage";
-import AdminPage from "./layouts/AdminPage/AdminPage";
+
 import Navbar from "./layouts/Navigation/Navbar";
 import LoginPage from "./layouts/LoginPage";
+import WorkoutsPage from "./layouts/WorkoutsPage/WorkoutsPage";
+import AdminPage from "./layouts/AdminPage/AdminPage";
 
 
 const oktaAuth = new OktaAuth(oktaConfig);
 
 
 export const App = () => {
-    const history = useHistory();
+    let navigate = useNavigate();
     const location = useLocation();
     const isLoginPage = location.pathname === '/login';
     const customAuthHandler = () => {
-        history.push("/login");
+        navigate("/login");
     };
     const restoreOriginalUri = async (_oktaAuth: any, originalUri: any) => {
-        history.replace(
+        navigate(
             toRelativeUrl(originalUri || "/", window.location.origin)
         );
     };
@@ -33,24 +33,17 @@ export const App = () => {
                 oktaAuth={oktaAuth}
                 restoreOriginalUri={restoreOriginalUri}
                 onAuthRequired={customAuthHandler}>
-
                 {!isLoginPage && <Navbar/>}
+                <Routes>
 
-                <Route path="/" exact>
-                    <Redirect to="/login"/>
-                </Route>
+                    <Route path="/" element={<Navigate to="/login"/>}/>
 
-                <Route path="/login">
-                    <LoginPage/>
-                </Route>
+                    <Route path="/login" element={<LoginPage/>}/>
 
-                <SecureRoute path="/workouts">
-                    <WorkoutsPage/>
-                </SecureRoute>
+                    <Route path="/workouts" element={<WorkoutsPage/>}/>
 
-                <SecureRoute path='/admin'>
-                    <AdminPage/>
-                </SecureRoute>
+                    <Route path="/admin" element={<AdminPage/>}/>
+                </Routes>
             </Security>
         </div>
     );

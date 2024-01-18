@@ -25,7 +25,7 @@ export const CreateNewCategory = () => {
         let url = 'http://localhost:8080/api/admin'
         if (selectedOption === 'Equipment') {
             url = url.concat('/equipment-category')
-        } else if (selectedOption == 'Musclegroup') {
+        } else if (selectedOption === 'Musclegroup') {
             url = url.concat('/muscle-category')
         }
         url = url.concat(`?name=${name}`)

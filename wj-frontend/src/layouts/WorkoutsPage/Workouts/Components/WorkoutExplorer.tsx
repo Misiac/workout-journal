@@ -15,16 +15,15 @@ export const WorkoutExplorer: React.FC<{
     const parseExercises = (response: any) => {
 
         let exercises: WorkoutExercise[] = [];
-        let sets: WorkoutExerciseSet[] = [];
 
         let counter = 1;
         let previousExerciseId: number;
         let exercise: WorkoutExercise;
 
         response.forEach((we: any) => {
-            if (previousExerciseId != we.exerciseType.id) {
+            if (previousExerciseId !== we.exerciseType.id) {
 
-                if (counter != 1) {
+                if (counter !== 1) {
                     exercises.push(exercise);
                 }
 
@@ -69,7 +68,7 @@ export const WorkoutExplorer: React.FC<{
                 console.error('Error fetching exercise data', error);
             }
         };
-        if (props.selected != 0) {
+        if (props.selected !== 0) {
             fetchData();
         }
     }, [authState, props.selected]);

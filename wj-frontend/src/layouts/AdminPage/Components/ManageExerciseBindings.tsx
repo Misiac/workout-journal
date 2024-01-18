@@ -69,15 +69,15 @@ export const ManageExerciseBindings: React.FC<{
 
         let url = 'http://localhost:8080/api/admin/exercise';
         url = url.concat(`/${selectedExerciseId}`)
-        if (currentCategoryOption == 'Equipment') {
+        if (currentCategoryOption === 'Equipment') {
             url = url.concat('/equipment-categories')
-        } else if (currentCategoryOption == 'Musclegroup') {
+        } else if (currentCategoryOption === 'Musclegroup') {
             url = url.concat('/muscle-categories')
         }
 
         url = url.concat('/', encodeURIComponent(name), '');
 
-        if (currentCategoryOption == 'Musclegroup' && currentBindOption == 'Bind') {
+        if (currentCategoryOption === 'Musclegroup' && currentBindOption === 'Bind') {
             url = url.concat(`?isPrimary=${isChecked}`);
         }
 

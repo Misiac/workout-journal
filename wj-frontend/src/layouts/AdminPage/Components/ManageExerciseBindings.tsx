@@ -131,6 +131,7 @@ export const ManageExerciseBindings: React.FC<{
                     <span className="px-3 font-bold">BIND</span>
                 </label>
 
+
                 <div className="flex mb-4">
                     <label className="inline-flex items-center">
                         <input

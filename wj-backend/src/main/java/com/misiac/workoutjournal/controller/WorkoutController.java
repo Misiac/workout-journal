@@ -12,6 +12,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.misiac.workoutjournal.repository.WorkoutRepository.WorkoutTiny;
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
 @RestController
@@ -62,5 +65,12 @@ public class WorkoutController {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.deleteExercise(email, workoutExerciseId);
         return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
+    }
+
+    @GetMapping("/tiny")
+    public List<WorkoutTiny> getWorkoutsTiny(@RequestHeader(value = "Authorization") String token) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+        return workoutService.getExercisesTiny(email);
+
     }
 }

@@ -57,6 +57,10 @@ public class WorkoutService {
 
     }
 
+    public List<WorkoutRepository.WorkoutTiny> getExercisesTiny(String email) {
+        return workoutRepository.findByUserEmail(email);
+    }
+
     public void deleteWorkout(String email, Long workoutId) {
 
         Workout deletion = workoutRepository.findById(workoutId).orElseThrow(
@@ -116,7 +120,7 @@ public class WorkoutService {
     // and is surrounded by the exercises of the same type.
     // It mainly serves for deletion => when deleting an exercise you have to change all
     // set numbers down by 1, maintaining order
-     static List<WorkoutExercise> extractExerciseSeries(List<WorkoutExercise> workoutExercises, WorkoutExercise deletionExercise) {
+    static List<WorkoutExercise> extractExerciseSeries(List<WorkoutExercise> workoutExercises, WorkoutExercise deletionExercise) {
 
         int firstIndex = -1;
         List<WorkoutExercise> exercisesSeries = null;

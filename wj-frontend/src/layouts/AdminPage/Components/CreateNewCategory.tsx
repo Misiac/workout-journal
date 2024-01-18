@@ -16,14 +16,14 @@ export const CreateNewCategory = () => {
 
     async function handleCreateButton() {
 
-        if (selectedOption == '') {
+        if (selectedOption === '') {
             setResponseInfo("Select the desired category")
             setDisplayInfo(true);
             return;
         }
 
         let url = 'http://localhost:8080/api/admin'
-        if (selectedOption == 'Equipment') {
+        if (selectedOption === 'Equipment') {
             url = url.concat('/equipment-category')
         } else if (selectedOption == 'Musclegroup') {
             url = url.concat('/muscle-category')

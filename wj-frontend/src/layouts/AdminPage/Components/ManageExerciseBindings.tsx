@@ -61,7 +61,7 @@ export const ManageExerciseBindings: React.FC<{
     async function submitRequest() {
         const selectedExerciseId = exerciseOptions.find(exercise => exercise.name === selectedExercise)?.id;
 
-        if (currentCategoryOption == '' || selectedExercise == '' || name == '' || selectedExerciseId == undefined) {
+        if (currentCategoryOption === '' || selectedExercise === '' || name === '' || selectedExerciseId === undefined) {
             setResponseInfo("Select the desired options")
             setDisplayInfo(true);
             return;
@@ -82,7 +82,7 @@ export const ManageExerciseBindings: React.FC<{
         }
 
         const requestOptions = {
-            method: currentBindOption == 'Bind' ? 'PATCH' : 'DELETE',
+            method: currentBindOption === 'Bind' ? 'PATCH' : 'DELETE',
             headers: {
                 Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                 'Content-Type': 'application/json'
@@ -184,7 +184,7 @@ export const ManageExerciseBindings: React.FC<{
                                 className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                                 id="grid-first-name" type="text" placeholder="Category"
                                 onChange={e => setName(e.target.value)} value={name}/>
-                            {currentCategoryOption == 'Musclegroup' && currentBindOption == 'Bind' &&
+                            {currentCategoryOption === 'Musclegroup' && currentBindOption === 'Bind' &&
                                 <>
 
                                     <input
@@ -222,7 +222,7 @@ export const ManageExerciseBindings: React.FC<{
                                 className="bg-regal-blue text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue hover:bg-blue-700"
                                 type="button" onClick={() => submitRequest()}
                             >
-                                {currentBindOption == '' && 'Create'}
+                                {currentBindOption === '' && 'Create'}
                                 {currentBindOption && currentBindOption}
                             </button>
                         </div>

@@ -28,7 +28,7 @@ export const App = () => {
     };
 
     return (
-        <div className="">
+        <div>
             <Security
                 oktaAuth={oktaAuth}
                 restoreOriginalUri={restoreOriginalUri}

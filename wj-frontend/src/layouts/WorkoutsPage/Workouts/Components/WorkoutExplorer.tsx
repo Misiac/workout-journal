@@ -6,13 +6,13 @@ export const WorkoutExplorer = () => {
             <div className="w-full overflow-y-auto">
                 <div className="grid grid-cols-2 px-4 gap-y-4 ">
                     <Exercise test={'1'}/>
+                    <Exercise test={'2'}/>
                     <Exercise test={'3'}/>
                     <Exercise test={'4'}/>
                     <Exercise test={'5'}/>
                     <Exercise test={'6'}/>
                     <Exercise test={'7'}/>
                     <Exercise test={'8'}/>
-                    <Exercise test={'9'}/>
                 </div>
             </div>
         </>

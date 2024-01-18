@@ -1,6 +1,9 @@
 import Exercise from "./Exercise";
+import React from "react";
 
-export const WorkoutExplorer = () => {
+export const WorkoutExplorer: React.FC<{
+    selected: number,
+}> = (props) => {
     return (
         <>
             <div className="w-full overflow-y-auto">
@@ -19,23 +22,3 @@ export const WorkoutExplorer = () => {
     );
 }
 export default WorkoutExplorer;
-
-
-{/*<table className="table-auto w-full border-collapse">*/
-}
-{/*    <tbody>*/
-}
-{/*    <tr>*/
-}
-{/*        <td className=" p-4 text-center">Content 1</td>*/
-}
-{/*        <td className="border-l border-r p-4 text-center">Content 2</td>*/
-}
-{/*        <td className=" p-4 text-center">Content 3</td>*/
-}
-{/*    </tr>*/
-}
-{/*    </tbody>*/
-}
-{/*</table>*/
-}

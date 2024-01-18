@@ -1,13 +1,26 @@
 import React from "react";
+import workoutTiny from "../../../../models/WorkoutTiny";
 
-export const SliderCard = () => {
+export const SliderCard: React.FC<{
+    workout: workoutTiny
+    selected: number,
+    setSelected: any
+}> = (props) => {
+
+    function setActive() {
+        props.setSelected(props.workout.id)
+    }
+
     return (
-        <div className="relative mx-auto max-w-md">
+        <div className="relative mx-auto max-w-md" onClick={setActive}>
             <div className="bg-white p-3 rounded-md hover:bg-gray-100 border-gray-100 flex items-center">
-                <div className="w-1 h-10 bg-regal-blue mr-3 rounded-t-lg rounded-b-lg" ></div>
+                <div
+                    className={`w-1 h-10 bg-regal-blue mr-3 rounded-t-lg rounded-b-lg ${props.selected === props.workout.id ? '' : 'invisible'}`}
+                ></div>
+
                 <div>
-                    <h1 className="font-bold">Monday Morning Workout</h1>
-                    <p className="">19.01.2024 19:54</p>
+                    <h1 className="font-bold">{props.workout.name}</h1>
+                    <p className="">{props.workout.date}</p>
                 </div>
             </div>
         </div>

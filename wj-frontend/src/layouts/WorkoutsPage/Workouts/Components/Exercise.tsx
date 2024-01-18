@@ -1,6 +1,6 @@
 import test from "../../../../resources/test.png";
 import arrow from "../../../../resources/collapse-arrow.png";
-import {useState} from "react";
+import React, {useState} from "react";
 import ExerciseDetails from "./ExerciseDetails";
 
 export const Exercise: React.FC<{
@@ -25,7 +25,7 @@ export const Exercise: React.FC<{
                             isExpanded ? 'md:rounded-none md:rounded-tl-lg duration-300' : 'md:rounded-none md:rounded-l-lg transition-all duration-700'
                         }`}
                         src={test}
-                    />
+                        alt="Exercise image"/>
                     <div className="flex flex-row justify-between p-4 leading-normal w-2/3 items-center">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">
                             {props.test}

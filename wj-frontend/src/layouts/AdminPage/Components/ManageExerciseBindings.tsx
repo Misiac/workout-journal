@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
-import TinyExercise from "../../../models/TinyExercise";
+import TinyExercise from "../../../models/ExerciseTiny";
 import img3 from "../../../resources/3.png"
 
 export const ManageExerciseBindings: React.FC<{

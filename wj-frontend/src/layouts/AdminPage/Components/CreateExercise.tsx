@@ -121,7 +121,7 @@ export const CreateExercise: React.FC<{
                                 className="mt-2 ml-2"
                                 id="muscle-group-checkbox-exercise"
                                 type="checkbox"
-                                onChange={e => handleIsPrimary1Change()}
+                                onChange={() => handleIsPrimary1Change()}
                             />
                             <label className="text-gray-700 text-xs ml-1"
                                    htmlFor="muscle-group-checkbox-exercise">Primary?</label>
@@ -147,7 +147,7 @@ export const CreateExercise: React.FC<{
                                 className="mt-2 ml-2"
                                 id="additional-category-checkbox"
                                 type="checkbox"
-                                onChange={e => handleIsPrimary2Change()}
+                                onChange={() => handleIsPrimary2Change()}
                             />
                             <label className="text-gray-700 text-xs ml-1"
                                    htmlFor="additional-category-checkbox">Primary?</label>
@@ -171,7 +171,7 @@ export const CreateExercise: React.FC<{
                             {/* Create Button */}
                             <button
                                 className="bg-regal-blue text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue hover:bg-blue-700"
-                                type="button" onClick={e => handleCreateButton()}
+                                type="button" onClick={() => handleCreateButton()}
                             >
                                 Create
                             </button>

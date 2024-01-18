@@ -2,7 +2,6 @@ import SliderCard from "./SliderCard";
 import React, {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import WorkoutTiny from "../../../../models/WorkoutTiny";
-import workoutTiny from "../../../../models/WorkoutTiny";
 
 export const WorkoutsSlider: React.FC<{
     selected: number,

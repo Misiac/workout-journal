@@ -6,10 +6,6 @@
     z-index: -100;
 }
 
-#okta-sign-in.auth-container.main-container {
-    margin-top: 0 !important;
-}
-
 .colored-div {
     height: 10vh;
     background-color: #288dff;
@@ -20,6 +16,3 @@
     width: 20%;
 }
 
-.card {
-    flex: 0 0 auto;
-}

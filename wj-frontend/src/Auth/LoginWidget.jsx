@@ -10,7 +10,7 @@ const LoginWidget = ({config}) => {
     };
 
     const onError = (err) => {
-        console.log('Sign in error:  ', err);
+        console.error('Sign in error:  ', err);
     }
     if (!authState) {
         return <ProcessingSpinner/>

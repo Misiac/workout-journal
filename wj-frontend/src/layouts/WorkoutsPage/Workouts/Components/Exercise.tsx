@@ -31,21 +31,21 @@ export const Exercise: React.FC<{
                     className={`flex flex-col items-center rounded-lg md:flex-row md:max-w-xl`}
                 >
                     <img
-                        className={`object-cover h-28 md:w-48 w-1/3 flex-shrink-0 ${
+                        className={`object-cover h-28 md:w-48 w-1/3 ${
                             isExpanded ? 'md:rounded-none md:rounded-tl-lg duration-300' : 'md:rounded-none md:rounded-l-lg transition-all duration-700'
                         }`}
                         src={test}
                         alt="Exercise image"/>
-                    <div className="flex flex-row justify-between p-4 leading-normal w-2/3 items-center max-h-20 ">
+                    <div className="flex flex-row justify-between p-4 leading-normal w-2/3 items-center max-h-20">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">
                             {props.exercise.counter}
                         </h5>
-                        <div className="flex flex-col w-full px-3 flex-shrink">
+                        <div className="flex flex-col w-full px-3 ">
                             <h3 className="font-bold py-1">
                                 {props.exercise.name}
                             </h3>
                             <hr/>
-                            <div className="flex flex-row justify-center py-1 text-xs text-nowrap">
+                            <div className="flex flex-row justify-center py-1 text-sm">
                                 <h5>
                                     {totalSets > 1 ? totalSets + ' Sets' : totalSets + ' Set'}
                                 </h5>

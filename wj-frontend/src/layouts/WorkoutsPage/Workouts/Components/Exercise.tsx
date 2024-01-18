@@ -45,7 +45,7 @@ export const Exercise: React.FC<{
                                 {props.exercise.name}
                             </h3>
                             <hr/>
-                            <div className="flex flex-row justify-center py-1 text-sm">
+                            <div className="flex flex-row justify-center py-1 text-xs">
                                 <h5>
                                     {totalSets > 1 ? totalSets + ' Sets' : totalSets + ' Set'}
                                 </h5>

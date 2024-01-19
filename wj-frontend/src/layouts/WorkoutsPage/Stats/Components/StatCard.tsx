@@ -10,8 +10,8 @@ export const TotalRepsCard: React.FC<{
 
     return (
         <div className={baseClassName}>
-            <div className="bg-white p-7 rounded-md">
-                <h1 className="font-bold text-2xl mb-2">{props.heading}</h1>
+            <div className="rounded-md bg-white p-7">
+                <h1 className="mb-2 text-2xl font-bold">{props.heading}</h1>
                 <p className="">{props.caption}</p>
             </div>
         </div>

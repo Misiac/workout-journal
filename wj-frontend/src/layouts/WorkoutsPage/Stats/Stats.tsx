@@ -60,7 +60,7 @@ export const Stats = () => {
                 <div className="col-start-2 row-start-2">
                     <StatCard heading={workouts} caption={'Total Workouts'} gradientMode={'bg-gradient-to-br'}/>
                 </div>
-                <div className="col-span-2 row-span-3 col-start-3 row-start-1 items-center justify-center flex">
+                <div className="col-span-2 col-start-3 row-span-3 row-start-1 flex items-center justify-center">
                     <MuscleRadar/>
                 </div>
             </div>

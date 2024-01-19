@@ -15,7 +15,7 @@ const oktaAuth = new OktaAuth(oktaConfig);
 
 
 export const App = () => {
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const location = useLocation();
     const isLoginPage = location.pathname === '/login';
     const customAuthHandler = () => {

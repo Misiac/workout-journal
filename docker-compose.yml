@@ -6,9 +6,9 @@ services:
       context: wj-frontend
       dockerfile: Dockerfile
       args:
-        REACT_APP_OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
-        REACT_APP_OKTA_ISSUER: ${OKTA_ISSUER}
-        REACT_APP_REDIRECT_URI: http://localhost:3000/login/callback
+        VITE_OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
+        VITE_OKTA_ISSUER: ${OKTA_ISSUER}
+        VITE_REDIRECT_URI: http://localhost:3000/login/callback
     ports:
       - "3000:80"
     depends_on:

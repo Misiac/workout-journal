@@ -1,7 +1,7 @@
 export const oktaConfig = {
-    clientId: process.env.REACT_APP_OKTA_CLIENT_ID,
-    issuer: process.env.REACT_APP_OKTA_ISSUER,
-    redirectUri: process.env.REACT_APP_REDIRECT_URI,
+    clientId: import.meta.env.VITE_OKTA_CLIENT_ID,
+    issuer: import.meta.env.VITE_OKTA_ISSUER,
+    redirectUri: import.meta.env.VITE_REDIRECT_URI,
     scopes: ['openid', 'profile', 'email'],
     pkce: true,
     disableHttpsCheck: true,

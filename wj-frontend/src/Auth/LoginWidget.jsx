@@ -1,8 +1,9 @@
-import {useNavigate} from 'react-router-dom';
+
 import {useOktaAuth} from '@okta/okta-react';
-import OktaSignInWidget from './OktaSignInWidget';
 import ProcessingSpinner from '../layouts/Utils/ProcessingSpinner';
 import {useEffect} from "react";
+import OktaSignInWidget from "./OktaSignInWidget";
+import {useNavigate} from "react-router";
 
 const LoginWidget = ({config}) => {
     const {oktaAuth, authState} = useOktaAuth();
@@ -16,7 +17,7 @@ const LoginWidget = ({config}) => {
         if (authState?.isAuthenticated) {
             navigate('/workouts');
         }
-    }, [authState]);
+    }, [authState,navigate]);
 
     const onError = (err) => {
         console.error('Sign in error: ', err);

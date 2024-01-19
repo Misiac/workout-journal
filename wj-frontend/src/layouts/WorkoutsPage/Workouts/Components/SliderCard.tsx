@@ -13,7 +13,7 @@ export const SliderCard: React.FC<{
 
     return (
         <div className="relative mx-auto max-w-md" onClick={setActive}>
-            <div className="bg-white p-3 rounded-md hover:bg-gray-100 border-gray-100 flex items-center">
+            <div className="flex items-center rounded-md border-gray-100 bg-white p-3 hover:bg-gray-100">
                 <div
                     className={`w-1 h-10 bg-regal-blue mr-3 rounded-t-lg rounded-b-lg ${props.selected === props.workout.id ? '' : 'invisible'}`}
                 ></div>

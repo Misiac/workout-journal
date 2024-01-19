@@ -36,12 +36,12 @@ export const Exercise: React.FC<{
                         }`}
                         src={test}
                         alt="Exercise"/>
-                    <div className="flex flex-row justify-between p-4 leading-normal w-2/3 items-center max-h-20">
+                    <div className="flex max-h-20 w-2/3 flex-row items-center justify-between p-4 leading-normal">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">
                             {props.exercise.counter}
                         </h5>
-                        <div className="flex flex-col w-full px-3 ">
-                            <h3 className="font-bold py-1">
+                        <div className="flex w-full flex-col px-3">
+                            <h3 className="py-1 font-bold">
                                 {props.exercise.name}
                             </h3>
                             <hr/>
@@ -78,7 +78,7 @@ export const Exercise: React.FC<{
                     }`}
                 >
 
-                    <table className="table-fixed w-full text-center py-5">
+                    <table className="w-full table-fixed py-5 text-center">
                         <thead>
                         <tr>
                             <th className="border-b border-slate-300">Set</th>

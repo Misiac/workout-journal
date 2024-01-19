@@ -52,27 +52,27 @@ export const CreateNewCategory = () => {
     }
 
     return (
-        <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8 flex items-center justify-center">
+        <div className="mx-auto flex max-w-7xl items-center justify-center px-4 py-6 sm:px-6 lg:px-8">
             <div className="mr-auto">
-                <img src={img2} alt="Exercise" className="w-250 h-256 object-cover"/>
+                <img src={img2} alt="Exercise" className="object-cover w-250 h-256"/>
             </div>
-            <div className="ml-auto ">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 ">Create new category</h1>
+            <div className="ml-auto">
+                <h1 className="text-3xl font-bold tracking-tight text-gray-900">Create new category</h1>
 
                 <form className="w-full max-w-lg py-5">
-                    <div className="flex flex-wrap -mx-3">
-                        <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-                            <label className="block uppercase tracking-wide text-gray-700 text-m font-bold mb-2"
+                    <div className="-mx-3 flex flex-wrap">
+                        <div className="mb-4 w-full px-3 md:mb-0 md:w-1/2">
+                            <label className="mb-2 block font-bold uppercase tracking-wide text-gray-700 text-m"
                                    htmlFor="grid-first-name">
                                 Name
                             </label>
                             <input
-                                className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                                className="mb-3 block w-full appearance-none rounded border border-gray-200 bg-gray-200 px-4 py-3 leading-tight text-gray-700 focus:bg-white focus:outline-none"
                                 id="grid-first-name" type="text" placeholder="Category"
                                 onChange={e => setName(e.target.value)} value={name}/>
 
                             {/* Radio Buttons */}
-                            <div className="flex mb-4">
+                            <div className="mb-4 flex">
                                 <label className="inline-flex items-center">
                                     <input
                                         type="radio"
@@ -83,7 +83,7 @@ export const CreateNewCategory = () => {
                                     />
                                     <span className="ml-2 font-bold">Equipment category</span>
                                 </label>
-                                <label className="inline-flex items-center ml-6">
+                                <label className="ml-6 inline-flex items-center">
                                     <input
                                         type="radio"
                                         className="form-radio"
@@ -98,24 +98,24 @@ export const CreateNewCategory = () => {
                     </div>
 
                     {displayInfo && wasRequestSuccessful &&
-                        <div className="bg-green-100 border border-gray-200 text-green-700 px-4 py-3 rounded relative"
+                        <div className="relative rounded border border-gray-200 bg-green-100 px-4 py-3 text-green-700"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
                         </div>
 
                     }
                     {displayInfo && !wasRequestSuccessful &&
-                        <div className="bg-red-100 border border-gray-200 text-red-700 px-4 py-3 rounded relative"
+                        <div className="relative rounded border border-gray-200 bg-red-100 px-4 py-3 text-red-700"
                              role="alert">
                             <span className="block sm:inline">{responseInfo}</span>
                         </div>
                     }
 
-                    <div className="flex flex-wrap -mx-3">
-                        <div className="w-full md:w-1/2 px-3 py-3 mb-6 md:mb-0">
+                    <div className="-mx-3 flex flex-wrap">
+                        <div className="mb-6 w-full px-3 py-3 md:mb-0 md:w-1/2">
                             {/* Create Button */}
                             <button
-                                className="bg-regal-blue text-white py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue hover:bg-blue-700"
+                                className="rounded px-4 py-2 text-white bg-regal-blue hover:bg-blue-700 focus:shadow-outline-blue focus:outline-none"
                                 type="button" onClick={() => handleCreateButton()}
                             >
                                 Create

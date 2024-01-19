@@ -46,7 +46,7 @@ export const WorkoutsSlider: React.FC<{
 
     return (
 
-        <div className="scroll-container overflow-y-auto h-full w-1/5 px-1 ">
+        <div className="h-full w-1/5 overflow-y-auto px-1 scroll-container">
             <div className="flex flex-col gap-4">
 
                 {workouts.map((workout) => (

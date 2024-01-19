@@ -15,7 +15,7 @@ export const Workouts = () => {
     return (
         <>
             <div className="flex justify-between">
-                <h1 className="text-3xl font-bold tracking-tight text-gray-900 py-6">Workouts</h1>
+                <h1 className="py-6 text-3xl font-bold tracking-tight text-gray-900">Workouts</h1>
 
                 <label className='flex cursor-pointer select-none items-center py-6'>
                     <div className='relative'>
@@ -36,13 +36,13 @@ export const Workouts = () => {
                             }`}
                         ></div>
                     </div>
-                    <span className="px-3 font-bold text-sm">EDIT MODE</span>
+                    <span className="px-3 text-sm font-bold">EDIT MODE</span>
                 </label>
 
             </div>
 
 
-            <div className="flex flex-row mx-auto h-[60vh]">
+            <div className="mx-auto flex flex-row h-[60vh]">
 
                 <WorkoutsSlider selected={selected} setSelected={setSelected}/>
 

@@ -7,7 +7,7 @@ import logo from "../resources/logo.png"
 export const LoginPage = () => {
     return (
         <>
-            <div className='flex items-center justify-center h-screen'>
+            <div className='flex h-screen items-center justify-center'>
                 <div className='items-center'>
                     <div className='flex items-center justify-center'>
                         <img src={logo} width={396} alt="logo"/>

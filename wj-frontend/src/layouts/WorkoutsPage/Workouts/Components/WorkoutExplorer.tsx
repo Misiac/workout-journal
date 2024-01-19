@@ -76,7 +76,7 @@ export const WorkoutExplorer: React.FC<{
     return (
         <>
             <div className="w-full overflow-y-auto">
-                <div className="grid grid-cols-2 px-4 gap-y-4 ">
+                <div className="grid grid-cols-2 gap-y-4 px-4">
 
                     {exercises?.map((exercise) => (
                         <Exercise exercise={exercise} key={exercise.counter}/>

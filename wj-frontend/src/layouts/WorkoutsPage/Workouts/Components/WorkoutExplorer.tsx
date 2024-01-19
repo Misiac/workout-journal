@@ -12,31 +12,34 @@ export const WorkoutExplorer: React.FC<{
 
     const [exercises, setExercises] = useState<WorkoutExercise[]>();
 
-    const parseExercises = (response: any) => {
+    interface ExerciseType {
+        id: number;
+        name: string;
+    }
 
-        let exercises: WorkoutExercise[] = [];
+    interface ResponseExercise {
+        id: number;
+        load: number;
+        reps: number;
+        setNumber: number;
+        exerciseType: ExerciseType;
+    }
 
+    const parseExercises = (response: ResponseExercise[]) => {
+        const exercises: WorkoutExercise[] = [];
+        let wes: WorkoutExerciseSet[] = [];
         let counter = 1;
-        let previousExerciseId: number;
-        let exercise: WorkoutExercise;
 
-        response.forEach((we: any) => {
-            if (previousExerciseId !== we.exerciseType.id) {
+        response.forEach((we: ResponseExercise, i: number) => {
+            wes.push(new WorkoutExerciseSet(we.id, we.load, we.reps, we.setNumber));
 
-                if (counter !== 1) {
-                    exercises.push(exercise);
-                }
-
-                exercise = new WorkoutExercise(counter, we.exerciseType.name, we.exerciseType, []);
+            if (i === response.length - 1 || we.exerciseType.id !== response[i + 1]?.exerciseType.id) {
+                exercises.push(new WorkoutExercise(counter, we.exerciseType.name, we.exerciseType.id, wes));
+                wes = [];
                 counter++;
             }
+        });
 
-            let set = new WorkoutExerciseSet(we.id, we.load, we.reps, we.setNumber);
-            exercise.entry.push(set);
-
-
-            previousExerciseId = we.exerciseType.id;
-        })
         return exercises;
     };
 

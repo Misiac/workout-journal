@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
-import TinyExercise from "../../../models/ExerciseTiny";
 import img3 from "../../../resources/3.png"
+import {ExerciseTiny} from "../../../models/ExerciseTiny";
 
 export const ManageExerciseBindings: React.FC<{
     reloadTrigger: boolean
@@ -15,7 +15,7 @@ export const ManageExerciseBindings: React.FC<{
     const [currentBindOption, setCurrentBindOption] = useState('Unbind')
     const [currentCategoryOption, setCurrentCategoryOption] = useState('')
 
-    const [exerciseOptions, setExerciseOptions] = useState<TinyExercise[]>([]);
+    const [exerciseOptions, setExerciseOptions] = useState<ExerciseTiny[]>([]);
     const [selectedExercise, setSelectedExercise] = useState('');
 
     const [isChecked, setIsChecked] = useState(false)

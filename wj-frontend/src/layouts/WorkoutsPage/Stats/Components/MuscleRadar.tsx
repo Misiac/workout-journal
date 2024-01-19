@@ -10,8 +10,8 @@ import {
 import {Radar} from 'react-chartjs-2';
 import {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
-import RadarData from "../../../../models/RadarData";
 import ProcessingSpinner from "../../../Utils/ProcessingSpinner";
+import {RadarData} from "../../../../models/RadarData";
 
 ChartJS.register(
     RadialLinearScale,

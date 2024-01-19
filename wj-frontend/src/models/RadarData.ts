@@ -1,4 +1,4 @@
-class RadarData {
+export class RadarData {
     chest: number;
     shoulders: number;
     legs: number;
@@ -15,5 +15,3 @@ class RadarData {
         this.arms = arms;
     }
 }
-
-export default RadarData;

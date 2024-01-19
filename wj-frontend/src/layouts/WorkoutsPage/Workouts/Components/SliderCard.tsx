@@ -1,8 +1,8 @@
 import React from "react";
-import workoutTiny from "../../../../models/WorkoutTiny";
+import {WorkoutTiny} from "../../../../models/WorkoutTiny";
 
 export const SliderCard: React.FC<{
-    workout: workoutTiny
+    workout: WorkoutTiny
     selected: number,
     setSelected: any
 }> = (props) => {

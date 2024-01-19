@@ -1,4 +1,5 @@
 import {WorkoutExerciseSet} from "../../../../models/WorkoutExercise";
+import React from "react";
 
 export const ExerciseDetails: React.FC<{
     set: WorkoutExerciseSet

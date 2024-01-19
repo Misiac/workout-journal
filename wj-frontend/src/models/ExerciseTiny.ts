@@ -1,4 +1,4 @@
-class ExerciseTiny {
+export class ExerciseTiny {
     id: number;
     name: string;
 
@@ -7,5 +7,3 @@ class ExerciseTiny {
         this.name = name;
     }
 }
-
-export default ExerciseTiny;

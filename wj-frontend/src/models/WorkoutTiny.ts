@@ -1,4 +1,4 @@
-class WorkoutTiny {
+export class WorkoutTiny {
     id: number;
     date: string;
     name: string;
@@ -22,5 +22,3 @@ class WorkoutTiny {
         });
     }
 }
-
-export default WorkoutTiny;

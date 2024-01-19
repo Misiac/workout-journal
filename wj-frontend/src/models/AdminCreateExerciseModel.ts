@@ -1,4 +1,4 @@
-class AdminCreateExerciseRequest {
+export class AdminCreateExerciseRequest {
     name: string;
     equipmentCategories: string[];
     muscleGroups: MuscleGroupRequest[];
@@ -14,7 +14,7 @@ class AdminCreateExerciseRequest {
     }
 }
 
-class MuscleGroupRequest {
+export class MuscleGroupRequest {
     name: string;
     isPrimary: boolean;
 
@@ -25,4 +25,3 @@ class MuscleGroupRequest {
 
 }
 
-export {AdminCreateExerciseRequest, MuscleGroupRequest};

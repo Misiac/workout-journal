@@ -26,4 +26,4 @@ export class WorkoutExerciseSet {
     }
 }
 
-export default {WorkoutExercise, WorkoutExerciseSet};
+export default WorkoutExercise;

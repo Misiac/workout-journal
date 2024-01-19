@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import WorkoutsSlider from "./Components/WorkoutsSlider";
 import WorkoutExplorer from "./Components/WorkoutExplorer";
 

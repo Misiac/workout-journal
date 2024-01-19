@@ -1,5 +1,4 @@
 import Wave from "react-wavify";
-import React from "react";
 
 export const WaveFooter = () => {
 

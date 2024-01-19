@@ -1,7 +1,6 @@
 import LoginWidget from "../Auth/LoginWidget";
 import {oktaConfig} from "../lib/oktaConfig";
 import WaveFooter from "./Navigation/WaveFooter";
-import React from "react";
 import logo from "../resources/logo.png"
 
 export const LoginPage = () => {

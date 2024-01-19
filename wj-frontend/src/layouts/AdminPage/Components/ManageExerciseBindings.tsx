@@ -122,7 +122,6 @@ export const ManageExerciseBindings: React.FC<{
                                 isChecked ? 'bg-regal-blue' : 'bg-black'
                             }`}
                         ></div>
-                        p
                         <div
                             className={`absolute left-1 top-1 flex h-6 w-6 items-center justify-center rounded-full bg-white transition ${
                                 isChecked ? 'translate-x-full' : ''

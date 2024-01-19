@@ -2,8 +2,7 @@ import "./App.css";
 import {Route, useLocation, Navigate, useNavigate, Routes} from "react-router";
 import {oktaConfig} from "./lib/oktaConfig";
 import {OktaAuth, toRelativeUrl} from "@okta/okta-auth-js";
-import {SecureRoute, Security} from "@okta/okta-react";
-import React from "react";
+import {Security} from "@okta/okta-react";
 
 import Navbar from "./layouts/Navigation/Navbar";
 import LoginPage from "./layouts/LoginPage";

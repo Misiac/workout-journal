@@ -1,4 +1,3 @@
-import React from "react";
 import Stats from "./Stats/Stats";
 import {useOktaAuth} from "@okta/okta-react";
 import Workouts from "./Workouts/Workouts";

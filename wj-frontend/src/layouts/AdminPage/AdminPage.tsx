@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 import CreateExercise from "./Components/CreateExercise";
 import CreateNewCategory from "./Components/CreateNewCategory";
 import ManageExerciseBindings from "./Components/ManageExerciseBindings";

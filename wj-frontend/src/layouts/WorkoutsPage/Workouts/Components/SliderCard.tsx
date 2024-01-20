@@ -4,11 +4,15 @@ import {WorkoutTiny} from "../../../../models/WorkoutTiny";
 export const SliderCard: React.FC<{
     workout: WorkoutTiny
     selected: number,
-    setSelected: any
+    setSelected: any,
+    setWorkoutName: any,
+    setWorkoutDate: any
 }> = (props) => {
 
     function setActive() {
         props.setSelected(props.workout.id)
+        props.setWorkoutName(props.workout.name);
+        props.setWorkoutDate(props.workout.date);
     }
 
     return (

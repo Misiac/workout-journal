@@ -6,6 +6,8 @@ import {WorkoutTiny} from "../../../../models/WorkoutTiny";
 export const WorkoutsSlider: React.FC<{
     selected: number,
     setSelected: any
+    setWorkoutName: any,
+    setWorkoutDate: any
 }> = (props) => {
 
     const {authState} = useOktaAuth();
@@ -51,7 +53,8 @@ export const WorkoutsSlider: React.FC<{
 
                 {workouts.map((workout) => (
                     <SliderCard workout={workout} key={workout.id} selected={props.selected}
-                                setSelected={props.setSelected}/>
+                                setSelected={props.setSelected} setWorkoutName={props.setWorkoutName}
+                                setWorkoutDate={props.setWorkoutDate}/>
                 ))}
 
             </div>

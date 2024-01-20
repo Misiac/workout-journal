@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+import static com.misiac.workoutjournal.repository.WorkoutRepository.*;
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
 @Service
@@ -57,7 +58,7 @@ public class WorkoutService {
 
     }
 
-    public List<WorkoutRepository.WorkoutTiny> getExercisesTiny(String email) {
+    public List<WorkoutTiny> getExercisesTiny(String email) {
         return workoutRepository.findByUserEmailOrderByDateDesc(email);
     }
 

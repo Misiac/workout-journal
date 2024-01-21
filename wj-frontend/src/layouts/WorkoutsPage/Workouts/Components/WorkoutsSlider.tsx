@@ -1,14 +1,9 @@
 import SliderCard from "./SliderCard";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutTiny} from "../../../../models/WorkoutTiny";
 
-export const WorkoutsSlider: React.FC<{
-    selected: number,
-    setSelected: any
-    setWorkoutName: any,
-    setWorkoutDate: any
-}> = (props) => {
+export const WorkoutsSlider = () => {
 
     const {authState} = useOktaAuth();
 
@@ -52,9 +47,7 @@ export const WorkoutsSlider: React.FC<{
             <div className="flex flex-col gap-4">
 
                 {workouts.map((workout) => (
-                    <SliderCard workout={workout} key={workout.id} selected={props.selected}
-                                setSelected={props.setSelected} setWorkoutName={props.setWorkoutName}
-                                setWorkoutDate={props.setWorkoutDate}/>
+                    <SliderCard workout={workout} key={workout.id}/>
                 ))}
 
             </div>

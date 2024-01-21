@@ -1,17 +1,22 @@
 import Exercise from "./Exercise";
-import React, {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutExercise, WorkoutExerciseSet} from "../../../../models/WorkoutExercise";
 import WorkoutTotals from "./WorkoutTotals.tsx";
+import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 
 
-export const WorkoutExplorer: React.FC<{
-    selected: number,
-    workoutName: string,
-    workoutDate: string;
-}> = (props) => {
+export const WorkoutExplorer = () => {
 
     const {authState} = useOktaAuth();
+
+    const context = useContext(WorkoutExplorerContext);
+
+    if (!context) {
+        throw new Error('Component must be used within a WorkoutExplorerContext Provider')
+    }
+
+    const {selectedWorkoutId, workoutName, workoutDate} = context;
 
     const [exercises, setExercises] = useState<WorkoutExercise[]>();
 
@@ -55,7 +60,7 @@ export const WorkoutExplorer: React.FC<{
     useEffect(() => {
 
             const fetchData = async () => {
-                const url = `http://localhost:8080/api/workout/${props.selected}`;
+                const url = `http://localhost:8080/api/workout/${selectedWorkoutId}`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {
@@ -84,10 +89,10 @@ export const WorkoutExplorer: React.FC<{
 
         }
         ,
-        [authState, props.selected]);
+        [authState, selectedWorkoutId]);
 
     useEffect(() => {
-        if (props.selected !== 0) {
+        if (selectedWorkoutId !== 0) {
             const totalExercises: number = exercises?.length ?? 0;
 
             let totalSets: number = 0;
@@ -114,17 +119,17 @@ export const WorkoutExplorer: React.FC<{
             <div className="w-full overflow-y-auto">
                 <div className="flex items-start gap-2 w-full px-2 py-4 ">
                     <div className='w-1/2'>
-                        <p className='font-bold text-2xl'> {props.workoutName}</p>
-                        <p> {props.workoutDate}</p>
+                        <p className='font-bold text-2xl'> {workoutName}</p>
+                        <p> {workoutDate}</p>
                     </div>
-                    <div className='w-1/2'>{props.selected !== 0 &&
+                    <div className='w-1/2'>{selectedWorkoutId !== 0 &&
                         <WorkoutTotals totalExercises={totalExercises} totalSets={totalSets} totalReps={totalReps}
                                        tvl={tvl}/>
                     }
                     </div>
                 </div>
 
-                {props.selected !== 0 && <hr/>}
+                {selectedWorkoutId !== 0 && <hr/>}
 
                 <div className="grid grid-cols-2 gap-y-4 px-4 pt-4">
 

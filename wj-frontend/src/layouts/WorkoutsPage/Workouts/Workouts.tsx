@@ -1,24 +1,32 @@
 import {useState} from "react";
 import WorkoutsSlider from "./Components/WorkoutsSlider";
 import WorkoutExplorer from "./Components/WorkoutExplorer";
-import {EditModeContext} from '../../Utils/EditModeContext.tsx';
+import {WorkoutExplorerContext} from '../WorkoutExplorerContext.tsx';
 
 export const Workouts = () => {
 
-    const [selected, setSelected] = useState(0);
+    const [selectedWorkoutId, setSelectedWorkoutId] = useState(0);
     const [workoutName, setWorkoutName] = useState('');
     const [workoutDate, setWorkoutDate] = useState('');
 
     // edit mode vars
     const [isEditModeOn, setIsEditModeOn] = useState(false);
 
-
     const handleCheckboxChange = () => {
         setIsEditModeOn(!isEditModeOn)
     }
 
     return (
-        <EditModeContext.Provider value={{isEditModeOn, setIsEditModeOn}}>
+        <WorkoutExplorerContext.Provider value={{
+            isEditModeOn,
+            setIsEditModeOn,
+            selectedWorkoutId,
+            setSelectedWorkoutId,
+            workoutName,
+            setWorkoutName,
+            workoutDate,
+            setWorkoutDate
+        }}>
             <div className="flex justify-between">
                 <h1 className="py-6 text-3xl font-bold tracking-tight text-gray-900">Workouts</h1>
 
@@ -48,12 +56,11 @@ export const Workouts = () => {
 
             <div className="mx-auto flex flex-row h-[60vh]">
 
-                <WorkoutsSlider selected={selected} setSelected={setSelected} setWorkoutName={setWorkoutName}
-                                setWorkoutDate={setWorkoutDate}/>
+                <WorkoutsSlider/>
 
-                <WorkoutExplorer selected={selected} workoutName={workoutName} workoutDate={workoutDate}/>
+                <WorkoutExplorer/>
             </div>
-        </EditModeContext.Provider>
+        </WorkoutExplorerContext.Provider>
     );
 }
 export default Workouts;

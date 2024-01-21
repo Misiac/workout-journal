@@ -4,6 +4,7 @@ import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutExercise, WorkoutExerciseSet} from "../../../../models/WorkoutExercise";
 import WorkoutTotals from "./WorkoutTotals.tsx";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
+import EditorOptions from "./EditorOptions.tsx";
 
 
 export const WorkoutExplorer = () => {
@@ -16,7 +17,7 @@ export const WorkoutExplorer = () => {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
 
-    const {selectedWorkoutId, workoutName, workoutDate} = context;
+    const {selectedWorkoutId, workoutName, workoutDate, isEditModeOn} = context;
 
     const [exercises, setExercises] = useState<WorkoutExercise[]>();
 
@@ -37,7 +38,6 @@ export const WorkoutExplorer = () => {
         setNumber: number;
         exerciseType: ExerciseType;
     }
-
 
     const parseExercises = (response: ResponseExercise[]) => {
         const exercises: WorkoutExercise[] = [];
@@ -117,15 +117,20 @@ export const WorkoutExplorer = () => {
     return (
         <>
             <div className="w-full overflow-y-auto">
-                <div className="flex items-start gap-2 w-full px-2 py-4 ">
+                <div className="flex items-start gap-2 w-full px-2 py-4 h-[100px]">
                     <div className='w-1/2'>
                         <p className='font-bold text-2xl'> {workoutName}</p>
                         <p> {workoutDate}</p>
                     </div>
-                    <div className='w-1/2'>{selectedWorkoutId !== 0 &&
-                        <WorkoutTotals totalExercises={totalExercises} totalSets={totalSets} totalReps={totalReps}
-                                       tvl={tvl}/>
-                    }
+                    <div className='w-1/2 h-full'>
+
+                        {selectedWorkoutId !== 0 &&
+                            (isEditModeOn ? <EditorOptions/> :
+                                <WorkoutTotals totalExercises={totalExercises} totalSets={totalSets}
+                                               totalReps={totalReps}
+                                               tvl={tvl}/>)
+                        }
+
                     </div>
                 </div>
 

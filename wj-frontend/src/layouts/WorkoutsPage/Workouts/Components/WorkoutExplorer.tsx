@@ -85,8 +85,13 @@ export const WorkoutExplorer = () => {
                     console.error('Error fetching exercise data', error);
                 }
             };
-            fetchData();
+            if (selectedWorkoutId !== 0) {
+                fetchData();
+            } else {
+                setExercises([]);
+            }
 
+            console.log("USE EFFECT DROPPED")
         }
         ,
         [authState, selectedWorkoutId]);

@@ -1,13 +1,19 @@
 import SliderCard from "./SliderCard";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutTiny} from "../../../../models/WorkoutTiny";
+import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 
 export const WorkoutsSlider = () => {
 
     const {authState} = useOktaAuth();
 
     const [workouts, setWorkouts] = useState<WorkoutTiny[]>([])
+
+    const context = useContext(WorkoutExplorerContext);
+    if (!context) {
+        throw new Error('Component must be used within a WorkoutExplorerContext Provider')
+    }
 
 
     useEffect(() => {
@@ -38,7 +44,7 @@ export const WorkoutsSlider = () => {
         };
         fetchData();
 
-    }, [authState]);
+    }, [authState,context.deleteTrigger]);
 
 
     return (

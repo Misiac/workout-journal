@@ -2,6 +2,7 @@ import {useState} from "react";
 import WorkoutsSlider from "./Components/WorkoutsSlider";
 import WorkoutExplorer from "./Components/WorkoutExplorer";
 import {WorkoutExplorerContext} from '../WorkoutExplorerContext.tsx';
+import useTrigger from "../../Utils/useTrigger.tsx";
 
 export const Workouts = () => {
 
@@ -11,6 +12,7 @@ export const Workouts = () => {
 
     // edit mode vars
     const [isEditModeOn, setIsEditModeOn] = useState(false);
+    const deleteTrigger = useTrigger();
 
     const handleCheckboxChange = () => {
         setIsEditModeOn(!isEditModeOn)
@@ -25,7 +27,8 @@ export const Workouts = () => {
             workoutName,
             setWorkoutName,
             workoutDate,
-            setWorkoutDate
+            setWorkoutDate,
+            deleteTrigger
         }}>
             <div className="flex justify-between">
                 <h1 className="py-6 text-3xl font-bold tracking-tight text-gray-900">Workouts</h1>

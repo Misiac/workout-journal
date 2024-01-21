@@ -38,7 +38,7 @@ public class WorkoutController {
         return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
     }
 
-    // chyba do wywalenia
+    // chyba do wywalenia todo
     @GetMapping()
     public Page<Workout> getWorkoutsForUser(@RequestHeader(value = "Authorization") String token, Pageable pageable) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);

@@ -1,10 +1,40 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
+import {useOktaAuth} from "@okta/okta-react";
 
 export const EditorOptions = () => {
 
+    const {authState} = useOktaAuth();
+
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const handleDeleteClick = () => {
+    const context = useContext(WorkoutExplorerContext);
+    if (!context) {
+        throw new Error('Component must be used within a WorkoutExplorerContext Provider')
+    }
+
+    const deleteWorkout = async () => {
+        try {
+            const response = await fetch(`http://localhost:8080/api/workout/${context.selectedWorkoutId}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) throw new Error('Something went wrong!');
+            response.json();
+        } catch (error) {
+            console.error('Error deleting workout', error);
+        }
+        context.setSelectedWorkoutId(0);
+        context.setWorkoutName('');
+        context.setWorkoutDate('');
+        context.deleteTrigger.trigger();
+    };
+
+    const handleModalOpen = () => {
         setIsModalOpen(true);
     };
 
@@ -13,14 +43,16 @@ export const EditorOptions = () => {
     };
 
     const handleConfirmDelete = () => {
-        // logic : ) todo
         setIsModalOpen(false);
+
+        deleteWorkout();
+
     };
 
     return (
         <>
             <div className='flex items-center justify-center gap-4 h-full w-full'>
-                <button onClick={handleDeleteClick}
+                <button onClick={handleModalOpen}
                         className="inline-flex items-center px-4 py-2 bg-red-500 hover:bg-red-600 text-white text-sm font-medium rounded-md">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
                          stroke="currentColor">
@@ -46,7 +78,7 @@ export const EditorOptions = () => {
                          role="dialog"
                          aria-modal="true">
                         <div
-                            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl border-2 transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                            className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl border transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
                             <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                                 <div className="sm:flex sm:items-start">
                                     <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">

@@ -1,14 +1,19 @@
 import React from "react";
-
 interface EditModeContextTypes {
-    isEditModeOn: boolean;
-    setIsEditModeOn: React.Dispatch<React.SetStateAction<boolean>>;
+
+    //workout
     selectedWorkoutId: number;
     setSelectedWorkoutId: React.Dispatch<React.SetStateAction<number>>;
     workoutName: string;
     setWorkoutName: React.Dispatch<React.SetStateAction<string>>;
     workoutDate: string;
     setWorkoutDate: React.Dispatch<React.SetStateAction<string>>;
+
+    //editing
+    isEditModeOn: boolean;
+    setIsEditModeOn: React.Dispatch<React.SetStateAction<boolean>>;
+    deleteTrigger: any;
+
 
 }
 

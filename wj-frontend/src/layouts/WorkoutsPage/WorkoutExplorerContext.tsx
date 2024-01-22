@@ -1,4 +1,5 @@
 import React from "react";
+
 interface EditModeContextTypes {
 
     //workout
@@ -13,8 +14,8 @@ interface EditModeContextTypes {
     isEditModeOn: boolean;
     setIsEditModeOn: React.Dispatch<React.SetStateAction<boolean>>;
     deleteTrigger: any;
-
-
+    wasChangeMade: boolean;
+    setWasChangeMade: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const WorkoutExplorerContext = React.createContext<EditModeContextTypes | null>(null);

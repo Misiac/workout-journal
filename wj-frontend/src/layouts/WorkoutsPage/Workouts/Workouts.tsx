@@ -13,6 +13,7 @@ export const Workouts = () => {
     // edit mode vars
     const [isEditModeOn, setIsEditModeOn] = useState(false);
     const deleteTrigger = useTrigger();
+    const [wasChangeMade, setWasChangeMade] = useState(false);
 
     const handleCheckboxChange = () => {
         setIsEditModeOn(!isEditModeOn)
@@ -28,7 +29,9 @@ export const Workouts = () => {
             setWorkoutName,
             workoutDate,
             setWorkoutDate,
-            deleteTrigger
+            deleteTrigger,
+            wasChangeMade,
+            setWasChangeMade
         }}>
             <div className="flex justify-between">
                 <h1 className="py-6 text-3xl font-bold tracking-tight text-gray-900">Workouts</h1>

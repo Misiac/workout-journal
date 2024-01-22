@@ -1,13 +1,20 @@
 import test from "../../../../resources/test.png";
 import arrow from "../../../../resources/collapse-arrow.png";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import ExerciseDetails from "./ExerciseDetails";
 import {WorkoutExercise} from "../../../../models/WorkoutExercise";
+import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 
 
 export const Exercise: React.FC<{
     exercise: WorkoutExercise
 }> = (props) => {
+
+    const context = useContext(WorkoutExplorerContext);
+    if (!context) {
+        throw new Error('Component must be used within a WorkoutExplorerContext Provider')
+    }
+
     const [isExpanded, setIsExpanded] = useState(false);
 
     const totalSets = props.exercise.entry.length;
@@ -23,7 +30,7 @@ export const Exercise: React.FC<{
     };
 
     return (
-        <div className="w-full px-2">
+        <div className="w-full px-2 fade-animation">
             <div
                 className={`flex flex-col w-full rounded-lg shadow border border-gray-200 bg-white focus:outline-none`}
             >
@@ -43,22 +50,22 @@ export const Exercise: React.FC<{
                         <div className="flex w-full flex-col px-3">
                             <h3 className="py-1 font-bold">
                                 {props.exercise.name}
+
                             </h3>
                             <hr/>
-                            <div className="flex flex-row justify-center py-1 text-xs">
-                                <h5>
-                                    {totalSets > 1 ? totalSets + ' Sets' : totalSets + ' Set'}
-                                </h5>
-                                <h3>&nbsp; &#x2022; &nbsp;</h3>
-                                <h5>
-                                    {minKg === maxKg ? minKg + ' Kg' : minKg + '-' + maxKg + ' Kg'}
-                                </h5>
-                                <h3>&nbsp; &#x2022; &nbsp; </h3>
-                                <h5>
-                                    {minReps === maxReps ? minReps + ' Reps' : minReps + '-' + maxReps + ' Reps'}
-                                </h5>
-                            </div>
-
+                                <div className="flex flex-row justify-center py-1 text-xs">
+                                    <h5>
+                                        {totalSets > 1 ? totalSets + ' Sets' : totalSets + ' Set'}
+                                    </h5>
+                                    <h3>&nbsp; &#x2022; &nbsp;</h3>
+                                    <h5>
+                                        {minKg === maxKg ? minKg + ' Kg' : minKg + '-' + maxKg + ' Kg'}
+                                    </h5>
+                                    <h3>&nbsp; &#x2022; &nbsp; </h3>
+                                    <h5>
+                                        {minReps === maxReps ? minReps + ' Reps' : minReps + '-' + maxReps + ' Reps'}
+                                    </h5>
+                                </div>
                         </div>
                         <button
                             className={`focus:outline-none h-8 w-8 transition-all duration-500 ${

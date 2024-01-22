@@ -90,8 +90,6 @@ export const WorkoutExplorer = () => {
             } else {
                 setExercises([]);
             }
-
-            console.log("USE EFFECT DROPPED")
         }
         ,
         [authState, selectedWorkoutId]);
@@ -122,12 +120,12 @@ export const WorkoutExplorer = () => {
     return (
         <>
             <div className="w-full overflow-y-auto">
-                <div className="flex items-start gap-2 w-full px-2 py-4 h-[100px]">
+                <div className="flex w-full items-start gap-2 px-2 py-4 h-[100px] fade-animation">
                     <div className='w-1/2'>
-                        <p className='font-bold text-2xl'> {workoutName}</p>
+                        <p className='text-2xl font-bold'> {workoutName}</p>
                         <p> {workoutDate}</p>
                     </div>
-                    <div className='w-1/2 h-full'>
+                    <div className='h-full w-1/2'>
 
                         {selectedWorkoutId !== 0 &&
                             (isEditModeOn ? <EditorOptions/> :

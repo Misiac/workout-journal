@@ -17,13 +17,10 @@ export const WorkoutExplorer = () => {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
 
-    const {selectedWorkoutId, workoutName, workoutDate, isEditModeOn} = context;
+    const {selectedWorkoutId, workoutName, workoutDate, isEditModeOn} = context; //todo
 
 
-    const [totalExercises, setTotalExercises] = useState(0);
-    const [totalSets, setTotalSets] = useState(0);
-    const [totalReps, setTotalReps] = useState(0);
-    const [tvl, setTvl] = useState(0);
+    const [totals, setTotals] = useState({totalExercises: 0, totalSets: 0, totalReps: 0, tvl: 0});
 
     interface ExerciseType {
         id: number;
@@ -56,46 +53,42 @@ export const WorkoutExplorer = () => {
         return exercises;
     };
 
-    useEffect(() => {
-            const fetchData = async () => {
-                const url = `http://localhost:8080/api/workout/${selectedWorkoutId}`;
-                const requestOptions = {
-                    method: 'GET',
-                    headers: {
-                        Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                };
-                console.log("fetch workout")
-                try {
-                    const response = await fetch(url, requestOptions);
-
-                    if (!response.ok) {
-                        throw new Error('Something went wrong!');
-                    }
-                    const data = await response.json();
-
-                    context.setExercises(
-                        parseExercises(data.workoutExercises)
-                    );
-
-                } catch (error) {
-                    console.error('Error fetching exercise data', error);
-                }
-            };
-            if (selectedWorkoutId !== 0) {
-                fetchData();
-            } else {
-                context.setExercises([]);
+    const fetchData = async () => {
+        const url = `http://localhost:8080/api/workout/${selectedWorkoutId}`;
+        const requestOptions = {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                'Content-Type': 'application/json'
             }
+        };
+
+        const response = await fetch(url, requestOptions);
+        if (!response.ok) {
+            throw new Error('Something went wrong!');
         }
-        ,
-        [authState, selectedWorkoutId,context.workoutReloadTrigger]);
+
+        const data = await response.json();
+        context.setState(prevState => ({
+            ...prevState,
+            exercises: parseExercises(data.workoutExercises)
+        }));
+    };
+
+    useEffect(() => {
+        if (selectedWorkoutId !== 0) {
+            fetchData();
+        } else {
+            context.setState(prevState => ({
+                ...prevState,
+                exercises: []
+            }));
+        }
+    }, [authState, selectedWorkoutId, context.workoutReloadTrigger]);
 
     useEffect(() => {
         if (selectedWorkoutId !== 0) {
             const totalExercises: number = context.exercises?.length ?? 0;
-
             let totalSets: number = 0;
             let totalReps: number = 0;
             let tvl: number = 0;
@@ -107,12 +100,8 @@ export const WorkoutExplorer = () => {
                     tvl += set.reps * set.load;
                 })
             })
-            setTotalExercises(totalExercises);
-            setTotalSets(totalSets);
-            setTotalReps(totalReps);
-            setTvl(tvl);
+            setTotals({totalExercises, totalSets, totalReps, tvl});
         }
-
     }, [context.exercises]);
 
     return (
@@ -127,9 +116,7 @@ export const WorkoutExplorer = () => {
 
                         {selectedWorkoutId !== 0 &&
                             (isEditModeOn ? <EditorOptions/> :
-                                <WorkoutTotals totalExercises={totalExercises} totalSets={totalSets}
-                                               totalReps={totalReps}
-                                               tvl={tvl}/>)
+                                <WorkoutTotals {...totals}/>)
                         }
 
                     </div>

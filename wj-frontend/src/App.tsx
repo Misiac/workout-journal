@@ -10,9 +10,7 @@ import WorkoutsPage from "./layouts/WorkoutsPage/WorkoutsPage";
 import AdminPage from "./layouts/AdminPage/AdminPage";
 import AuthRequired from "./Auth/AuthRequired.tsx";
 
-
 const oktaAuth = new OktaAuth(oktaConfig);
-
 
 export const App = () => {
     const navigate = useNavigate();
@@ -21,7 +19,8 @@ export const App = () => {
     const customAuthHandler = () => {
         navigate("/login");
     };
-    const restoreOriginalUri = async (_oktaAuth: any, originalUri: any) => {
+
+    const restoreOriginalUri = async (_oktaAuth: unknown, originalUri: string) => {
         navigate(
             toRelativeUrl(originalUri || "/", window.location.origin)
         );

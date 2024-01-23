@@ -1,4 +1,6 @@
 const NotSupported = () => {
-    return (<div></div>);
+    return (
+        <div></div>
+    );
 }
 export default NotSupported;

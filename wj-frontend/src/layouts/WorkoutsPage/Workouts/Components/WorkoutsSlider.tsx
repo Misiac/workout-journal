@@ -1,59 +1,49 @@
 import SliderCard from "./SliderCard";
-import {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutTiny} from "../../../../models/WorkoutTiny";
+import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 
-export const WorkoutsSlider:React.FC<{
-    handleOpenModal:any
-}> = (props, context) => {
-
+export const WorkoutsSlider: React.FC<{
+    handleOpenModal: () => Promise<boolean>
+}> = ({handleOpenModal}) => {
     const {authState} = useOktaAuth();
+
+    const context = useContext(WorkoutExplorerContext);
+    if (!context) {
+        throw new Error('Component must be used within a WorkoutExplorerContext Provider')
+    }
+    const {sliderReloadTrigger} = context;
 
     const [workouts, setWorkouts] = useState<WorkoutTiny[]>([])
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = 'http://localhost:8080/api/workout/tiny';
-            const requestOptions = {
+            const response = await fetch('http://localhost:8080/api/workout/tiny', {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                     'Content-Type': 'application/json'
                 }
-            };
+            });
 
-            try {
-                const response = await fetch(url, requestOptions);
+            if (!response.ok) throw new Error('Something went wrong!');
 
-                if (!response.ok) {
-                    throw new Error('Something went wrong!');
-                }
-                const data = await response.json();
-                const workoutInstances = data.map((workoutData: any) => new WorkoutTiny(workoutData.id, workoutData.date, workoutData.name));
-                setWorkouts(workoutInstances);
-
-
-            } catch (error) {
-                console.error('Error fetching exercise data', error);
-            }
+            const data = await response.json();
+            setWorkouts(data.map((workoutData: any) => new WorkoutTiny(workoutData.id, workoutData.date, workoutData.name)));
         };
-        fetchData();
-        console.log("fetch list")
 
-    }, [authState, context.sliderReloadTrigger]);
+        fetchData();
+    }, [authState, sliderReloadTrigger]);
 
     return (
-
         <div className="h-full w-1/5 overflow-y-auto px-1 scroll-container">
             <div className="flex flex-col gap-4">
-
                 {workouts.map((workout) => (
-                    <SliderCard workout={workout} key={workout.id} handleOpenModal={props.handleOpenModal}/>
+                    <SliderCard workout={workout} key={workout.id} handleOpenModal={handleOpenModal}/>
                 ))}
-
             </div>
         </div>
-
     );
 }
 export default WorkoutsSlider;

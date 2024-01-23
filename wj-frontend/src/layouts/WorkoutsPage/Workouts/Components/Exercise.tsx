@@ -5,10 +5,7 @@ import ExerciseDetails from "./ExerciseDetails";
 import {WorkoutExercise} from "../../../../models/WorkoutExercise";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 
-
-export const Exercise: React.FC<{
-    exercise: WorkoutExercise
-}> = (props) => {
+export const Exercise: React.FC<{ exercise: WorkoutExercise }> = ({exercise}) => {
 
     const context = useContext(WorkoutExplorerContext);
     if (!context) {
@@ -17,44 +14,37 @@ export const Exercise: React.FC<{
 
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const totalSets = props.exercise.entry.length;
-
-    const minReps = props.exercise.entry.reduce((min, set) => Math.min(min, set.reps), Infinity);
-    const maxReps = props.exercise.entry.reduce((max, set) => Math.max(max, set.reps), -Infinity);
-
-    const minKg = props.exercise.entry.reduce((min, set) => Math.min(min, set.load), Infinity);
-    const maxKg = props.exercise.entry.reduce((max, set) => Math.max(max, set.load), -Infinity);
+    const totalSets = exercise.entry.length;
+    const minReps = Math.min(...exercise.entry.map(set => set.reps));
+    const maxReps = Math.max(...exercise.entry.map(set => set.reps));
+    const minKg = Math.min(...exercise.entry.map(set => set.load));
+    const maxKg = Math.max(...exercise.entry.map(set => set.load));
 
     const addToDelete = () => {
+        const newDeletedExercises = [...context.deletedExercises, ...exercise.entry.map(set => set.id)];
+        const filtered = context.exercises.filter(ex => ex !== exercise);
 
-        const newDeletedExercises: number[] = [...context.deletedExercises];
-        props.exercise.entry.forEach(set => {
-            newDeletedExercises.push(set.id);
-        });
-        const filtered = context.exercises.filter(exercise => exercise !== props.exercise);
-
-        context.setExercises(filtered);
-        context.setDeletedExercises(newDeletedExercises);
-        context.setWasChangeMade(true);
-
+        context.setState(prevState => ({
+            ...prevState,
+            exercises: filtered,
+            deletedExercises: newDeletedExercises,
+            wasChangeMade: true
+        }));
     };
 
-
-    const handleToggle = () => {
-        setIsExpanded(!isExpanded);
-    };
+    const handleToggle = () => setIsExpanded(!isExpanded);
 
     return (
         <div className="w-full px-2 fade-animation">
             <div
-                className="relative flex flex-col w-full rounded-lg shadow border border-gray-200 bg-white focus:outline-none"
+                className="relative flex w-full flex-col rounded-lg border border-gray-200 bg-white shadow focus:outline-none"
             >
                 <div
-                    className="flex flex-col items-center rounded-lg md:flex-row md:max-w-xl"
+                    className="flex flex-col items-center rounded-lg md:max-w-xl md:flex-row"
                 >
                     {context.isEditModeOn &&
                         <button onClick={addToDelete}
-                                className="absolute top-0 right-0 m-2 h-7 w-7 rounded-full bg-red-500 flex items-center justify-center text-white fade-animation hover:bg-red-700"
+                                className="absolute top-0 right-0 m-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white fade-animation hover:bg-red-700"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
                                  stroke="currentColor">
@@ -71,11 +61,11 @@ export const Exercise: React.FC<{
                         alt="Exercise"/>
                     <div className="flex max-h-20 w-2/3 flex-row items-center justify-between p-4 leading-normal">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">
-                            {props.exercise.counter}
+                            {exercise.counter}
                         </h5>
                         <div className="flex w-full flex-col px-3">
                             <h3 className="py-1 font-bold">
-                                {props.exercise.name}
+                                {exercise.name}
 
                             </h3>
                             <hr/>
@@ -121,7 +111,7 @@ export const Exercise: React.FC<{
                         </thead>
 
                         <tbody>
-                        {props.exercise.entry.map((set) => (
+                        {exercise.entry.map((set) => (
                             <ExerciseDetails set={set} key={set.id}/>
                         ))}
                         </tbody>

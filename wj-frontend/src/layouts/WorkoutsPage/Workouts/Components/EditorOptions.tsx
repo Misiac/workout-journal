@@ -26,16 +26,17 @@ export const EditorOptions = () => {
         } catch (error) {
             console.error('Error deleting workout', error);
         }
-        context.setSelectedWorkoutId(0);
-        context.setWorkoutName('');
-        context.setWorkoutDate('');
-        context.setSliderReloadTrigger(prev => prev + 1);
+        context.setState(prevState => ({
+            ...prevState,
+            selectedWorkoutId: 0,
+            workoutName: '',
+            workoutDate: '',
+            sliderReloadTrigger: prevState.sliderReloadTrigger + 1
+        }));
     };
 
     const deleteExercises = async () => {
         try {
-            console.log(context.deletedExercises);
-            console.log(JSON.stringify(context.deletedExercises));
             const response = await fetch("http://localhost:8080/api/workout/exercise", {
                 method: 'DELETE',
                 headers: {
@@ -61,6 +62,11 @@ export const EditorOptions = () => {
     const handleSave = () => {
 
         deleteExercises();
+
+        context.setState(prevState => ({
+            ...prevState,
+            wasChangeMade: false
+        }));
     };
     return (
         <>

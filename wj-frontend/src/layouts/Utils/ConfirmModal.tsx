@@ -9,7 +9,7 @@ interface ConfirmModalProps {
 
 const ConfirmModal: React.FC<ConfirmModalProps> = ({message, onConfirm, onCancel}) => {
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-10"
+        <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50"
              aria-labelledby="modal-delete"
              role="dialog"
              aria-modal="true">

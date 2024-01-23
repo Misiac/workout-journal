@@ -5,7 +5,7 @@ import img1 from "../../../resources/1.png"
 
 export const CreateExercise: React.FC<{
     reloadTrigger: boolean
-    setReloadTrigger: any
+    setReloadTrigger: React.Dispatch<React.SetStateAction<boolean>>
 }> = (props) => {
 
     const {authState} = useOktaAuth();

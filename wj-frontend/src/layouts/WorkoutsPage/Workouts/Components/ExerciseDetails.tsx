@@ -15,25 +15,26 @@ export const ExerciseDetails: React.FC<{
     const [load, setLoad] = useState(props.set.load);
     const [reps, setReps] = useState(props.set.reps);
 
-    
+
     const handleLoadChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(event.target.value);
+
         if (newValue > 0) {
             setLoad(newValue);
-            props.set.load = load;
+            props.set.load = newValue;
 
             context.setState(prevState => ({
                 ...prevState,
                 wasChangeMade: true
             }));
-
         }
     };
+
     const handleRepsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(event.target.value);
         if (newValue > 0 && Number.isInteger(newValue)) {
             setReps(newValue);
-            props.set.reps = reps;
+            props.set.reps = newValue;
 
             context.setState(prevState => ({
                 ...prevState,
@@ -41,6 +42,11 @@ export const ExerciseDetails: React.FC<{
             }));
         }
     };
+
+    useEffect(() => {
+        setLoad(props.set.load);
+        setReps(props.set.reps);
+    }, [props.set.load, props.set.reps]);
 
     return (
         <tr className={isEditModeOn ? 'hover:bg-gray-100' : ''}>

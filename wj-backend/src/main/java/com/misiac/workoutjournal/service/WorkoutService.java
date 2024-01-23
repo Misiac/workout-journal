@@ -1,6 +1,5 @@
 package com.misiac.workoutjournal.service;
 
-import com.misiac.workoutjournal.entity.Exercise;
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
@@ -21,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static com.misiac.workoutjournal.repository.WorkoutRepository.*;
+import static com.misiac.workoutjournal.repository.WorkoutRepository.WorkoutTiny;
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
 @Service
@@ -96,16 +95,19 @@ public class WorkoutService {
         if (workoutExercise.getParentWorkout().getUser() != user) {
             throw new UnauthorizedException(WE_DOES_NOT_BELONG);
         }
-        if (!exerciseRequest.getExerciseId().equals(workoutExercise.getExerciseType().getId())) {
 
-            Exercise newExercise = exerciseRepository.findById(exerciseRequest.getExerciseId())
-                    .orElseThrow(() -> new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST));
-            workoutExercise.setExerciseType(newExercise);
-        }
         workoutExercise.setLoad(exerciseRequest.getLoad());
         workoutExercise.setReps(exerciseRequest.getReps());
 
         workoutExerciseRepository.save(workoutExercise);
+    }
+
+    public void updateExercises(String email, List<ExerciseRequest> exerciseRequests) {
+
+        exerciseRequests.forEach(request -> {
+                    updateExercise(email, request.getId(), request);
+                }
+        );
     }
 
     public void deleteExercise(String email, Long workoutExerciseId) {

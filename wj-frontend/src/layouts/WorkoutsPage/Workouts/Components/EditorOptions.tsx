@@ -45,7 +45,22 @@ export const EditorOptions = () => {
                 },
                 body: JSON.stringify(context.deletedExercises)
             });
-            console.log(response)
+            if (!response.ok) throw new Error('Something went wrong!');
+        } catch (error) {
+            console.error('Error deleting workout', error);
+        }
+    };
+
+    const updateExercises = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/workout/exercise", {
+                method: 'PUT',
+                headers: {
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(context.editedExercises)
+            });
             if (!response.ok) throw new Error('Something went wrong!');
         } catch (error) {
             console.error('Error deleting workout', error);
@@ -62,10 +77,15 @@ export const EditorOptions = () => {
     const handleSave = () => {
 
         deleteExercises();
+        updateExercises();
+
 
         context.setState(prevState => ({
             ...prevState,
-            wasChangeMade: false
+            wasChangeMade: false,
+            isEditModeOn: !prevState.isEditModeOn,
+            editedExercises: [],
+            deletedExercises: []
         }));
     };
     return (

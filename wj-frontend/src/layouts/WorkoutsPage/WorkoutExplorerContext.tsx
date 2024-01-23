@@ -1,5 +1,5 @@
 import React from "react";
-import WorkoutExercise from "../../models/WorkoutExercise.ts";
+import WorkoutExercise, {WorkoutExerciseSet} from "../../models/WorkoutExercise.ts";
 
 interface WorkoutExplorerContextTypes {
     selectedWorkoutId: number;
@@ -9,6 +9,7 @@ interface WorkoutExplorerContextTypes {
     isEditModeOn: boolean;
     wasChangeMade: boolean;
     deletedExercises: number[];
+    editedExercises: WorkoutExerciseSet[]
     workoutReloadTrigger: number;
     sliderReloadTrigger: number;
     setState: React.Dispatch<React.SetStateAction<{
@@ -19,6 +20,7 @@ interface WorkoutExplorerContextTypes {
         isEditModeOn: boolean;
         wasChangeMade: boolean;
         deletedExercises: number[];
+        editedExercises: WorkoutExerciseSet[];
         workoutReloadTrigger: number;
         sliderReloadTrigger: number;
     }>>;

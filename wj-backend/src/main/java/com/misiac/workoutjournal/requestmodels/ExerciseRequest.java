@@ -15,7 +15,7 @@ public class ExerciseRequest {
 
     @NotNull(message = MessageProvider.EXERCISE_ID_NULL)
     @Positive(message = MessageProvider.EXERCISE_ID_NEGATIVE)
-    private Long exerciseId;
+    private Long id;
 
     @PositiveOrZero(message = MessageProvider.LOAD_NEGATIVE)
     private Float load;
@@ -28,4 +28,13 @@ public class ExerciseRequest {
     @Positive(message = MessageProvider.SET_NUMBER_NEGATIVE)
     private Integer setNumber;
 
+    @Override
+    public String toString() {
+        return "ExerciseRequest{" +
+                "exerciseId=" + id +
+                ", load=" + load +
+                ", reps=" + reps +
+                ", setNumber=" + setNumber +
+                '}';
+    }
 }

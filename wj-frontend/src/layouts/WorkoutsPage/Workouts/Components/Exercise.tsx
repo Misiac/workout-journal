@@ -1,9 +1,9 @@
 import test from "../../../../resources/test.png";
 import arrow from "../../../../resources/collapse-arrow.png";
 import React, {useContext, useState} from "react";
-import ExerciseDetails from "./ExerciseDetails";
 import {WorkoutExercise} from "../../../../models/WorkoutExercise";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
+import ExerciseDetails from "./ExerciseDetails.tsx";
 
 export const Exercise: React.FC<{
     exercise: WorkoutExercise,

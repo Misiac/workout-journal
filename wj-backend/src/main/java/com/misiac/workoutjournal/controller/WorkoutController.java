@@ -52,12 +52,12 @@ public class WorkoutController {
         return new ResponseEntity<>(WORKOUT_DELETED, HttpStatus.OK);
     }
 
-    @PutMapping("/exercise/{id}")
-    public ResponseEntity<String> updateExercise(
-            @RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutExerciseId,
-            @RequestBody ExerciseRequest exerciseRequest) {
+    @PutMapping("/exercise")
+    public ResponseEntity<String> updateExercises(
+            @RequestHeader(value = "Authorization") String token, @RequestBody List<ExerciseRequest> exerciseRequests) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
-        workoutService.updateExercise(email, workoutExerciseId, exerciseRequest);
+        exerciseRequests.forEach(System.out::println);
+        workoutService.updateExercises(email, exerciseRequests);
         return new ResponseEntity<>(EXERCISE_UPDATED, HttpStatus.OK);
     }
 
@@ -68,6 +68,7 @@ public class WorkoutController {
         return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
     }
 
+    //USED
     @DeleteMapping("/exercise")
     public ResponseEntity<String> deleteExercises(@RequestHeader(value = "Authorization") String token, @RequestBody List<Long> deleteIds) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
@@ -76,13 +77,14 @@ public class WorkoutController {
         return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
     }
 
-
+    //USED
     @GetMapping("/tiny")
     public List<WorkoutTiny> getWorkoutsTiny(@RequestHeader(value = "Authorization") String token) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         return workoutService.getExercisesTiny(email);
     }
 
+    //USED
     @GetMapping("/{id}")
     public Workout getSpecificWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long id) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);

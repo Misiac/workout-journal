@@ -92,22 +92,22 @@ class WorkoutControllerTest {
         verify(workoutService, times(1)).deleteWorkout(TEST_EMAIL, 1L);
     }
 
-    @Test
-    @DisplayName("UpdateExercise normal conditions")
-    void testUpdateExercise() throws Exception {
-        ExerciseRequest exerciseRequest = new ExerciseRequest(1L, 5F, 5, 1);
-
-        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
-
-        mockMvc.perform(put("/api/workout/exercise/{id}", 1)
-                        .header("Authorization", TEST_TOKEN)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(exerciseRequest)))
-                .andExpect(status().isOk());
-
-        verify(workoutService, times(1))
-                .updateExercise(eq(TEST_EMAIL), eq(1L), any(ExerciseRequest.class));
-    }
+//    @Test
+//    @DisplayName("UpdateExercise normal conditions")
+//    void testUpdateExercise() throws Exception {
+//        ExerciseRequest exerciseRequest = new ExerciseRequest(1L, 5F, 5, 1);
+//
+//        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
+//
+//        mockMvc.perform(put("/api/workout/exercise/{id}", 1)
+//                        .header("Authorization", TEST_TOKEN)
+//                        .contentType(MediaType.APPLICATION_JSON)
+//                        .content(objectMapper.writeValueAsString(exerciseRequest)))
+//                .andExpect(status().isOk());
+//
+//        verify(workoutService, times(1))
+//                .updateExercise(eq(TEST_EMAIL), eq(1L), any(ExerciseRequest.class));
+//    }
 
     @Test
     @DisplayName("DeleteExercise normal conditions")

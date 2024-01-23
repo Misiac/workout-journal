@@ -37,7 +37,7 @@ public class WorkoutMapper {
 
             WorkoutExercise workoutExercise = new WorkoutExercise();
             workoutExercise.setExerciseType(
-                    exerciseRepository.findById(exerciseRequest.getExerciseId()).orElseThrow());
+                    exerciseRepository.findById(exerciseRequest.getId()).orElseThrow());
             workoutExercise.setLoad(exerciseRequest.getLoad());
             workoutExercise.setReps(exerciseRequest.getReps());
             workoutExercise.setSetNumber(exerciseRequest.getSetNumber());

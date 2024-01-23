@@ -68,6 +68,15 @@ public class WorkoutController {
         return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
     }
 
+    @DeleteMapping("/exercise")
+    public ResponseEntity<String> deleteExercises(@RequestHeader(value = "Authorization") String token, @RequestBody List<Long> deleteIds) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+        deleteIds.forEach(System.out::println);
+        workoutService.deleteExercises(email, deleteIds);
+        return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
+    }
+
+
     @GetMapping("/tiny")
     public List<WorkoutTiny> getWorkoutsTiny(@RequestHeader(value = "Authorization") String token) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);

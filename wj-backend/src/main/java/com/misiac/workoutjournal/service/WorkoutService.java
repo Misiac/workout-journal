@@ -86,6 +86,7 @@ public class WorkoutService {
         workoutRepository.delete(deletion);
     }
 
+
     public void updateExercise(String email, Long workoutExerciseId, ExerciseRequest exerciseRequest) {
 
         WorkoutExercise workoutExercise = workoutExerciseRepository.findById(workoutExerciseId)
@@ -127,6 +128,14 @@ public class WorkoutService {
             exercisesSeries.get(i - 1).setSetNumber(i);
             workoutExerciseRepository.save(exercisesSeries.get(i - 1));
         }
+
+    }
+
+    public void deleteExercises(String email, List<Long> deleteIds) {
+
+        deleteIds.forEach(val -> {
+            deleteExercise(email, val);
+        });
     }
 
     //This method extract a sublist of exercises which contain a given workout exercise

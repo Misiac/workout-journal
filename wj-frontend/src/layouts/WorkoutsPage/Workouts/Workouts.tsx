@@ -2,21 +2,43 @@ import {useState} from "react";
 import WorkoutsSlider from "./Components/WorkoutsSlider";
 import WorkoutExplorer from "./Components/WorkoutExplorer";
 import {WorkoutExplorerContext} from '../WorkoutExplorerContext.tsx';
-import useTrigger from "../../Utils/useTrigger.tsx";
+import WorkoutExercise from "../../../models/WorkoutExercise.ts";
+import {confirmModal} from "../../Utils/ConfirmModal.tsx";
 
 export const Workouts = () => {
 
+    //workout
     const [selectedWorkoutId, setSelectedWorkoutId] = useState(0);
     const [workoutName, setWorkoutName] = useState('');
     const [workoutDate, setWorkoutDate] = useState('');
+    const [exercises, setExercises] = useState<WorkoutExercise[]>([]);
 
     // edit mode vars
     const [isEditModeOn, setIsEditModeOn] = useState(false);
-    const deleteTrigger = useTrigger();
     const [wasChangeMade, setWasChangeMade] = useState(false);
+    const [deletedExercises, setDeletedExercises] = useState<number[]>([])
 
-    const handleCheckboxChange = () => {
-        setIsEditModeOn(!isEditModeOn)
+    //triggers
+    const [workoutReloadTrigger, setWorkoutReloadTrigger] = useState(0);
+    const [sliderReloadTrigger, setSliderReloadTrigger] = useState(0);
+
+    const handleOpenModal = async (): Promise<boolean> => {
+
+        if (isEditModeOn && wasChangeMade) {
+            if (await confirmModal('This will revert changes, are you sure?')) {
+                resetChanges();
+                return true;
+            } else {
+                return false;
+            }
+        }
+        setIsEditModeOn(!isEditModeOn);
+        return false;
+    }
+    const resetChanges = () => {
+        setWasChangeMade(false);
+        setWorkoutReloadTrigger(prev => prev + 1);
+        setIsEditModeOn(!isEditModeOn);
     }
 
     return (
@@ -25,13 +47,20 @@ export const Workouts = () => {
             setIsEditModeOn,
             selectedWorkoutId,
             setSelectedWorkoutId,
+            exercises,
+            setExercises,
             workoutName,
             setWorkoutName,
             workoutDate,
             setWorkoutDate,
-            deleteTrigger,
             wasChangeMade,
-            setWasChangeMade
+            setWasChangeMade,
+            deletedExercises,
+            setDeletedExercises,
+            sliderReloadTrigger,
+            setSliderReloadTrigger,
+            workoutReloadTrigger,
+            setWorkoutReloadTrigger
         }}>
             <div className="flex justify-between">
                 <h1 className="py-6 text-3xl font-bold tracking-tight text-gray-900">Workouts</h1>
@@ -41,7 +70,7 @@ export const Workouts = () => {
                         <input
                             type='checkbox'
                             checked={isEditModeOn}
-                            onChange={handleCheckboxChange}
+                            onChange={handleOpenModal}
                             className='sr-only'
                         />
                         <div
@@ -62,7 +91,7 @@ export const Workouts = () => {
 
             <div className="mx-auto flex flex-row h-[60vh]">
 
-                <WorkoutsSlider/>
+                <WorkoutsSlider handleOpenModal={handleOpenModal}/>
 
                 <WorkoutExplorer/>
             </div>

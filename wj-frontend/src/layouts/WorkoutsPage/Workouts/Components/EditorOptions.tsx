@@ -1,12 +1,11 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import {useOktaAuth} from "@okta/okta-react";
+import {confirmModal} from "../../../Utils/ConfirmModal.tsx";
 
 export const EditorOptions = () => {
 
     const {authState} = useOktaAuth();
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const context = useContext(WorkoutExplorerContext);
     if (!context) {
@@ -30,24 +29,39 @@ export const EditorOptions = () => {
         context.setSelectedWorkoutId(0);
         context.setWorkoutName('');
         context.setWorkoutDate('');
-        context.deleteTrigger.trigger();
+        context.setSliderReloadTrigger(prev => prev + 1);
     };
 
-    const handleModalOpen = () => {
-        setIsModalOpen(true);
+    const deleteExercises = async () => {
+        try {
+            console.log(context.deletedExercises);
+            console.log(JSON.stringify(context.deletedExercises));
+            const response = await fetch("http://localhost:8080/api/workout/exercise", {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(context.deletedExercises)
+            });
+            console.log(response)
+            if (!response.ok) throw new Error('Something went wrong!');
+        } catch (error) {
+            console.error('Error deleting workout', error);
+        }
     };
 
-    const handleModalClose = () => {
-        setIsModalOpen(false);
+    const handleModalOpen = async () => {
+        const confirm = await confirmModal('Are you sure you want to delete this workout?');
+        if (confirm) {
+            deleteWorkout();
+        }
     };
 
-    const handleConfirmDelete = () => {
-        setIsModalOpen(false);
+    const handleSave = () => {
 
-        deleteWorkout();
-
+        deleteExercises();
     };
-
     return (
         <>
             <div className='flex h-full w-full items-center justify-center gap-4'>
@@ -62,7 +76,7 @@ export const EditorOptions = () => {
                 </button>
 
                 <button
-                    disabled={!context.wasChangeMade}
+                    disabled={!context.wasChangeMade} onClick={handleSave}
                     className={`inline-flex items-center px-4 py-2 text-white text-sm font-medium rounded-md fade-animation ${context.wasChangeMade ? 'bg-regal-blue hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -71,38 +85,6 @@ export const EditorOptions = () => {
                     </svg>
                     Save
                 </button>
-
-                {/*Modal*/}
-                {isModalOpen && (
-                    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-                         aria-labelledby="modal-title"
-                         role="dialog"
-                         aria-modal="true">
-                        <div
-                            className="inline-block transform overflow-hidden rounded-lg border bg-white text-left align-bottom shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg sm:align-middle">
-                            <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                                <div className="sm:flex sm:items-start">
-                                    <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
-                                        <h3 className="text-lg font-medium leading-6 text-gray-900"
-                                            id="modal-title">
-                                            Are you sure you want to delete this workout?
-                                        </h3>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-                                <button onClick={handleConfirmDelete} type="button"
-                                        className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 sm:ml-3 sm:w-auto sm:text-sm">
-                                    Yes
-                                </button>
-                                <button onClick={handleModalClose} type="button"
-                                        className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 px-4 py-2 text-base font-medium text-white shadow-sm bg-regal-blue hover:bg-blue-700 sm:mt-0 sm:w-auto sm:text-sm">
-                                    No
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
             </div>
         </>
     );

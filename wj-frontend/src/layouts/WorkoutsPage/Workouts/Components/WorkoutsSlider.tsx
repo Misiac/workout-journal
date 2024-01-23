@@ -1,20 +1,15 @@
 import SliderCard from "./SliderCard";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutTiny} from "../../../../models/WorkoutTiny";
-import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 
-export const WorkoutsSlider = () => {
+export const WorkoutsSlider:React.FC<{
+    handleOpenModal:any
+}> = (props, context) => {
 
     const {authState} = useOktaAuth();
 
     const [workouts, setWorkouts] = useState<WorkoutTiny[]>([])
-
-    const context = useContext(WorkoutExplorerContext);
-    if (!context) {
-        throw new Error('Component must be used within a WorkoutExplorerContext Provider')
-    }
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -43,9 +38,9 @@ export const WorkoutsSlider = () => {
             }
         };
         fetchData();
+        console.log("fetch list")
 
-    }, [authState,context.deleteTrigger]);
-
+    }, [authState, context.sliderReloadTrigger]);
 
     return (
 
@@ -53,7 +48,7 @@ export const WorkoutsSlider = () => {
             <div className="flex flex-col gap-4">
 
                 {workouts.map((workout) => (
-                    <SliderCard workout={workout} key={workout.id}/>
+                    <SliderCard workout={workout} key={workout.id} handleOpenModal={props.handleOpenModal}/>
                 ))}
 
             </div>

@@ -19,7 +19,6 @@ export const WorkoutExplorer = () => {
 
     const {selectedWorkoutId, workoutName, workoutDate, isEditModeOn} = context;
 
-    const [exercises, setExercises] = useState<WorkoutExercise[]>();
 
     const [totalExercises, setTotalExercises] = useState(0);
     const [totalSets, setTotalSets] = useState(0);
@@ -58,7 +57,6 @@ export const WorkoutExplorer = () => {
     };
 
     useEffect(() => {
-
             const fetchData = async () => {
                 const url = `http://localhost:8080/api/workout/${selectedWorkoutId}`;
                 const requestOptions = {
@@ -68,7 +66,7 @@ export const WorkoutExplorer = () => {
                         'Content-Type': 'application/json'
                     }
                 };
-
+                console.log("fetch workout")
                 try {
                     const response = await fetch(url, requestOptions);
 
@@ -77,7 +75,7 @@ export const WorkoutExplorer = () => {
                     }
                     const data = await response.json();
 
-                    setExercises(
+                    context.setExercises(
                         parseExercises(data.workoutExercises)
                     );
 
@@ -88,21 +86,21 @@ export const WorkoutExplorer = () => {
             if (selectedWorkoutId !== 0) {
                 fetchData();
             } else {
-                setExercises([]);
+                context.setExercises([]);
             }
         }
         ,
-        [authState, selectedWorkoutId]);
+        [authState, selectedWorkoutId,context.workoutReloadTrigger]);
 
     useEffect(() => {
         if (selectedWorkoutId !== 0) {
-            const totalExercises: number = exercises?.length ?? 0;
+            const totalExercises: number = context.exercises?.length ?? 0;
 
             let totalSets: number = 0;
             let totalReps: number = 0;
             let tvl: number = 0;
 
-            exercises?.forEach((exercise: WorkoutExercise) => {
+            context.exercises?.forEach((exercise: WorkoutExercise) => {
                 totalSets += exercise.entry.length;
                 exercise.entry.forEach((set: WorkoutExerciseSet) => {
                     totalReps += set.reps;
@@ -115,7 +113,7 @@ export const WorkoutExplorer = () => {
             setTvl(tvl);
         }
 
-    }, [exercises]);
+    }, [context.exercises]);
 
     return (
         <>
@@ -141,7 +139,7 @@ export const WorkoutExplorer = () => {
 
                 <div className="grid grid-cols-2 gap-y-4 px-4 pt-4">
 
-                    {exercises?.map((exercise) => (
+                    {context.exercises?.map((exercise) => (
                         <Exercise exercise={exercise} key={exercise.counter}/>
                     ))}
 

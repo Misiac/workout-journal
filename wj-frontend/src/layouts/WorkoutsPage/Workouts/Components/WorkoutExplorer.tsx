@@ -100,14 +100,18 @@ export const WorkoutExplorer = () => {
                     tvl += set.reps * set.load;
                 })
             })
+
+            context.exercises?.forEach((exercise, index) => {
+                exercise.counter = index + 1;
+            });
             setTotals({totalExercises, totalSets, totalReps, tvl});
         }
     }, [context.exercises]);
 
     return (
         <>
-            <div className="w-full overflow-y-auto">
-                <div className="flex w-full items-start gap-2 px-2 py-4 h-[100px] fade-animation">
+            <div className="w-full overflow-y-auto px-2">
+                <div className="flex w-full items-start gap-2 py-4 h-[100px] fade-animation">
                     <div className='w-1/2'>
                         <p className='text-2xl font-bold'> {workoutName}</p>
                         <p> {workoutDate}</p>

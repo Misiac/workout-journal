@@ -37,7 +37,7 @@ export const WorkoutsSlider: React.FC<{
     }, [authState, sliderReloadTrigger]);
 
     return (
-        <div className="h-full w-1/5 overflow-y-auto px-1 scroll-container">
+        <div className="h-full w-1/5 overflow-y-auto scroll-container">
             <div className="flex flex-col gap-4">
                 {workouts.map((workout) => (
                     <SliderCard workout={workout} key={workout.id} handleOpenModal={handleOpenModal}/>

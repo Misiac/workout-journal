@@ -78,6 +78,7 @@ export const WorkoutExplorer = () => {
     useEffect(() => {
         if (selectedWorkoutId !== 0) {
             fetchData();
+            console.log("fetch workout")
         } else {
             context.setState(prevState => ({
                 ...prevState,
@@ -137,7 +138,6 @@ export const WorkoutExplorer = () => {
                 </div>
             </div>
         </>
-    )
-        ;
+    );
 }
 export default WorkoutExplorer;

@@ -5,7 +5,9 @@ import ExerciseDetails from "./ExerciseDetails";
 import {WorkoutExercise} from "../../../../models/WorkoutExercise";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 
-export const Exercise: React.FC<{ exercise: WorkoutExercise }> = ({exercise}) => {
+export const Exercise: React.FC<{
+    exercise: WorkoutExercise,
+}> = (props) => {
 
     const context = useContext(WorkoutExplorerContext);
     if (!context) {
@@ -14,15 +16,15 @@ export const Exercise: React.FC<{ exercise: WorkoutExercise }> = ({exercise}) =>
 
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const totalSets = exercise.entry.length;
-    const minReps = Math.min(...exercise.entry.map(set => set.reps));
-    const maxReps = Math.max(...exercise.entry.map(set => set.reps));
-    const minKg = Math.min(...exercise.entry.map(set => set.load));
-    const maxKg = Math.max(...exercise.entry.map(set => set.load));
+    const totalSets = props.exercise.entry.length;
+    const minReps = Math.min(...props.exercise.entry.map(set => set.reps));
+    const maxReps = Math.max(...props.exercise.entry.map(set => set.reps));
+    const minKg = Math.min(...props.exercise.entry.map(set => set.load));
+    const maxKg = Math.max(...props.exercise.entry.map(set => set.load));
 
     const addToDelete = () => {
-        const newDeletedExercises = [...context.deletedExercises, ...exercise.entry.map(set => set.id)];
-        const filtered = context.exercises.filter(ex => ex !== exercise);
+        const newDeletedExercises = [...context.deletedExercises, ...props.exercise.entry.map(set => set.id)];
+        const filtered = context.exercises.filter(ex => ex !== props.exercise);
 
         context.setState(prevState => ({
             ...prevState,
@@ -36,6 +38,7 @@ export const Exercise: React.FC<{ exercise: WorkoutExercise }> = ({exercise}) =>
 
     return (
         <div className="w-full px-2 fade-animation">
+
             <div
                 className="relative flex w-full flex-col rounded-lg border border-gray-200 bg-white shadow focus:outline-none"
             >
@@ -61,11 +64,11 @@ export const Exercise: React.FC<{ exercise: WorkoutExercise }> = ({exercise}) =>
                         alt="Exercise"/>
                     <div className="flex max-h-20 w-2/3 flex-row items-center justify-between p-4 leading-normal">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">
-                            {exercise.counter}
+                            {props.exercise.counter}
                         </h5>
                         <div className="flex w-full flex-col px-3">
                             <h3 className="py-1 font-bold">
-                                {exercise.name}
+                                {props.exercise.name}
 
                             </h3>
                             <hr/>
@@ -111,7 +114,7 @@ export const Exercise: React.FC<{ exercise: WorkoutExercise }> = ({exercise}) =>
                         </thead>
 
                         <tbody>
-                        {exercise.entry.map((set) => (
+                        {props.exercise.entry.map((set) => (
                             <ExerciseDetails set={set} key={set.id}/>
                         ))}
                         </tbody>

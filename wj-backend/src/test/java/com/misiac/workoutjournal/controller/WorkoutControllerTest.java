@@ -17,11 +17,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = WorkoutController.class)
@@ -71,33 +71,37 @@ class WorkoutControllerTest {
         verify(workoutService, times(1)).deleteWorkout(TEST_EMAIL, 1L);
     }
 
-//    @Test
-//    @DisplayName("UpdateExercise normal conditions")
-//    void testUpdateExercise() throws Exception {
-//        ExerciseRequest exerciseRequest = new ExerciseRequest(1L, 5F, 5, 1);
-//
-//        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
-//
-//        mockMvc.perform(put("/api/workout/exercise/{id}", 1)
-//                        .header("Authorization", TEST_TOKEN)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(exerciseRequest)))
-//                .andExpect(status().isOk());
-//
-//        verify(workoutService, times(1))
-//                .updateExercise(eq(TEST_EMAIL), eq(1L), any(ExerciseRequest.class));
-//    }
+    @Test
+    @DisplayName("UpdateExercises normal conditions")
+    void testUpdateExercises() throws Exception {
+        ExerciseRequest request1 = new ExerciseRequest(1L, 5F, 5, 1);
+        ExerciseRequest request2 = new ExerciseRequest(2L, 10F, 10, 2);
 
-//    @Test
-//    @DisplayName("DeleteExercise normal conditions")
-//    void testDeleteExercise() throws Exception {
-//        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
-//
-//        mockMvc.perform(delete("/api/workout/exercise/{id}", 1)
-//                        .header("Authorization", TEST_TOKEN))
-//                .andExpect(status().isOk());
-//
-//        verify(workoutService, times(1))
-//                .deleteExercise(TEST_EMAIL, 1L);
-//    }
+        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
+
+        mockMvc.perform(put("/api/workout/exercise")
+                        .header("Authorization", TEST_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(List.of(request1, request2))))
+                .andExpect(status().isOk());
+
+        verify(workoutService, times(1))
+                .updateExercises(eq(TEST_EMAIL), anyList());
+    }
+
+    @Test
+    @DisplayName("DeleteExercises normal conditions")
+    void testDeleteExercise() throws Exception {
+        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
+        List<Long> deleteIds = new ArrayList<>(List.of(1L, 2L, 3L));
+
+        mockMvc.perform(delete("/api/workout/exercise", 1)
+                        .header("Authorization", TEST_TOKEN)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(deleteIds)))
+                .andExpect(status().isOk());
+
+        verify(workoutService, times(1))
+                .deleteExercises(eq(TEST_EMAIL), anyList());
+    }
 }

@@ -6,10 +6,10 @@ import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
 import com.misiac.workoutjournal.exception.UnauthorizedException;
 import com.misiac.workoutjournal.mapper.WorkoutMapper;
-import com.misiac.workoutjournal.repository.ExerciseRepository;
 import com.misiac.workoutjournal.repository.UserRepository;
 import com.misiac.workoutjournal.repository.WorkoutExerciseRepository;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
+import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
 import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,8 +34,6 @@ class WorkoutServiceTest {
     private UserRepository userRepository;
     @Mock
     private WorkoutExerciseRepository workoutExerciseRepository;
-    @Mock
-    private ExerciseRepository exerciseRepository;
     @Mock
     private WorkoutMapper workoutMapper;
 
@@ -93,73 +92,72 @@ class WorkoutServiceTest {
     }
 
 
-//    @Test
-//    @DisplayName("Update WorkoutExercise from ExerciseRequest")
-//    void testUpdateExercise() {
-//        User user = new User();
-//        Workout workout = new Workout();
-//        workout.setUser(user);
-//
-//        WorkoutExercise workoutExercise = new WorkoutExercise();
-//        Exercise exercise = new Exercise();
-//        exercise.setId(2L);
-//        workoutExercise.setReps(2);
-//        workoutExercise.setLoad(2F);
-//        workoutExercise.setExerciseType(exercise);
-//        workoutExercise.setParentWorkout(workout);
-//
-//        Exercise newExercise = new Exercise();
-//        newExercise.setId(5L);
-//        ExerciseRequest exerciseRequest = new ExerciseRequest(5L, 5F, 5, 1);
-//
-//        when(workoutExerciseRepository.findById(1L)).thenReturn(Optional.of(workoutExercise));
-//        when(userRepository.findUserByEmail(anyString())).thenReturn(user);
-//        when(exerciseRepository.findById(any(Long.class))).thenReturn(Optional.of(newExercise));
-//
-//        workoutService.updateExercise("email", 1L, exerciseRequest);
-//
-//        verify(workoutExerciseRepository, times(1)).save(workoutExercise);
-//        assertEquals(5, workoutExercise.getReps());
-//        assertEquals(5, workoutExercise.getLoad());
-//        assertEquals(newExercise, workoutExercise.getExerciseType());
-//    }
+    @Test
+    @DisplayName("Update WorkoutExercise from List<ExerciseRequest>")
+    void testUpdateExercises() {
+        User user = new User();
+        Workout workout = new Workout();
+        workout.setUser(user);
+        Exercise exercise = new Exercise(1L, "Lat Raise", null, null);
 
-//    @Test
-//    @DisplayName("deleteExercise normal conditions")
-//    void testDeleteExercise() {
-//        User user = new User();
-//        Workout workout = new Workout();
-//        user.getWorkouts().add(workout);
-//        workout.setUser(user);
-//
-//        WorkoutExercise workoutExercise1 = new WorkoutExercise();
-//        workoutExercise1.setSetNumber(1);
-//        workoutExercise1.setParentWorkout(workout);
-//        WorkoutExercise deletionExercise = new WorkoutExercise();
-//        deletionExercise.setSetNumber(1);
-//        deletionExercise.setParentWorkout(workout);
-//        WorkoutExercise workoutExercise3 = new WorkoutExercise();
-//        workoutExercise3.setSetNumber(2);
-//        workoutExercise3.setParentWorkout(workout);
-//
-//        workout.setWorkoutExercises(new LinkedList<>(List.of(workoutExercise1, deletionExercise, workoutExercise3)));
-//
-//        List<WorkoutExercise> mockExtract = new LinkedList<>(List.of(deletionExercise, workoutExercise3));
-//        try (MockedStatic<WorkoutService> mc = Mockito.mockStatic(WorkoutService.class)) {
-//
-//            when(workoutExerciseRepository.findById(any(Long.class))).thenReturn(Optional.of(deletionExercise));
-//            when(userRepository.findUserByEmail(anyString())).thenReturn(user);
-//            mc.when(() ->
-//                            WorkoutService.extractExerciseSeries(workout.getWorkoutExercises(), deletionExercise))
-//                    .thenReturn(mockExtract);
-//
-//            workoutService.deleteExercise("email", any(Long.class));
-//            assertFalse(mockExtract.contains(deletionExercise));
-//            verify(workoutExerciseRepository, times(1)).delete(deletionExercise);
-//            assertEquals(1, workoutExercise3.getSetNumber());
-//        }
-//
-//    }
+        WorkoutExercise we1 = new WorkoutExercise(1L, workout, exercise, 2F, 2, 1);
+        WorkoutExercise we2 = new WorkoutExercise(2L, workout, exercise, 2F, 2, 2);
+
+        ExerciseRequest request1 = new ExerciseRequest(1L, 5F, 5, 1);
+        ExerciseRequest request2 = new ExerciseRequest(2L, 6F, 6, 2);
+
+        when(workoutExerciseRepository.findById(1L)).thenReturn(Optional.of(we1));
+        when(workoutExerciseRepository.findById(2L)).thenReturn(Optional.of(we2));
+
+        when(userRepository.findUserByEmail(anyString())).thenReturn(user);
+
+        workoutService.updateExercises("email", List.of(request1, request2));
+
+        verify(workoutExerciseRepository, times(1)).save(we1);
+        verify(workoutExerciseRepository, times(1)).save(we2);
+
+        assertEquals(5, we1.getReps());
+        assertEquals(5, we1.getLoad(), 0.01);
+
+        assertEquals(6, we2.getReps());
+        assertEquals(6, we2.getLoad(), 0.01);
+    }
+
+    @Test
+    @DisplayName("deleteExercise normal conditions")
+    void testDeleteExercise() {
+        User user = new User();
+        Workout workout = new Workout();
+        user.getWorkouts().add(workout);
+        workout.setUser(user);
+
+        WorkoutExercise we1 = new WorkoutExercise();
+        we1.setId(1L);
+        we1.setParentWorkout(workout);
+
+        WorkoutExercise we2 = new WorkoutExercise();
+        we2.setId(2L);
+        we2.setParentWorkout(workout);
+
+        WorkoutExercise we3 = new WorkoutExercise();
+        we3.setId(3L);
+        we3.setParentWorkout(workout);
+
+
+        workout.setWorkoutExercises(new LinkedList<>(List.of(we1, we2)));
+
+        when(userRepository.findUserByEmail(anyString())).thenReturn(user);
+
+        when(workoutExerciseRepository.findById(1L)).thenReturn(Optional.of(we1));
+        when(workoutExerciseRepository.findById(2L)).thenReturn(Optional.of(we2));
+
+        workoutService.deleteExercises("email", List.of(1L, 2L));
+
+        verify(workoutExerciseRepository, times(1)).delete(we1);
+        verify(workoutExerciseRepository, times(1)).delete(we2);
+        verify(workoutExerciseRepository, times(0)).delete(we3);
+
+    }
 
     @Test
     @DisplayName("extractExerciseSeries default test")

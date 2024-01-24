@@ -96,12 +96,12 @@ public class WorkoutService {
 
     public void deleteExercises(String email, List<Long> deleteIds) {
 
+        User user = userRepository.findUserByEmail(email);
         deleteIds.forEach(id -> {
 
             WorkoutExercise deletion = workoutExerciseRepository.findById(id)
                     .orElseThrow(() -> new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST));
 
-            User user = userRepository.findUserByEmail(email);
             if (deletion.getParentWorkout().getUser() != user) {
                 throw new UnauthorizedException(WE_DOES_NOT_BELONG);
             }

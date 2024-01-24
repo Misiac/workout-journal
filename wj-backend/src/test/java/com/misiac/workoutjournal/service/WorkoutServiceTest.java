@@ -16,12 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Pageable;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,17 +54,6 @@ class WorkoutServiceTest {
         verify(workoutRepository, times(1)).save(workout);
     }
 
-    @Test
-    @DisplayName("getWorkouts normal conditions")
-    void testGetWorkoutsForUser() {
-
-        String email = "test@email.com";
-        Pageable pageable = Pageable.ofSize(5);
-
-        workoutService.getWorkoutsForUser(email, pageable);
-        verify(workoutRepository, times(1))
-                .findWorkoutsByUserEmailOrderByDateDesc(eq(email), eq(pageable));
-    }
 
     @Test
     @DisplayName("deleteWorkout normal conditions")
@@ -139,42 +124,42 @@ class WorkoutServiceTest {
 //        assertEquals(newExercise, workoutExercise.getExerciseType());
 //    }
 
-    @Test
-    @DisplayName("deleteExercise normal conditions")
-    void testDeleteExercise() {
-        User user = new User();
-        Workout workout = new Workout();
-        user.getWorkouts().add(workout);
-        workout.setUser(user);
-
-        WorkoutExercise workoutExercise1 = new WorkoutExercise();
-        workoutExercise1.setSetNumber(1);
-        workoutExercise1.setParentWorkout(workout);
-        WorkoutExercise deletionExercise = new WorkoutExercise();
-        deletionExercise.setSetNumber(1);
-        deletionExercise.setParentWorkout(workout);
-        WorkoutExercise workoutExercise3 = new WorkoutExercise();
-        workoutExercise3.setSetNumber(2);
-        workoutExercise3.setParentWorkout(workout);
-
-        workout.setWorkoutExercises(new LinkedList<>(List.of(workoutExercise1, deletionExercise, workoutExercise3)));
-
-        List<WorkoutExercise> mockExtract = new LinkedList<>(List.of(deletionExercise, workoutExercise3));
-        try (MockedStatic<WorkoutService> mc = Mockito.mockStatic(WorkoutService.class)) {
-
-            when(workoutExerciseRepository.findById(any(Long.class))).thenReturn(Optional.of(deletionExercise));
-            when(userRepository.findUserByEmail(anyString())).thenReturn(user);
-            mc.when(() ->
-                            WorkoutService.extractExerciseSeries(workout.getWorkoutExercises(), deletionExercise))
-                    .thenReturn(mockExtract);
-
-            workoutService.deleteExercise("email", any(Long.class));
-            assertFalse(mockExtract.contains(deletionExercise));
-            verify(workoutExerciseRepository, times(1)).delete(deletionExercise);
-            assertEquals(1, workoutExercise3.getSetNumber());
-        }
-
-    }
+//    @Test
+//    @DisplayName("deleteExercise normal conditions")
+//    void testDeleteExercise() {
+//        User user = new User();
+//        Workout workout = new Workout();
+//        user.getWorkouts().add(workout);
+//        workout.setUser(user);
+//
+//        WorkoutExercise workoutExercise1 = new WorkoutExercise();
+//        workoutExercise1.setSetNumber(1);
+//        workoutExercise1.setParentWorkout(workout);
+//        WorkoutExercise deletionExercise = new WorkoutExercise();
+//        deletionExercise.setSetNumber(1);
+//        deletionExercise.setParentWorkout(workout);
+//        WorkoutExercise workoutExercise3 = new WorkoutExercise();
+//        workoutExercise3.setSetNumber(2);
+//        workoutExercise3.setParentWorkout(workout);
+//
+//        workout.setWorkoutExercises(new LinkedList<>(List.of(workoutExercise1, deletionExercise, workoutExercise3)));
+//
+//        List<WorkoutExercise> mockExtract = new LinkedList<>(List.of(deletionExercise, workoutExercise3));
+//        try (MockedStatic<WorkoutService> mc = Mockito.mockStatic(WorkoutService.class)) {
+//
+//            when(workoutExerciseRepository.findById(any(Long.class))).thenReturn(Optional.of(deletionExercise));
+//            when(userRepository.findUserByEmail(anyString())).thenReturn(user);
+//            mc.when(() ->
+//                            WorkoutService.extractExerciseSeries(workout.getWorkoutExercises(), deletionExercise))
+//                    .thenReturn(mockExtract);
+//
+//            workoutService.deleteExercise("email", any(Long.class));
+//            assertFalse(mockExtract.contains(deletionExercise));
+//            verify(workoutExerciseRepository, times(1)).delete(deletionExercise);
+//            assertEquals(1, workoutExercise3.getSetNumber());
+//        }
+//
+//    }
 
     @Test
     @DisplayName("extractExerciseSeries default test")

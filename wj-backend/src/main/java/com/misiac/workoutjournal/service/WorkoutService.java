@@ -6,15 +6,12 @@ import com.misiac.workoutjournal.entity.WorkoutExercise;
 import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
 import com.misiac.workoutjournal.exception.UnauthorizedException;
 import com.misiac.workoutjournal.mapper.WorkoutMapper;
-import com.misiac.workoutjournal.repository.ExerciseRepository;
 import com.misiac.workoutjournal.repository.UserRepository;
 import com.misiac.workoutjournal.repository.WorkoutExerciseRepository;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
 import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
 import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,19 +27,17 @@ public class WorkoutService {
     private final WorkoutRepository workoutRepository;
     private final UserRepository userRepository;
     private final WorkoutExerciseRepository workoutExerciseRepository;
-    private final ExerciseRepository exerciseRepository;
     private final WorkoutMapper workoutMapper;
 
 
     @Autowired
     public WorkoutService(
             WorkoutRepository workoutRepository, WorkoutMapper workoutMapper, UserRepository userRepository,
-            WorkoutExerciseRepository workoutExerciseRepository, ExerciseRepository exerciseRepository) {
+            WorkoutExerciseRepository workoutExerciseRepository) {
         this.workoutRepository = workoutRepository;
         this.workoutMapper = workoutMapper;
         this.userRepository = userRepository;
         this.workoutExerciseRepository = workoutExerciseRepository;
-        this.exerciseRepository = exerciseRepository;
     }
 
 
@@ -50,11 +45,6 @@ public class WorkoutService {
 
         Workout workout = workoutMapper.toWorkout(addWorkoutRequest, email);
         workoutRepository.save(workout);
-    }
-
-    public Page<Workout> getWorkoutsForUser(String email, Pageable pageable) {
-        return workoutRepository.findWorkoutsByUserEmailOrderByDateDesc(email, pageable);
-
     }
 
     public List<WorkoutTiny> getExercisesTiny(String email) {
@@ -85,58 +75,37 @@ public class WorkoutService {
         workoutRepository.delete(deletion);
     }
 
-
-    public void updateExercise(String email, Long workoutExerciseId, ExerciseRequest exerciseRequest) {
-
-        WorkoutExercise workoutExercise = workoutExerciseRepository.findById(workoutExerciseId)
-                .orElseThrow(() -> new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST));
-
-        User user = userRepository.findUserByEmail(email);
-        if (workoutExercise.getParentWorkout().getUser() != user) {
-            throw new UnauthorizedException(WE_DOES_NOT_BELONG);
-        }
-
-        workoutExercise.setLoad(exerciseRequest.getLoad());
-        workoutExercise.setReps(exerciseRequest.getReps());
-
-        workoutExerciseRepository.save(workoutExercise);
-    }
-
     public void updateExercises(String email, List<ExerciseRequest> exerciseRequests) {
 
         exerciseRequests.forEach(request -> {
-                    updateExercise(email, request.getId(), request);
+                    WorkoutExercise workoutExercise = workoutExerciseRepository.findById(request.getId())
+                            .orElseThrow(() -> new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST));
+
+                    User user = userRepository.findUserByEmail(email);
+                    if (workoutExercise.getParentWorkout().getUser() != user) {
+                        throw new UnauthorizedException(WE_DOES_NOT_BELONG);
+                    }
+
+                    workoutExercise.setLoad(request.getLoad());
+                    workoutExercise.setReps(request.getReps());
+
+                    workoutExerciseRepository.save(workoutExercise);
                 }
         );
     }
 
-    public void deleteExercise(String email, Long workoutExerciseId) {
-
-        WorkoutExercise deletion = workoutExerciseRepository.findById(workoutExerciseId)
-                .orElseThrow(() -> new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST));
-
-        User user = userRepository.findUserByEmail(email);
-        if (deletion.getParentWorkout().getUser() != user) {
-            throw new UnauthorizedException(WE_DOES_NOT_BELONG);
-        }
-        Workout workout = deletion.getParentWorkout();
-        List<WorkoutExercise> workoutExercises = workout.getWorkoutExercises();
-        List<WorkoutExercise> exercisesSeries;
-
-        exercisesSeries = extractExerciseSeries(workoutExercises, deletion);
-        exercisesSeries.remove(deletion);
-        workoutExerciseRepository.delete(deletion);
-        for (int i = 1; i <= exercisesSeries.size(); i++) {
-            exercisesSeries.get(i - 1).setSetNumber(i);
-            workoutExerciseRepository.save(exercisesSeries.get(i - 1));
-        }
-
-    }
-
     public void deleteExercises(String email, List<Long> deleteIds) {
 
-        deleteIds.forEach(val -> {
-            deleteExercise(email, val);
+        deleteIds.forEach(id -> {
+
+            WorkoutExercise deletion = workoutExerciseRepository.findById(id)
+                    .orElseThrow(() -> new EntityDoesNotExistException(WORKOUT_EXERCISE_DOES_NOT_EXIST));
+
+            User user = userRepository.findUserByEmail(email);
+            if (deletion.getParentWorkout().getUser() != user) {
+                throw new UnauthorizedException(WE_DOES_NOT_BELONG);
+            }
+            workoutExerciseRepository.delete(deletion);
         });
     }
 

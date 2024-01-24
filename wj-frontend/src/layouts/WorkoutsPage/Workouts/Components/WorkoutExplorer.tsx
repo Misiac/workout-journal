@@ -5,6 +5,7 @@ import {WorkoutExercise, WorkoutExerciseSet} from "../../../../models/WorkoutExe
 import WorkoutTotals from "./WorkoutTotals.tsx";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import EditorOptions from "./EditorOptions.tsx";
+import LogNewExercise from "./LogNewExercise.tsx";
 
 
 export const WorkoutExplorer = () => {
@@ -134,6 +135,8 @@ export const WorkoutExplorer = () => {
                     {context.exercises?.map((exercise) => (
                         <Exercise exercise={exercise} key={exercise.counter}/>
                     ))}
+
+                    {isEditModeOn && <LogNewExercise/>}
 
                 </div>
             </div>

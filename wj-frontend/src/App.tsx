@@ -41,8 +41,6 @@ export const App = () => {
         };
     }, []);
 
-    console.log(wasEnoughAtStart)
-
     return (
         <div>
             <Security

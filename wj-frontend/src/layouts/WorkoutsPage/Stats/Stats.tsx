@@ -14,7 +14,7 @@ export const Stats = () => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const url = 'http://localhost:8080/api/stats/total';
+            const url = `${import.meta.env.VITE_API_ADDRESS}/api/stats/total`;
             const requestOptions = {
                 method: 'GET',
                 headers: {

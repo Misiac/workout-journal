@@ -38,7 +38,7 @@ export const MuscleRadar = () => {
     useEffect(() => {
         setIsLoading(true);
         const fetchData = async (): Promise<RadarData | undefined> => {
-            const url = 'http://localhost:8080/api/stats/radar';
+            const url = `${import.meta.env.VITE_API_ADDRESS}/api/stats/radar`;
             const requestOptions = {
                 method: 'GET',
                 headers: {

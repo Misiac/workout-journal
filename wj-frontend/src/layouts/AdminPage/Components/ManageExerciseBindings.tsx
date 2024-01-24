@@ -32,7 +32,7 @@ export const ManageExerciseBindings: React.FC<{
     }
     useEffect(() => {
         const fetchData = async () => {
-            const url = 'http://localhost:8080/api/exercises/tiny';
+            const url = `${import.meta.env.VITE_API_ADDRESS}/api/exercises/tiny`;
             const requestOptions = {
                 method: 'GET',
                 headers: {
@@ -67,7 +67,7 @@ export const ManageExerciseBindings: React.FC<{
             return;
         }
 
-        let url = 'http://localhost:8080/api/admin/exercise';
+        let url = `${import.meta.env.VITE_API_ADDRESS}/api/admin/exercise`;
         url = url.concat(`/${selectedExerciseId}`)
         if (currentCategoryOption === 'Equipment') {
             url = url.concat('/equipment-categories')

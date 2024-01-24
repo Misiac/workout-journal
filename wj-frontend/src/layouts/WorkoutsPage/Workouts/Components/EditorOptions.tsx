@@ -14,7 +14,7 @@ export const EditorOptions = () => {
 
     const deleteWorkout = async () => {
         try {
-            const response = await fetch(`http://localhost:8080/api/workout/${context.selectedWorkoutId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout/${context.selectedWorkoutId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
@@ -37,7 +37,7 @@ export const EditorOptions = () => {
 
     const deleteExercises = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/workout/exercise", {
+            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout/exercise`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
@@ -53,7 +53,7 @@ export const EditorOptions = () => {
 
     const updateExercises = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/workout/exercise", {
+            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout/exercise`, {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,

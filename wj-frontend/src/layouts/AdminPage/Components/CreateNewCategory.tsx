@@ -22,7 +22,7 @@ export const CreateNewCategory = () => {
             return;
         }
 
-        let url = 'http://localhost:8080/api/admin'
+        let url = `${import.meta.env.VITE_API_ADDRESS}/api/admin`
         if (selectedOption === 'Equipment') {
             url = url.concat('/equipment-category')
         } else if (selectedOption === 'Musclegroup') {

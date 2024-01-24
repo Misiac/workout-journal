@@ -9,6 +9,7 @@ services:
         VITE_OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
         VITE_OKTA_ISSUER: ${OKTA_ISSUER}
         VITE_REDIRECT_URI: http://localhost:3000/login/callback
+        VITE_API_ADDRESS: http://localhost:8080
     ports:
       - "3000:80"
     depends_on:

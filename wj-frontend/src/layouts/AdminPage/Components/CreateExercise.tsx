@@ -39,7 +39,7 @@ export const CreateExercise: React.FC<{
             new MuscleGroupRequest(muscleCat1, isPrimary1), new MuscleGroupRequest(muscleCat2, isPrimary2)
         ])
 
-        const url = 'http://localhost:8080/api/admin/exercise'
+        const url = `${import.meta.env.VITE_API_ADDRESS}/api/admin/exercise`
         const requestOptions = {
             method: 'POST',
             headers: {

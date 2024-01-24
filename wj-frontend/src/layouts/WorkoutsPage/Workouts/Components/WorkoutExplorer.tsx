@@ -54,7 +54,7 @@ export const WorkoutExplorer = () => {
     };
 
     const fetchData = async () => {
-        const url = `http://localhost:8080/api/workout/${selectedWorkoutId}`;
+        const url = `${import.meta.env.VITE_API_ADDRESS}/api/workout/${selectedWorkoutId}`;
         const requestOptions = {
             method: 'GET',
             headers: {

@@ -7,7 +7,7 @@ interface ConfirmModalProps {
     onCancel: () => void;
 }
 
-const ConfirmModal: React.FC<ConfirmModalProps> = ({message, onConfirm, onCancel}) => {
+export const ConfirmModal: React.FC<ConfirmModalProps> = ({message, onConfirm, onCancel}) => {
     return (
         <div className="fixed inset-0 z-10 flex items-center justify-center bg-black bg-opacity-50"
              aria-labelledby="modal-delete"

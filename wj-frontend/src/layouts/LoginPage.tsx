@@ -6,9 +6,9 @@ import logo from "../resources/logo.png"
 export const LoginPage = () => {
     return (
         <>
-            <div className='flex h-screen items-center justify-center'>
+            <div className='flex h-screen items-center justify-center fade-animation'>
                 <div className='items-center'>
-                    <div className='flex items-center justify-center'>
+                    <div className='flex items-center justify-center w-full'>
                         <img src={logo} width={396} alt="logo"/>
                     </div>
                     <LoginWidget config={oktaConfig}/>

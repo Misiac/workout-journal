@@ -22,19 +22,6 @@ public interface WorkoutRepository extends JpaRepository<Workout, Long> {
 
         LocalDateTime getDate();
 
-        default String getName() {
-
-            String day = getDate().getDayOfWeek().name().toLowerCase();
-            day = day.replace(day.charAt(0), Character.toUpperCase(day.charAt(0)));
-
-            String time = switch (getDate().getHour()) {
-                case 0, 1, 2, 3, 4, 5, 6, 22, 23 -> "Night";
-                case 7, 8, 9, 10, 11 -> "Morning";
-                case 12, 13, 14, 15, 16, 17 -> "Afternoon";
-                case 18, 19, 20, 21 -> "Evening";
-                default -> "Unknown";
-            };
-            return day + " " + time + " Workout";
-        }
+        String getName();
     }
 }

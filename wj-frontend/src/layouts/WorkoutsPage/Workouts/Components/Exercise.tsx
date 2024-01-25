@@ -1,7 +1,7 @@
 import test from "../../../../resources/test.png";
 import arrow from "../../../../resources/collapse-arrow.png";
 import React, {useContext, useState} from "react";
-import {WorkoutExercise} from "../../../../models/WorkoutExercise";
+import {WorkoutExercise} from "../../../../models/Workout.ts";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import ExerciseDetails from "./ExerciseDetails.tsx";
 
@@ -16,15 +16,15 @@ export const Exercise: React.FC<{
 
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const totalSets = props.exercise.entry.length;
-    const minReps = Math.min(...props.exercise.entry.map(set => set.reps));
-    const maxReps = Math.max(...props.exercise.entry.map(set => set.reps));
-    const minKg = Math.min(...props.exercise.entry.map(set => set.load));
-    const maxKg = Math.max(...props.exercise.entry.map(set => set.load));
+    const totalSets = props.exercise.workoutExerciseSets.length;
+    const minReps = Math.min(...props.exercise.workoutExerciseSets.map(set => set.reps));
+    const maxReps = Math.max(...props.exercise.workoutExerciseSets.map(set => set.reps));
+    const minKg = Math.min(...props.exercise.workoutExerciseSets.map(set => set.load));
+    const maxKg = Math.max(...props.exercise.workoutExerciseSets.map(set => set.load));
 
     const addToDelete = () => {
-        const newDeletedExercises = [...context.deletedExercises, ...props.exercise.entry.map(set => set.id)];
-        const filtered = context.exercises.filter(ex => ex !== props.exercise);
+        const newDeletedExercises = [...context.deletedSetsIds, ...props.exercise.workoutExerciseSets.map(set => set.id)];
+        const filtered = context.workout?.workoutExercises.filter(ex => ex !== props.exercise);
 
         context.setState(prevState => ({
             ...prevState,
@@ -64,11 +64,11 @@ export const Exercise: React.FC<{
                         alt="Exercise"/>
                     <div className="flex max-h-20 w-2/3 flex-row items-center justify-between p-4 leading-normal">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">
-                            {props.exercise.counter}
+                            {props.exercise.sequenceNumber}
                         </h5>
                         <div className="flex w-full flex-col px-3">
                             <h3 className="py-1 font-bold">
-                                {props.exercise.name}
+                                {props.exercise.exerciseType.name}
 
                             </h3>
                             <hr/>
@@ -114,7 +114,7 @@ export const Exercise: React.FC<{
                         </thead>
 
                         <tbody>
-                        {props.exercise.entry.map((set) => (
+                        {props.exercise.workoutExerciseSets.map((set) => (
                             <ExerciseDetails set={set} key={set.id}/>
                         ))}
                         </tbody>

@@ -2,19 +2,17 @@ import {useState} from "react";
 import WorkoutsSlider from "./Components/WorkoutsSlider";
 import WorkoutExplorer from "./Components/WorkoutExplorer";
 import {WorkoutExplorerContext} from '../WorkoutExplorerContext.tsx';
-import WorkoutExercise, {WorkoutExerciseSet} from "../../../models/WorkoutExercise.ts";
+import Workout, {WorkoutExerciseSet} from "../../../models/Workout.ts";
 import {confirmModal} from "../../Utils/ConfirmModal.tsx";
 
 export const Workouts = () => {
     const [state, setState] = useState({
         selectedWorkoutId: 0,
-        workoutName: '',
-        workoutDate: '',
-        exercises: [] as WorkoutExercise[],
+        workout: null as Workout | null,
         isEditModeOn: false,
         wasChangeMade: false,
-        deletedExercises: [] as number[],
-        editedExercises: [] as WorkoutExerciseSet[],
+        deletedSetsIds: [] as number[],
+        editedSets: [] as WorkoutExerciseSet[],
         workoutReloadTrigger: 0,
         sliderReloadTrigger: 0
     });

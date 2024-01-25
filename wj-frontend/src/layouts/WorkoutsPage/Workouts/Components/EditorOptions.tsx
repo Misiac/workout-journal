@@ -27,11 +27,11 @@ export const EditorOptions = () => {
             console.error('Error deleting workout', error);
         }
         context.setState(prevState => ({
-            ...prevState,
-            selectedWorkoutId: 0,
-            workoutName: '',
-            workoutDate: '',
-            sliderReloadTrigger: prevState.sliderReloadTrigger + 1
+        ...prevState,
+        selectedWorkoutId: 0,
+        workout: null,
+        isEditModeOn: false,
+        sliderReloadTrigger: prevState.sliderReloadTrigger + 1
         }));
     };
 
@@ -43,7 +43,7 @@ export const EditorOptions = () => {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(context.deletedExercises)
+                body: JSON.stringify(context.deletedSetsIds)
             });
             if (!response.ok) throw new Error('Something went wrong!');
         } catch (error) {
@@ -59,7 +59,7 @@ export const EditorOptions = () => {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(context.editedExercises)
+                body: JSON.stringify(context.editedSets)
             });
             if (!response.ok) throw new Error('Something went wrong!');
         } catch (error) {

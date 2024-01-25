@@ -28,7 +28,7 @@ CREATE TABLE `equipment_jointable` (
   KEY `excercise_id_idx` (`exercise_id`),
   KEY `category_id_FK_idx` (`category_id`),
   CONSTRAINT `FK_equipment_jointable-category` FOREIGN KEY (`category_id`) REFERENCES `exercise_equipment_categories` (`id`),
-  CONSTRAINT `FK_equipment_jointable-exercise` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`)
+  CONSTRAINT `FK_equipment_jointable-exercise` FOREIGN KEY (`exercise_id`) REFERENCES `exercise_types` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -93,13 +93,13 @@ INSERT INTO `exercise_musclegroup_categories` VALUES (7,'Abs'),(8,'Biceps'),(9,'
 UNLOCK TABLES;
 
 --
--- Table structure for table `exercises`
+-- Table structure for table `exercise_types`
 --
 
-DROP TABLE IF EXISTS `exercises`;
+DROP TABLE IF EXISTS `exercise_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `exercises` (
+CREATE TABLE `exercise_types` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
@@ -108,13 +108,13 @@ CREATE TABLE `exercises` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `exercises`
+-- Dumping data for table `exercise_types`
 --
 
-LOCK TABLES `exercises` WRITE;
-/*!40000 ALTER TABLE `exercises` DISABLE KEYS */;
-INSERT INTO `exercises` VALUES (18,'Biceps Curl'),(25,'Bicycle Crunch'),(13,'Dumbbell Bench Press'),(14,'Dumbbell Incline Bench Press'),(16,'Dumbbell Incline Fly'),(17,'Dumbbell Row'),(20,'Dumbbell Shoulder Press'),(21,'Dumbbell Skull Crusher'),(22,'Lat Raise'),(24,'Leg Curl Seated'),(23,'Leg Extension'),(26,'Plank'),(19,'Pull Up'),(15,'Push Up');
-/*!40000 ALTER TABLE `exercises` ENABLE KEYS */;
+LOCK TABLES `exercise_types` WRITE;
+/*!40000 ALTER TABLE `exercise_types` DISABLE KEYS */;
+INSERT INTO `exercise_types` VALUES (18,'Biceps Curl'),(25,'Bicycle Crunch'),(13,'Dumbbell Bench Press'),(14,'Dumbbell Incline Bench Press'),(16,'Dumbbell Incline Fly'),(17,'Dumbbell Row'),(20,'Dumbbell Shoulder Press'),(21,'Dumbbell Skull Crusher'),(22,'Lat Raise'),(24,'Leg Curl Seated'),(23,'Leg Extension'),(26,'Plank'),(19,'Pull Up'),(15,'Push Up');
+/*!40000 ALTER TABLE `exercise_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -133,7 +133,7 @@ CREATE TABLE `musclegroups` (
   KEY `excercise_id_idx` (`exercise_id`),
   KEY `category_id_idx` (`category_id`),
   CONSTRAINT `FK_musclegroups-category` FOREIGN KEY (`category_id`) REFERENCES `exercise_musclegroup_categories` (`id`),
-  CONSTRAINT `FK_musclegroups-exercise` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`)
+  CONSTRAINT `FK_musclegroups-exercise` FOREIGN KEY (`exercise_id`) REFERENCES `exercise_types` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -173,6 +173,36 @@ INSERT INTO `users` VALUES (3,'Misiac2000@gmail.com'),(2,'testuser@email.com');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `workout_exercise_sets`
+--
+
+DROP TABLE IF EXISTS `workout_exercise_sets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `workout_exercise_sets` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `workout_exercise_id` bigint NOT NULL,
+  `load` float NOT NULL,
+  `reps` int NOT NULL,
+  `set_number` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_workout_id_idx` (`id`),
+  KEY `FK_sets-exercises_idx` (`workout_exercise_id`),
+  CONSTRAINT `FK_sets-exercises` FOREIGN KEY (`workout_exercise_id`) REFERENCES `workout_exercises` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `workout_exercise_sets`
+--
+
+LOCK TABLES `workout_exercise_sets` WRITE;
+/*!40000 ALTER TABLE `workout_exercise_sets` DISABLE KEYS */;
+INSERT INTO `workout_exercise_sets` VALUES (1,1,2,2,1),(2,1,4,4,2),(3,1,6,6,3);
+/*!40000 ALTER TABLE `workout_exercise_sets` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `workout_exercises`
 --
 
@@ -181,18 +211,15 @@ DROP TABLE IF EXISTS `workout_exercises`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `workout_exercises` (
   `id` bigint NOT NULL AUTO_INCREMENT,
+  `exercise_type_id` bigint NOT NULL,
   `workout_id` bigint NOT NULL,
-  `exercise_id` bigint NOT NULL,
-  `load` float NOT NULL,
-  `reps` int NOT NULL,
-  `set_number` int NOT NULL,
+  `sequence_number` int NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `FK__idx` (`exercise_id`),
-  KEY `FK_workout_id_idx` (`id`),
-  KEY `FK_workout_id_idx1` (`workout_id`),
-  CONSTRAINT `FK_workout_exercises-exercises` FOREIGN KEY (`exercise_id`) REFERENCES `exercises` (`id`),
-  CONSTRAINT `FK_workout_exercises-workout` FOREIGN KEY (`workout_id`) REFERENCES `workouts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `FK_workouts-user_idx` (`workout_id`),
+  KEY `FK_workout_exercises-exercise_types_idx` (`exercise_type_id`),
+  CONSTRAINT `FK_workout_exercises-exercise_types` FOREIGN KEY (`exercise_type_id`) REFERENCES `exercise_types` (`id`),
+  CONSTRAINT `FK_workout_exercises-workouts` FOREIGN KEY (`workout_id`) REFERENCES `workouts` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -201,7 +228,7 @@ CREATE TABLE `workout_exercises` (
 
 LOCK TABLES `workout_exercises` WRITE;
 /*!40000 ALTER TABLE `workout_exercises` DISABLE KEYS */;
-INSERT INTO `workout_exercises` VALUES (50,21,13,20,12,1),(51,21,13,30,10,2),(52,21,13,40,10,3),(53,21,13,50,9,4),(54,21,13,50,7,5),(55,21,20,25,11,1),(56,21,20,25,9,2),(57,21,20,25,7,3),(58,21,20,20,5,4),(59,21,14,20,12,1),(60,21,14,20,8,0),(61,21,14,20,7,3),(62,21,22,10,15,1),(63,21,22,10,12,2);
+INSERT INTO `workout_exercises` VALUES (1,18,1,1);
 /*!40000 ALTER TABLE `workout_exercises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -216,6 +243,7 @@ CREATE TABLE `workouts` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `date` datetime NOT NULL,
+  `name` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_idx` (`user_id`),
   CONSTRAINT `FK_workouts-user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
@@ -228,7 +256,7 @@ CREATE TABLE `workouts` (
 
 LOCK TABLES `workouts` WRITE;
 /*!40000 ALTER TABLE `workouts` DISABLE KEYS */;
-INSERT INTO `workouts` VALUES (21,2,'2023-12-20 15:42:00');
+INSERT INTO `workouts` VALUES (1,2,'2024-01-01 00:00:00','my workout');
 /*!40000 ALTER TABLE `workouts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -241,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-06 20:13:12
+-- Dump completed on 2024-01-25 12:43:28

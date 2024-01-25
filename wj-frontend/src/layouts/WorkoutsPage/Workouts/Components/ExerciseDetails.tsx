@@ -1,4 +1,4 @@
-import {WorkoutExerciseSet} from "../../../../models/WorkoutExercise";
+import {WorkoutExerciseSet} from "../../../../models/Workout.ts";
 import React, {useContext, useEffect, useState} from "react";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import EditSVG from "../../../Utils/EditSVG.tsx";
@@ -38,7 +38,7 @@ export const ExerciseDetails: React.FC<{
             props.set.setNumber
         );
 
-        let newEditedExercises = context.editedExercises.map(exercise =>
+        let newEditedExercises = context.editedSets.map(exercise =>
             exercise.id === editedExercise.id ? editedExercise : exercise
         );
 

@@ -1,7 +1,7 @@
 package com.misiac.workoutjournal.mapper;
 
 import com.misiac.workoutjournal.entity.EquipmentCategory;
-import com.misiac.workoutjournal.entity.Exercise;
+import com.misiac.workoutjournal.entity.ExerciseType;
 import com.misiac.workoutjournal.entity.MuscleGroup;
 import com.misiac.workoutjournal.repository.EquipmentCategoryRepository;
 import com.misiac.workoutjournal.repository.MuscleGroupCategoryRepository;
@@ -27,8 +27,8 @@ public class ExerciseMapper {
         this.muscleGroupCategoryRepository = muscleGroupCategoryRepository;
     }
 
-    public Exercise toExercise(AdminCreateExerciseRequest adminExerciseRequest) {
-        Exercise exercise = new Exercise();
+    public ExerciseType toExercise(AdminCreateExerciseRequest adminExerciseRequest) {
+        ExerciseType exercise = new ExerciseType();
 
         exercise.setName(adminExerciseRequest.getName());
         List<EquipmentCategory> equipmentCategories = new LinkedList<>();

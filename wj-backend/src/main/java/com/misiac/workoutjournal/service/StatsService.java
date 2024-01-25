@@ -25,7 +25,8 @@ public class StatsService {
 
         return user.getWorkouts().stream()
                 .flatMap(workout -> workout.getWorkoutExercises().stream())
-                .mapToLong(WorkoutExercise::getReps)
+                .flatMap(workoutExercise -> workoutExercise.getWorkoutExerciseSets().stream())
+                .mapToLong(WorkoutExerciseSet::getReps)
                 .sum();
     }
 
@@ -36,7 +37,8 @@ public class StatsService {
     public Long getTotalSets(User user) {
 
         return user.getWorkouts().stream()
-                .mapToLong(workout -> workout.getWorkoutExercises().size())
+                .flatMap(workout -> workout.getWorkoutExercises().stream())
+                .mapToLong(workoutExercise -> workoutExercise.getWorkoutExerciseSets().size())
                 .sum();
     }
 
@@ -44,6 +46,7 @@ public class StatsService {
 
         return user.getWorkouts().stream()
                 .flatMap(workout -> workout.getWorkoutExercises().stream())
+                .flatMap(workoutExercise -> workoutExercise.getWorkoutExerciseSets().stream())
                 .mapToDouble(we -> we.getLoad() * we.getReps())
                 .sum();
     }
@@ -53,9 +56,11 @@ public class StatsService {
         RadarDataDTO radarDataDTO = new RadarDataDTO();
         for (Workout workout : user.getWorkouts()) {
             for (WorkoutExercise we : workout.getWorkoutExercises()) {
-                for (MuscleGroup mg : we.getExerciseType().getMuscleGroups()) {
-                    if (mg.getIsPrimary() == 1) {
-                        radarAllocator.incrementRadarCategory(radarDataDTO, mg.getCategory(), we.getReps());
+                for (WorkoutExerciseSet set : we.getWorkoutExerciseSets()) {
+                    for (MuscleGroup mg : we.getExerciseType().getMuscleGroups()) {
+                        if (mg.getIsPrimary() == 1) {
+                            radarAllocator.incrementRadarCategory(radarDataDTO, mg.getCategory(), set.getReps());
+                        }
                     }
                 }
             }

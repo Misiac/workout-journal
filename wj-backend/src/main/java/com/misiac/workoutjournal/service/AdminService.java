@@ -1,14 +1,11 @@
 package com.misiac.workoutjournal.service;
 
-import com.misiac.workoutjournal.entity.EquipmentCategory;
-import com.misiac.workoutjournal.entity.Exercise;
-import com.misiac.workoutjournal.entity.MuscleGroup;
-import com.misiac.workoutjournal.entity.MuscleGroupCategory;
+import com.misiac.workoutjournal.entity.*;
 import com.misiac.workoutjournal.exception.EntityAlreadyExistsException;
 import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
 import com.misiac.workoutjournal.mapper.ExerciseMapper;
 import com.misiac.workoutjournal.repository.EquipmentCategoryRepository;
-import com.misiac.workoutjournal.repository.ExerciseRepository;
+import com.misiac.workoutjournal.repository.ExerciseTypeRepository;
 import com.misiac.workoutjournal.repository.MuscleGroupCategoryRepository;
 import com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +20,15 @@ import static com.misiac.workoutjournal.util.MessageProvider.*;
 public class AdminService {
     private final EquipmentCategoryRepository equipmentCategoryRepository;
     private final MuscleGroupCategoryRepository muscleGroupCategoryRepository;
-    private final ExerciseRepository exerciseRepository;
+    private final ExerciseTypeRepository exerciseTypeRepository;
     private final ExerciseMapper exerciseMapper;
 
     @Autowired
     public AdminService(EquipmentCategoryRepository equipmentCategoryRepository, MuscleGroupCategoryRepository muscleGroupCategoryRepository,
-                        ExerciseRepository exerciseRepository, ExerciseMapper exerciseMapper) {
+                        ExerciseTypeRepository exerciseTypeRepository, ExerciseMapper exerciseMapper) {
         this.equipmentCategoryRepository = equipmentCategoryRepository;
         this.muscleGroupCategoryRepository = muscleGroupCategoryRepository;
-        this.exerciseRepository = exerciseRepository;
+        this.exerciseTypeRepository = exerciseTypeRepository;
         this.exerciseMapper = exerciseMapper;
     }
 
@@ -56,7 +53,7 @@ public class AdminService {
     }
 
     public void addExercise(AdminCreateExerciseRequest adminExerciseRequest) {
-        exerciseRepository.findExerciseByName(adminExerciseRequest.getName()).ifPresent(e -> {
+        exerciseTypeRepository.findExerciseByName(adminExerciseRequest.getName()).ifPresent(e -> {
             throw new EntityAlreadyExistsException(EXERCISE_ALREADY_EXISTS);
         });
 
@@ -75,13 +72,13 @@ public class AdminService {
             }
         }
 
-        Exercise newExercise = exerciseMapper.toExercise(adminExerciseRequest);
-        exerciseRepository.save(newExercise);
+        ExerciseType newExercise = exerciseMapper.toExercise(adminExerciseRequest);
+        exerciseTypeRepository.save(newExercise);
     }
 
     public void bindEquipmentCategory(Long exerciseId, String categoryName) {
 
-        Exercise exercise = exerciseRepository.findById(exerciseId).orElseThrow(
+        ExerciseType exercise = exerciseTypeRepository.findById(exerciseId).orElseThrow(
                 () -> new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST));
 
         EquipmentCategory category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName)
@@ -91,12 +88,12 @@ public class AdminService {
             throw new EntityAlreadyExistsException(EXERCISE_ALREADY_HAS_THIS_CAT);
         }
         exercise.getEquipmentCategories().add(category);
-        exerciseRepository.save(exercise);
+        exerciseTypeRepository.save(exercise);
     }
 
     public void unbindEquipmentCategory(Long exerciseId, String categoryName) {
 
-        Exercise exercise = exerciseRepository.findById(exerciseId).orElseThrow(
+        ExerciseType exercise = exerciseTypeRepository.findById(exerciseId).orElseThrow(
                 () -> new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST));
 
         EquipmentCategory category = equipmentCategoryRepository.findEquipmentCategoryByName(categoryName)
@@ -106,12 +103,12 @@ public class AdminService {
             throw new EntityDoesNotExistException(EXERCISE_DOES_NOT_HAVE_THIS_CAT);
         }
         exercise.getEquipmentCategories().remove(category);
-        exerciseRepository.save(exercise);
+        exerciseTypeRepository.save(exercise);
     }
 
     public void bindMuscleCategory(Long exerciseId, String categoryName, boolean isPrimary) {
 
-        Exercise exercise = exerciseRepository.findById(exerciseId).orElseThrow(
+        ExerciseType exercise = exerciseTypeRepository.findById(exerciseId).orElseThrow(
                 () -> new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST));
 
         MuscleGroupCategory category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName)
@@ -123,11 +120,11 @@ public class AdminService {
             throw new EntityAlreadyExistsException(EXERCISE_ALREADY_HAS_THIS_CAT);
         }
         exercise.getMuscleGroups().add(muscleGroup);
-        exerciseRepository.save(exercise);
+        exerciseTypeRepository.save(exercise);
     }
 
     public void unbindMuscleCategory(Long exerciseId, String categoryName) {
-        Exercise exercise = exerciseRepository.findById(exerciseId).orElseThrow(
+        ExerciseType exercise = exerciseTypeRepository.findById(exerciseId).orElseThrow(
                 () -> new EntityDoesNotExistException(EXERCISE_DOES_NOT_EXIST));
 
         MuscleGroupCategory category = muscleGroupCategoryRepository.findMuscleGroupCategoryByName(categoryName)
@@ -139,10 +136,10 @@ public class AdminService {
             throw new EntityDoesNotExistException(EXERCISE_DOES_NOT_HAVE_THIS_CAT);
         }
         exercise.getMuscleGroups().remove(muscleGroup);
-        exerciseRepository.save(exercise);
+        exerciseTypeRepository.save(exercise);
     }
 
-    MuscleGroup constructMuscleGroup(MuscleGroupCategory mgc, Boolean isPrimary, Exercise exercise) {
+    MuscleGroup constructMuscleGroup(MuscleGroupCategory mgc, Boolean isPrimary, ExerciseType exercise) {
         MuscleGroup muscleGroup = new MuscleGroup();
         muscleGroup.setCategory(mgc);
         if (isPrimary != null) {

@@ -23,7 +23,7 @@ public class MuscleGroup {
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "exercise_id", nullable = false)
-    private Exercise exercise;
+    private ExerciseType exercise;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)

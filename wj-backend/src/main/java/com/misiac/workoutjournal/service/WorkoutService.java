@@ -5,7 +5,6 @@ import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
 import com.misiac.workoutjournal.exception.UnauthorizedException;
 import com.misiac.workoutjournal.repository.UserRepository;
-import com.misiac.workoutjournal.repository.WorkoutExerciseRepository;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +21,11 @@ import static com.misiac.workoutjournal.util.MessageProvider.WORKOUT_DOES_NOT_EX
 public class WorkoutService {
 
     private final WorkoutRepository workoutRepository;
-    private final WorkoutExerciseRepository workoutExerciseRepository;
     private final UserRepository userRepository;
 
     @Autowired
-    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseRepository workoutExerciseRepository, UserRepository userRepository) {
+    public WorkoutService(WorkoutRepository workoutRepository, UserRepository userRepository) {
         this.workoutRepository = workoutRepository;
-        this.workoutExerciseRepository = workoutExerciseRepository;
         this.userRepository = userRepository;
     }
 

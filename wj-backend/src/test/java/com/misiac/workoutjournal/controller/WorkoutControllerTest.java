@@ -1,6 +1,7 @@
 package com.misiac.workoutjournal.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.service.WorkoutService;
 import com.misiac.workoutjournal.util.JWTExtractor;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = WorkoutController.class)
@@ -46,22 +49,25 @@ class WorkoutControllerTest {
         verify(workoutService, times(1)).deleteWorkout(TEST_EMAIL, 1L);
     }
 
-//    @Test
-//    @DisplayName("UpdateWorkout normal conditions")
-//    void testUpdateWorkout() throws Exception {
-//        ExerciseRequest request1 = new ExerciseRequest(1L, 5F, 5, 1);
-//        ExerciseRequest request2 = new ExerciseRequest(2L, 10F, 10, 2);
-//
-//        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
-//
-//        mockMvc.perform(put("/api/workout/exercise")
-//                        .header("Authorization", TEST_TOKEN)
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(objectMapper.writeValueAsString(List.of(request1, request2))))
-//                .andExpect(status().isOk());
-//
-//        verify(workoutService, times(1))
-//                .updateExercises(eq(TEST_EMAIL), anyList());
-//    }
+    @Test
+    @DisplayName("UpdateWorkout normal conditions")
+    void testUpdateWorkout()   {
+//TODO
+    }
+
+    @Test
+    @DisplayName("GetSpecificWorkout normal conditions")
+    void testGetSpecificWorkout() throws Exception {
+        Workout workout = new Workout();
+        when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
+        when(workoutService.getSpecificWorkout(TEST_EMAIL, 1L)).thenReturn(workout);
+
+        mockMvc.perform(get("/api/workout/{id}", 1)
+                        .header("Authorization", TEST_TOKEN))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(workout)));
+
+        verify(workoutService, times(1)).getSpecificWorkout(TEST_EMAIL, 1L);
+    }
 
 }

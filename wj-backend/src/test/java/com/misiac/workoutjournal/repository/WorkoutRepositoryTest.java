@@ -1,16 +1,16 @@
 package com.misiac.workoutjournal.repository;
 
-import com.misiac.workoutjournal.entity.Exercise;
+import com.misiac.workoutjournal.entity.ExerciseType;
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
+import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -28,7 +28,7 @@ class WorkoutRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    ExerciseRepository exerciseRepository;
+    ExerciseTypeRepository exerciseTypeRepository;
 
     public static final String TEST_EMAIL = "test@email.com";
 
@@ -51,18 +51,16 @@ class WorkoutRepositoryTest {
     @DisplayName("Cascade: saving workout without saving its exercises")
     void testWorkoutExercisesCascade() {
 
-        Exercise exercise = new Exercise();
+        ExerciseType exercise = new ExerciseType();
         exercise.setName("Lat Raise");
-        exerciseRepository.save(exercise);
+        exerciseTypeRepository.save(exercise);
 
         Workout workout = constructTestWorkoutAndUser();
 
         for (int i = 1; i < 3; i++) {
             WorkoutExercise we = WorkoutExercise.builder()
                     .exerciseType(exercise)
-                    .load(2.5f)
-                    .reps(5)
-                    .setNumber(i)
+                    .sequenceNumber(i)
                     .parentWorkout(workout)
                     .build();
             workout.getWorkoutExercises().add(we);
@@ -108,7 +106,7 @@ class WorkoutRepositoryTest {
                 .workoutExercises(new LinkedList<>())
                 .build();
 
-        assertThrows(DataIntegrityViolationException.class,
+        assertThrows(ConstraintViolationException.class,
                 () -> workoutRepository.save(workout)
         );
     }

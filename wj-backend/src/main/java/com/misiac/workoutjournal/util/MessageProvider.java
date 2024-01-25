@@ -5,9 +5,7 @@ public final class MessageProvider {
     //Workout Controller
     public static final String WORKOUT_CREATED = "Workout created successfully";
     public static final String WORKOUT_DELETED = "Workout deleted successfully";
-    public static final String EXERCISE_UPDATED = "Exercise updated successfully";
-    public static final String EXERCISE_DELETED = "Exercise deleted successfully";
-
+    public static final String SET_UPDATED = "Set updated successfully";
     //Admin Controller
     public static final String CATEGORY_CREATED = "Category created successfully";
     public static final String EXERCISE_CREATED = "Exercise created successfully";
@@ -24,8 +22,8 @@ public final class MessageProvider {
     public static final String EXERCISE_DOES_NOT_HAVE_THIS_CAT = "Exercise does not have this category";
     public static final String ADMIN_REQUIRED = "Admin privileges required";
     public static final String WORKOUT_DOES_NOT_EXIST = "Workout does not exist";
-    public static final String WORKOUT_EXERCISE_DOES_NOT_EXIST = "Workout exercise does not exist";
-    public static final String WE_DOES_NOT_BELONG = "This workout exercise does not belong to this user";
+    public static final String WE_DOES_NOT_EXIST = "Workout exercise does not exist";
+    public static final String SET_DOES_NOT_BELONG = "This workout exercise does not belong to this user";
     public static final String WORKOUT_DOES_NOT_BELONG = "This workout does not belong to this user";
 
     //DTOs

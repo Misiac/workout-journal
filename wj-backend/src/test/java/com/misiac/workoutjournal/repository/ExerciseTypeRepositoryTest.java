@@ -1,9 +1,6 @@
 package com.misiac.workoutjournal.repository;
 
-import com.misiac.workoutjournal.entity.EquipmentCategory;
-import com.misiac.workoutjournal.entity.Exercise;
-import com.misiac.workoutjournal.entity.MuscleGroup;
-import com.misiac.workoutjournal.entity.MuscleGroupCategory;
+import com.misiac.workoutjournal.entity.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
-class ExerciseRepositoryTest {
+class ExerciseTypeRepositoryTest {
 
     @Autowired
-    ExerciseRepository exerciseRepository;
+    ExerciseTypeRepository exerciseTypeRepository;
     @Autowired
     MuscleGroupCategoryRepository mgcRepository;
     @Autowired
@@ -28,20 +25,20 @@ class ExerciseRepositoryTest {
     @Test
     @DisplayName("Search for exercise with name")
     void findExerciseByName() {
-        Exercise exercise = new Exercise();
-        exercise.setName("Lat Raise");
-        exerciseRepository.save(exercise);
+        ExerciseType exerciseType = new ExerciseType();
+        exerciseType.setName("Lat Raise");
+        exerciseTypeRepository.save(exerciseType);
 
-        Exercise savedExercise = exerciseRepository.findExerciseByName("Lat Raise").orElse(null);
+        ExerciseType savedExercise = exerciseTypeRepository.findExerciseByName("Lat Raise").orElse(null);
 
         assertNotNull(savedExercise);
-        assertEquals(exercise.getName(), savedExercise.getName());
+        assertEquals(exerciseType.getName(), savedExercise.getName());
     }
 
     @Test
     @DisplayName("Search for exercises with equipment category name")
     void findExercisesByEquipmentCategories() {
-        Exercise exercise = new Exercise();
+        ExerciseType exercise = new ExerciseType();
         exercise.setName("Lat Raise");
 
         EquipmentCategory equipmentCategory = new EquipmentCategory();
@@ -49,9 +46,9 @@ class ExerciseRepositoryTest {
         egcRepository.save(equipmentCategory);
 
         exercise.getEquipmentCategories().add(equipmentCategory);
-        exerciseRepository.save(exercise);
+        exerciseTypeRepository.save(exercise);
 
-        Exercise savedExercise = exerciseRepository.findExercisesByEquipmentCategory("Dumbbell").getFirst();
+        ExerciseType savedExercise = exerciseTypeRepository.findExercisesByEquipmentCategory("Dumbbell").getFirst();
 
         assertNotNull(savedExercise);
         assertEquals(exercise.getName(), savedExercise.getName());
@@ -62,7 +59,7 @@ class ExerciseRepositoryTest {
     @Test
     @DisplayName("Search for exercises with muscle group name")
     void findExercisesByMuscleGroups() {
-        Exercise exercise = new Exercise();
+        ExerciseType exercise = new ExerciseType();
         exercise.setName("Lat Raise");
 
         MuscleGroupCategory mgc = new MuscleGroupCategory("Shoulders");
@@ -73,9 +70,9 @@ class ExerciseRepositoryTest {
         muscleGroup.setIsPrimary((byte) 1);
         muscleGroup.setExercise(exercise);
         exercise.getMuscleGroups().add(muscleGroup);
-        exerciseRepository.save(exercise);
+        exerciseTypeRepository.save(exercise);
 
-        Exercise savedExercise = exerciseRepository.findExercisesByMuscleGroup("Shoulders", true).getFirst();
+        ExerciseType savedExercise = exerciseTypeRepository.findExercisesByMuscleGroup("Shoulders", true).getFirst();
 
         assertNotNull(savedExercise);
         assertEquals("Lat Raise", savedExercise.getName());
@@ -85,11 +82,11 @@ class ExerciseRepositoryTest {
     @Test
     @DisplayName("Saving Exercise with name exceeding length limit")
     void testTooLongExerciseName() {
-        Exercise exercise = new Exercise();
+        ExerciseType exercise = new ExerciseType();
         exercise.setName("This is a very long exercise name that is over 50 characters long");
 
         assertThrows(
-                DataIntegrityViolationException.class, () -> exerciseRepository.save(exercise)
+                DataIntegrityViolationException.class, () -> exerciseTypeRepository.save(exercise)
         );
     }
 }

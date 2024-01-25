@@ -18,7 +18,7 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "email", nullable = false, length = 45, unique = true)
+    @Column(name = "email", nullable = false, length = 50, unique = true)
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)

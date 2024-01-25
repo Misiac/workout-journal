@@ -1,8 +1,6 @@
 package com.misiac.workoutjournal.controller;
 
 import com.misiac.workoutjournal.entity.Workout;
-import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
-import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import com.misiac.workoutjournal.service.WorkoutService;
 import com.misiac.workoutjournal.util.JWTExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +26,13 @@ public class WorkoutController {
         this.jwtExtractor = jwtExtractor;
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
-                                                @RequestBody WorkoutRequest addWorkoutRequest) {
-        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
-        workoutService.addWorkout(addWorkoutRequest, email);
-        return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
-    }
+//    @PostMapping("/new")
+//    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
+//                                                @RequestBody WorkoutRequest addWorkoutRequest) {
+//        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+//        workoutService.addWorkout(addWorkoutRequest, email);
+//        return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId) {
@@ -43,21 +41,12 @@ public class WorkoutController {
         return new ResponseEntity<>(WORKOUT_DELETED, HttpStatus.OK);
     }
 
-    @PutMapping("/exercise")
-    public ResponseEntity<String> updateExercises(
-            @RequestHeader(value = "Authorization") String token, @RequestBody List<ExerciseRequest> exerciseRequests) {
+    @PutMapping("")
+    public ResponseEntity<String> updateWorkout(
+            @RequestHeader(value = "Authorization") String token, @RequestBody Workout workout) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
-        exerciseRequests.forEach(System.out::println);
-        workoutService.updateExercises(email, exerciseRequests);
-        return new ResponseEntity<>(EXERCISE_UPDATED, HttpStatus.OK);
-    }
-
-    @DeleteMapping("/exercise")
-    public ResponseEntity<String> deleteExercises(@RequestHeader(value = "Authorization") String token, @RequestBody List<Long> deleteIds) {
-        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
-        deleteIds.forEach(System.out::println);
-        workoutService.deleteExercises(email, deleteIds);
-        return new ResponseEntity<>(EXERCISE_DELETED, HttpStatus.OK);
+        workoutService.updateWorkout(email, workout);
+        return new ResponseEntity<>(SET_UPDATED, HttpStatus.OK);
     }
 
     @GetMapping("/tiny")
@@ -66,7 +55,6 @@ public class WorkoutController {
         return workoutService.getExercisesTiny(email);
     }
 
-    //USED
     @GetMapping("/{id}")
     public Workout getSpecificWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long id) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);

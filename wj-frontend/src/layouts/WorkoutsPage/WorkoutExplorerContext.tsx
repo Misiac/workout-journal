@@ -1,26 +1,18 @@
 import React from "react";
-import WorkoutExercise, {WorkoutExerciseSet} from "../../models/WorkoutExercise.ts";
+import Workout from "../../models/Workout.ts";
 
 interface WorkoutExplorerContextTypes {
     selectedWorkoutId: number;
-    workoutName: string;
-    workoutDate: string;
-    exercises: WorkoutExercise[];
+    workout: Workout | null,
     isEditModeOn: boolean;
     wasChangeMade: boolean;
-    deletedExercises: number[];
-    editedExercises: WorkoutExerciseSet[]
     workoutReloadTrigger: number;
     sliderReloadTrigger: number;
     setState: React.Dispatch<React.SetStateAction<{
         selectedWorkoutId: number;
-        workoutName: string;
-        workoutDate: string;
-        exercises: WorkoutExercise[];
+        workout: Workout | null;
         isEditModeOn: boolean;
         wasChangeMade: boolean;
-        deletedExercises: number[];
-        editedExercises: WorkoutExerciseSet[];
         workoutReloadTrigger: number;
         sliderReloadTrigger: number;
     }>>;

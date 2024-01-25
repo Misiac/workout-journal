@@ -1,12 +1,9 @@
 package com.misiac.workoutjournal.service;
 
-import com.misiac.workoutjournal.entity.EquipmentCategory;
-import com.misiac.workoutjournal.entity.Exercise;
-import com.misiac.workoutjournal.entity.MuscleGroup;
-import com.misiac.workoutjournal.entity.MuscleGroupCategory;
+import com.misiac.workoutjournal.entity.*;
 import com.misiac.workoutjournal.mapper.ExerciseMapper;
 import com.misiac.workoutjournal.repository.EquipmentCategoryRepository;
-import com.misiac.workoutjournal.repository.ExerciseRepository;
+import com.misiac.workoutjournal.repository.ExerciseTypeRepository;
 import com.misiac.workoutjournal.repository.MuscleGroupCategoryRepository;
 import com.misiac.workoutjournal.requestmodels.AdminCreateExerciseRequest;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +29,7 @@ class AdminServiceTest {
     @Mock
     private MuscleGroupCategoryRepository muscleGroupCategoryRepository;
     @Mock
-    private ExerciseRepository exerciseRepository;
+    private ExerciseTypeRepository exerciseTypeRepository;
     @Mock
     private ExerciseMapper exerciseMapper;
 
@@ -62,9 +59,9 @@ class AdminServiceTest {
                 List.of("Dumbbells"),
                 List.of(new MuscleGroupRequest("Shoulders", true), new MuscleGroupRequest("Lats", false))
         );
-        Exercise exercise = constructExercise();
+        ExerciseType exercise = constructExercise();
 
-        when(exerciseRepository.findExerciseByName("Lat Raise")).thenReturn(Optional.empty());
+        when(exerciseTypeRepository.findExerciseByName("Lat Raise")).thenReturn(Optional.empty());
         when(equipmentCategoryRepository.findEquipmentCategoryByName(anyString())).thenReturn(Optional.empty());
         when(muscleGroupCategoryRepository.findMuscleGroupCategoryByName(anyString())).thenReturn(Optional.empty());
         when(exerciseMapper.toExercise(exerciseRequest)).thenReturn(exercise);
@@ -73,78 +70,78 @@ class AdminServiceTest {
 
         verify(equipmentCategoryRepository, times(1)).save(any(EquipmentCategory.class));
         verify(muscleGroupCategoryRepository, times(2)).save(any(MuscleGroupCategory.class));
-        verify(exerciseRepository, times(1)).save(exercise);
+        verify(exerciseTypeRepository, times(1)).save(exercise);
     }
 
     @Test
     @DisplayName("BindEquipmentCategory normal conditions")
     void testBindEquipmentCategory() {
-        Exercise exercise = constructExercise();
+        ExerciseType exercise = constructExercise();
         EquipmentCategory equipmentCategory = new EquipmentCategory("Bench");
 
-        when(exerciseRepository.findById(1L)).thenReturn(Optional.of(exercise));
+        when(exerciseTypeRepository.findById(1L)).thenReturn(Optional.of(exercise));
         when(equipmentCategoryRepository.findEquipmentCategoryByName("Bench")).thenReturn(Optional.of(equipmentCategory));
 
         adminService.bindEquipmentCategory(1L, "Bench");
 
         assertTrue(exercise.getEquipmentCategories().contains(equipmentCategory));
-        verify(exerciseRepository, times(1)).save(exercise);
+        verify(exerciseTypeRepository, times(1)).save(exercise);
     }
 
     @Test
     @DisplayName("UnbindEquipmentCategory normal conditions")
     void testUnbindEquipmentCategory() {
 
-        Exercise exercise = constructExercise();
+        ExerciseType exercise = constructExercise();
         EquipmentCategory equipmentCategory = exercise.getEquipmentCategories().getFirst();
 
-        when(exerciseRepository.findById(1L)).thenReturn(Optional.of(exercise));
+        when(exerciseTypeRepository.findById(1L)).thenReturn(Optional.of(exercise));
         when(equipmentCategoryRepository.findEquipmentCategoryByName("Dumbbells")).thenReturn(Optional.of(equipmentCategory));
 
         adminService.unbindEquipmentCategory(1L, "Dumbbells");
 
         assertFalse(exercise.getEquipmentCategories().contains(equipmentCategory));
-        verify(exerciseRepository, times(1)).save(exercise);
+        verify(exerciseTypeRepository, times(1)).save(exercise);
 
     }
 
     @Test
     @DisplayName("BindMuscleCategory normal conditions")
     void testBindMuscleCategory() {
-        Exercise exercise = constructExercise();
+        ExerciseType exercise = constructExercise();
         MuscleGroupCategory mgc = new MuscleGroupCategory("Lats");
         MuscleGroup mg = new MuscleGroup(0L, exercise, mgc, (byte) 1);
 
-        when(exerciseRepository.findById(1L)).thenReturn(Optional.of(exercise));
+        when(exerciseTypeRepository.findById(1L)).thenReturn(Optional.of(exercise));
         when(muscleGroupCategoryRepository.findMuscleGroupCategoryByName("Lats")).thenReturn(Optional.of(mgc));
 
         adminService.bindMuscleCategory(1L, "Lats", true);
 
         assertTrue(exercise.getMuscleGroups().contains(mg));
-        verify(exerciseRepository, times(1)).save(exercise);
+        verify(exerciseTypeRepository, times(1)).save(exercise);
     }
 
     @Test
     @DisplayName("UnbindMuscleCategory normal conditions")
     void testUnbindMuscleCategory() {
-        Exercise exercise = constructExercise();
+        ExerciseType exercise = constructExercise();
         MuscleGroup mg = exercise.getMuscleGroups().iterator().next();
         MuscleGroupCategory mgc = exercise.getMuscleGroups().iterator().next().getCategory();
 
-        when(exerciseRepository.findById(1L)).thenReturn(Optional.of(exercise));
+        when(exerciseTypeRepository.findById(1L)).thenReturn(Optional.of(exercise));
         when(muscleGroupCategoryRepository.findMuscleGroupCategoryByName("Shoulders")).thenReturn(Optional.of(mgc));
 
         adminService.unbindMuscleCategory(1L, "Shoulders");
 
         assertFalse(exercise.getMuscleGroups().contains(mg));
-        verify(exerciseRepository, times(1)).save(exercise);
+        verify(exerciseTypeRepository, times(1)).save(exercise);
     }
 
     @Test
     @DisplayName("ConstructMuscleGroup normal conditions")
     void testConstructMuscleGroup() {
         MuscleGroupCategory mgc = new MuscleGroupCategory("Lats");
-        Exercise exercise = constructExercise();
+        ExerciseType exercise = constructExercise();
 
         var result = adminService.constructMuscleGroup(mgc, true, exercise);
 
@@ -153,9 +150,9 @@ class AdminServiceTest {
         assertEquals(exercise, result.getExercise());
     }
 
-    private Exercise constructExercise() {
+    private ExerciseType constructExercise() {
 
-        Exercise exercise = new Exercise();
+        ExerciseType exercise = new ExerciseType();
         exercise.setId(1L);
         exercise.setName("Lat Raise");
         exercise.getEquipmentCategories().add(new EquipmentCategory("Dumbbells"));

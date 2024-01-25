@@ -1,9 +1,10 @@
 import test from "../../../../resources/test.png";
 import arrow from "../../../../resources/collapse-arrow.png";
 import React, {useContext, useState} from "react";
-import {WorkoutExercise} from "../../../../models/WorkoutExercise";
+import {WorkoutExercise} from "../../../../models/Workout.ts";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import ExerciseDetails from "./ExerciseDetails.tsx";
+import LogNewSet from "./EditMode/LogNewSet.tsx";
 
 export const Exercise: React.FC<{
     exercise: WorkoutExercise,
@@ -13,23 +14,35 @@ export const Exercise: React.FC<{
     if (!context) {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
+    const {workout, setState, isEditModeOn} = context;
 
     const [isExpanded, setIsExpanded] = useState(false);
 
-    const totalSets = props.exercise.entry.length;
-    const minReps = Math.min(...props.exercise.entry.map(set => set.reps));
-    const maxReps = Math.max(...props.exercise.entry.map(set => set.reps));
-    const minKg = Math.min(...props.exercise.entry.map(set => set.load));
-    const maxKg = Math.max(...props.exercise.entry.map(set => set.load));
+    const totalSets = props.exercise.workoutExerciseSets.length;
 
-    const addToDelete = () => {
-        const newDeletedExercises = [...context.deletedExercises, ...props.exercise.entry.map(set => set.id)];
-        const filtered = context.exercises.filter(ex => ex !== props.exercise);
+    let minReps = 0;
+    let maxReps = 0;
+    let minKg = 0;
+    let maxKg = 0;
 
-        context.setState(prevState => ({
+    if (totalSets > 0) {
+        minReps = Math.min(...props.exercise.workoutExerciseSets.map(set => set.reps));
+        maxReps = Math.max(...props.exercise.workoutExerciseSets.map(set => set.reps));
+        minKg = Math.min(...props.exercise.workoutExerciseSets.map(set => set.load));
+        maxKg = Math.max(...props.exercise.workoutExerciseSets.map(set => set.load));
+    }
+
+    const addExerciseToDelete = () => {
+
+        const filtered = workout?.workoutExercises.filter(ex => ex !== props.exercise);
+        let newWorkout = workout;
+
+        if (newWorkout) {
+            newWorkout = {...newWorkout, workoutExercises: filtered || []};
+        }
+        setState(prevState => ({
             ...prevState,
-            exercises: filtered,
-            deletedExercises: newDeletedExercises,
+            workout: newWorkout,
             wasChangeMade: true
         }));
     };
@@ -45,8 +58,8 @@ export const Exercise: React.FC<{
                 <div
                     className="flex flex-col items-center rounded-lg md:max-w-xl md:flex-row"
                 >
-                    {context.isEditModeOn &&
-                        <button onClick={addToDelete}
+                    {isEditModeOn &&
+                        <button onClick={addExerciseToDelete}
                                 className="absolute top-0 right-0 m-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white fade-animation hover:bg-red-700"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -64,17 +77,17 @@ export const Exercise: React.FC<{
                         alt="Exercise"/>
                     <div className="flex max-h-20 w-2/3 flex-row items-center justify-between p-4 leading-normal">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">
-                            {props.exercise.counter}
+                            {props.exercise.sequenceNumber}
                         </h5>
                         <div className="flex w-full flex-col px-3">
                             <h3 className="py-1 font-bold">
-                                {props.exercise.name}
+                                {props.exercise.exerciseType.name}
 
                             </h3>
                             <hr/>
                             <div className="flex flex-row justify-center py-1 text-xs">
                                 <h5>
-                                    {totalSets > 1 ? totalSets + ' Sets' : totalSets + ' Set'}
+                                    {totalSets !== 1 ? totalSets + ' Sets' : totalSets + ' Set'}
                                 </h5>
                                 <h3>&nbsp; &#x2022; &nbsp;</h3>
                                 <h5>
@@ -87,11 +100,10 @@ export const Exercise: React.FC<{
                             </div>
                         </div>
                         <button
-                            className={`focus:outline-none h-8 w-8 transition-all duration-500 ${
+                            className={`focus:outline-none h-8 w-8 transition-all duration-500 outline-none ${
                                 isExpanded ? "rotate-180" : ""
                             }`}
                             onClick={handleToggle}
-                            style={{outline: "none"}}
                         >
                             <img className="h-full w-full" src={arrow} alt="Toggle arrow"/>
                         </button>
@@ -114,9 +126,12 @@ export const Exercise: React.FC<{
                         </thead>
 
                         <tbody>
-                        {props.exercise.entry.map((set) => (
+                        {props.exercise.workoutExerciseSets.map((set) => (
                             <ExerciseDetails set={set} key={set.id}/>
                         ))}
+                        {isEditModeOn &&
+                            <LogNewSet/>
+                        }
                         </tbody>
                     </table>
                 </div>

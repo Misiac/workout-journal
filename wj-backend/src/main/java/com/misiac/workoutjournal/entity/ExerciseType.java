@@ -18,8 +18,8 @@ import java.util.Set;
 @AllArgsConstructor
 
 @Entity
-@Table(name = "exercises")
-public class Exercise {
+@Table(name = "exercise_types")
+public class ExerciseType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -39,7 +39,7 @@ public class Exercise {
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MuscleGroup> muscleGroups = new LinkedHashSet<>();
 
-    public Exercise(String name) {
+    public ExerciseType(String name) {
         this.name = name;
     }
 

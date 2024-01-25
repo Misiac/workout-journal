@@ -3,6 +3,7 @@ package com.misiac.workoutjournal.service;
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
+import com.misiac.workoutjournal.entity.WorkoutExerciseSet;
 import com.misiac.workoutjournal.repository.UserRepository;
 import com.misiac.workoutjournal.responsemodels.StatsDTO;
 import org.junit.jupiter.api.DisplayName;
@@ -121,18 +122,19 @@ class StatsServiceTest {
 
     private User constructUser() {
         User user = new User();
-        WorkoutExercise workoutExercise = new WorkoutExercise();
-        WorkoutExercise workoutExercise2 = new WorkoutExercise();
-
-        workoutExercise.setLoad(5.5f);
-        workoutExercise2.setLoad(5.5f);
-
-        workoutExercise.setReps(2);
-        workoutExercise2.setReps(4);
-
         Workout workout = new Workout();
+        WorkoutExercise we = new WorkoutExercise();
+        WorkoutExerciseSet set1 = new WorkoutExerciseSet();
+        WorkoutExerciseSet set2 = new WorkoutExerciseSet();
 
-        workout.setWorkoutExercises(List.of(workoutExercise, workoutExercise2));
+        set1.setLoad(5.5f);
+        set2.setLoad(5.5f);
+
+        set1.setReps(2);
+        set2.setReps(4);
+
+        we.setWorkoutExerciseSets(List.of(set1, set2));
+        workout.setWorkoutExercises(List.of(we));
         user.setWorkouts(Set.of(workout));
 
         return user;

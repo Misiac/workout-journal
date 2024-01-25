@@ -1,9 +1,9 @@
-import SliderCard from "./SliderCard";
+import SliderCard from "./SliderCard.tsx";
 import React, {useContext, useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
-import {WorkoutTiny} from "../../../../models/WorkoutTiny";
-import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
-import LogNewWorkoutSliderCard from "./LogNewWorkoutSliderCard.tsx";
+import {WorkoutTiny} from "../../../../../models/WorkoutTiny.ts";
+import {WorkoutExplorerContext} from "../../../WorkoutExplorerContext.tsx";
+import LogNewWorkoutSliderCard from "../EditMode/LogNewWorkoutSliderCard.tsx";
 
 export const WorkoutsSlider: React.FC<{
     handleOpenModal: () => Promise<boolean>
@@ -35,6 +35,7 @@ export const WorkoutsSlider: React.FC<{
         };
 
         fetchData();
+        console.log("slider reload");
     }, [authState, sliderReloadTrigger]);
 
     return (

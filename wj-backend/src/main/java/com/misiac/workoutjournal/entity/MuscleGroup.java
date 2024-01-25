@@ -18,7 +18,7 @@ import java.util.Objects;
 public class MuscleGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false, length = 45)
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @ManyToOne(optional = false)

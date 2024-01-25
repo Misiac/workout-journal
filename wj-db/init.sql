@@ -198,7 +198,7 @@ CREATE TABLE `workout_exercise_sets` (
 
 LOCK TABLES `workout_exercise_sets` WRITE;
 /*!40000 ALTER TABLE `workout_exercise_sets` DISABLE KEYS */;
-INSERT INTO `workout_exercise_sets` VALUES (1,1,2,2,1),(2,1,4,4,2),(3,1,6,6,3);
+INSERT INTO `workout_exercise_sets` VALUES (1,1,8,8,1),(2,2,8,8,1);
 /*!40000 ALTER TABLE `workout_exercise_sets` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -219,7 +219,7 @@ CREATE TABLE `workout_exercises` (
   KEY `FK_workout_exercises-exercise_types_idx` (`exercise_type_id`),
   CONSTRAINT `FK_workout_exercises-exercise_types` FOREIGN KEY (`exercise_type_id`) REFERENCES `exercise_types` (`id`),
   CONSTRAINT `FK_workout_exercises-workouts` FOREIGN KEY (`workout_id`) REFERENCES `workouts` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -228,7 +228,7 @@ CREATE TABLE `workout_exercises` (
 
 LOCK TABLES `workout_exercises` WRITE;
 /*!40000 ALTER TABLE `workout_exercises` DISABLE KEYS */;
-INSERT INTO `workout_exercises` VALUES (1,18,1,1);
+INSERT INTO `workout_exercises` VALUES (1,13,1,1),(2,14,1,2);
 /*!40000 ALTER TABLE `workout_exercises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -243,7 +243,7 @@ CREATE TABLE `workouts` (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `user_id` bigint NOT NULL,
   `date` datetime NOT NULL,
-  `name` varchar(100) DEFAULT NULL,
+  `name` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `user_idx` (`user_id`),
   CONSTRAINT `FK_workouts-user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`)
@@ -256,7 +256,7 @@ CREATE TABLE `workouts` (
 
 LOCK TABLES `workouts` WRITE;
 /*!40000 ALTER TABLE `workouts` DISABLE KEYS */;
-INSERT INTO `workouts` VALUES (1,2,'2024-01-01 00:00:00','my workout');
+INSERT INTO `workouts` VALUES (1,2,'2023-01-01 00:00:00','very intense chest workou'),(2,2,'2024-01-01 00:00:00','Workout xD');
 /*!40000 ALTER TABLE `workouts` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -269,4 +269,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-01-25 12:43:28
+-- Dump completed on 2024-01-25 21:37:58

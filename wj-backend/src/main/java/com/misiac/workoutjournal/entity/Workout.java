@@ -36,12 +36,12 @@ public class Workout {
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @Size(max = 100)
-    @Column(name = "name", length = 100)
+    @Size(max = 50)
+    @Column(name = "name", length = 50)
     private String name;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "parentWorkout", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentWorkout", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutExercise> workoutExercises = new LinkedList<>();
 
 }

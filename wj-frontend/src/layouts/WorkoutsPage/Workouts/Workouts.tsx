@@ -1,5 +1,5 @@
 import {useState} from "react";
-import WorkoutsSlider from "./Components/WorkoutsSlider";
+import WorkoutsSlider from "./Components/Slider/WorkoutsSlider.tsx";
 import WorkoutExplorer from "./Components/WorkoutExplorer";
 import {WorkoutExplorerContext} from '../WorkoutExplorerContext.tsx';
 import Workout from "../../../models/Workout.ts";

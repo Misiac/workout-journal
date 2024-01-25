@@ -39,7 +39,7 @@ public class WorkoutExercise {
     private Integer sequenceNumber;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "parentWorkoutExercise", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "parentWorkoutExercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutExerciseSet> workoutExerciseSets = new LinkedList<>();
 
 }

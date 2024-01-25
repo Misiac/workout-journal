@@ -1,4 +1,4 @@
-export const EditSVG = () => {
+export const DeleteSVG = () => {
     return (
         <svg xmlns="http://www.w3.org/2000/svg"
              className="mr-2 h-5 w-5 absolute top-0.5 left-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:text-red-500"
@@ -9,4 +9,4 @@ export const EditSVG = () => {
         </svg>
     );
 }
-export default EditSVG;
+export default DeleteSVG;

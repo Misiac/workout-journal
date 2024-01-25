@@ -6,8 +6,6 @@ public final class MessageProvider {
     public static final String WORKOUT_CREATED = "Workout created successfully";
     public static final String WORKOUT_DELETED = "Workout deleted successfully";
     public static final String SET_UPDATED = "Set updated successfully";
-    public static final String EXERCISE_DELETED = "Exercise deleted successfully";
-
     //Admin Controller
     public static final String CATEGORY_CREATED = "Category created successfully";
     public static final String EXERCISE_CREATED = "Exercise created successfully";

@@ -27,15 +27,16 @@ export const EditorOptions = () => {
             console.error('Error deleting workout', error);
         }
         context.setState(prevState => ({
-        ...prevState,
-        selectedWorkoutId: 0,
-        workout: null,
-        isEditModeOn: false,
-        sliderReloadTrigger: prevState.sliderReloadTrigger + 1
+            ...prevState,
+            selectedWorkoutId: 0,
+            workout: null,
+            isEditModeOn: false,
+            sliderReloadTrigger: prevState.sliderReloadTrigger + 1
         }));
     };
 
     const updateWorkout = async () => {
+        console.log(JSON.stringify(context.workout));
         try {
             const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout`, {
                 method: 'PUT',
@@ -54,7 +55,7 @@ export const EditorOptions = () => {
     const handleModalOpen = async () => {
         const confirm = await confirmModal('Are you sure you want to delete this workout?');
         if (confirm) {
-            deleteWorkout();
+            await deleteWorkout();
         }
     };
 

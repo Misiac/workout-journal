@@ -4,6 +4,7 @@ import React, {useContext, useState} from "react";
 import {WorkoutExercise} from "../../../../models/Workout.ts";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import ExerciseDetails from "./ExerciseDetails.tsx";
+import LogNewSet from "./EditMode/LogNewSet.tsx";
 
 export const Exercise: React.FC<{
     exercise: WorkoutExercise,
@@ -13,6 +14,7 @@ export const Exercise: React.FC<{
     if (!context) {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
+    const {workout, setState, isEditModeOn} = context;
 
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -32,13 +34,13 @@ export const Exercise: React.FC<{
 
     const addExerciseToDelete = () => {
 
-        const filtered = context.workout?.workoutExercises.filter(ex => ex !== props.exercise);
-        let newWorkout = context.workout;
+        const filtered = workout?.workoutExercises.filter(ex => ex !== props.exercise);
+        let newWorkout = workout;
 
         if (newWorkout) {
             newWorkout = {...newWorkout, workoutExercises: filtered || []};
         }
-        context.setState(prevState => ({
+        setState(prevState => ({
             ...prevState,
             workout: newWorkout,
             wasChangeMade: true
@@ -56,7 +58,7 @@ export const Exercise: React.FC<{
                 <div
                     className="flex flex-col items-center rounded-lg md:max-w-xl md:flex-row"
                 >
-                    {context.isEditModeOn &&
+                    {isEditModeOn &&
                         <button onClick={addExerciseToDelete}
                                 className="absolute top-0 right-0 m-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white fade-animation hover:bg-red-700"
                         >
@@ -98,11 +100,10 @@ export const Exercise: React.FC<{
                             </div>
                         </div>
                         <button
-                            className={`focus:outline-none h-8 w-8 transition-all duration-500 ${
+                            className={`focus:outline-none h-8 w-8 transition-all duration-500 outline-none ${
                                 isExpanded ? "rotate-180" : ""
                             }`}
                             onClick={handleToggle}
-                            style={{outline: "none"}}
                         >
                             <img className="h-full w-full" src={arrow} alt="Toggle arrow"/>
                         </button>
@@ -128,6 +129,9 @@ export const Exercise: React.FC<{
                         {props.exercise.workoutExerciseSets.map((set) => (
                             <ExerciseDetails set={set} key={set.id}/>
                         ))}
+                        {isEditModeOn &&
+                            <LogNewSet/>
+                        }
                         </tbody>
                     </table>
                 </div>

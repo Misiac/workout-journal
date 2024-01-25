@@ -1,7 +1,7 @@
 import {WorkoutExerciseSet} from "../../../../models/Workout.ts";
 import React, {useContext, useEffect, useState} from "react";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
-import EditSVG from "../../../Utils/EditSVG.tsx";
+import DeleteSVG from "../../../Utils/DeleteSVG.tsx";
 
 export const ExerciseDetails: React.FC<{
     set: WorkoutExerciseSet
@@ -11,7 +11,7 @@ export const ExerciseDetails: React.FC<{
     if (!context) {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
-    const {isEditModeOn, setState} = context;
+    const {isEditModeOn, setState, workout} = context;
 
     const [load, setLoad] = useState(props.set.load);
     const [reps, setReps] = useState(props.set.reps);
@@ -34,10 +34,30 @@ export const ExerciseDetails: React.FC<{
         setReps(props.set.reps);
     }, [props.set.load, props.set.reps]);
 
+    const deleteSet = () => {
+        setState((prevState) => {
+            if (!workout) return prevState;
+            const exercise = workout.workoutExercises.find((ex) => ex.workoutExerciseSets.includes(props.set));
+            if (!exercise) return prevState;
+            const newExercise = {
+                ...exercise,
+                workoutExerciseSets: exercise.workoutExerciseSets.filter(s => s !== props.set)
+            };
+            return {
+                ...prevState,
+                workout: {
+                    ...workout,
+                    workoutExercises: workout.workoutExercises.map(ex => ex === exercise ? newExercise : ex)
+                },
+                wasChangeMade: true,
+            };
+        });
+    };
+
     return (
         <tr className={isEditModeOn ? 'hover:bg-gray-100 group' : 'group'}>
             <td className="border-b border-slate-300 relative items-center">
-                {isEditModeOn && <EditSVG/>}
+                {isEditModeOn && <button onClick={deleteSet}><DeleteSVG/></button>}
                 {props.set.setNumber}
             </td>
             <td className="border-b border-slate-300 relative items-center">
@@ -48,9 +68,7 @@ export const ExerciseDetails: React.FC<{
                                if (e.key === 'Enter') e.currentTarget.blur();
                            }}
                     />
-                ) : (
-                    load
-                )}
+                ) : load}
             </td>
             <td className="border-b border-slate-300 relative">
                 {isEditModeOn ? (
@@ -60,9 +78,7 @@ export const ExerciseDetails: React.FC<{
                                if (e.key === 'Enter') e.currentTarget.blur();
                            }}
                     />
-                ) : (
-                    reps
-                )}
+                ) : reps}
             </td>
         </tr>
     );

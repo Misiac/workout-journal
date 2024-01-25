@@ -1,14 +1,16 @@
 package com.misiac.workoutjournal.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 
 @Entity
 @Table(name = "workout_exercises")
@@ -18,23 +20,21 @@ public class WorkoutExercise {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @JsonBackReference
-    @ManyToOne(optional = false)
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "exercise_type_id", nullable = false)
+    private ExerciseType exerciseType;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "workout_id", nullable = false)
     private Workout parentWorkout;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "exercise_id", nullable = false)
-    private Exercise exerciseType;
+    @NotNull
+    @Column(name = "sequence_number", nullable = false)
+    private Integer sequenceNumber;
 
-    @Column(name = "`load`", nullable = false)
-    private Float load;
-
-    @Column(name = "reps", nullable = false)
-    private Integer reps;
-
-    @Column(name = "set_number", nullable = false)
-    private Integer setNumber;
-
+    @OneToMany(mappedBy = "parentWorkoutExercise")
+    private List<WorkoutExerciseSet> workoutExerciseSets = new LinkedList<>();
 
 }

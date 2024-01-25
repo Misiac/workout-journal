@@ -1,5 +1,6 @@
 package com.misiac.workoutjournal.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -17,8 +18,9 @@ public class WorkoutExerciseSet {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @JsonBackReference
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "workout_exercise_id", nullable = false)
     private WorkoutExercise parentWorkoutExercise;
 

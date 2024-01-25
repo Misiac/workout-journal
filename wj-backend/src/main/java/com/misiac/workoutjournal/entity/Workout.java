@@ -1,5 +1,7 @@
 package com.misiac.workoutjournal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -20,13 +22,15 @@ import java.util.List;
 @Entity
 @Table(name = "workouts")
 public class Workout {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @JsonIgnore
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -38,7 +42,8 @@ public class Workout {
     @Column(name = "name", length = 100)
     private String name;
 
-    @OneToMany(mappedBy = "parentWorkout")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "parentWorkout", cascade = CascadeType.ALL)
     private List<WorkoutExercise> workoutExercises = new LinkedList<>();
 
 }

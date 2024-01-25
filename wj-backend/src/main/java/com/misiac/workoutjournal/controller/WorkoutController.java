@@ -2,7 +2,6 @@ package com.misiac.workoutjournal.controller;
 
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.requestmodels.ExerciseRequest;
-import com.misiac.workoutjournal.requestmodels.WorkoutRequest;
 import com.misiac.workoutjournal.service.WorkoutService;
 import com.misiac.workoutjournal.util.JWTExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +27,13 @@ public class WorkoutController {
         this.jwtExtractor = jwtExtractor;
     }
 
-    @PostMapping("/new")
-    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
-                                                @RequestBody WorkoutRequest addWorkoutRequest) {
-        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
-        workoutService.addWorkout(addWorkoutRequest, email);
-        return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
-    }
+//    @PostMapping("/new")
+//    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
+//                                                @RequestBody WorkoutRequest addWorkoutRequest) {
+//        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+//        workoutService.addWorkout(addWorkoutRequest, email);
+//        return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
+//    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId) {

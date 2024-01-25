@@ -35,7 +35,8 @@ export const WorkoutsSlider: React.FC<{
         };
 
         fetchData();
-    }, [authState, sliderReloadTrigger]);
+        console.log("slider reload");
+    }, [authState, context.sliderReloadTrigger]);
 
     return (
         <div className="h-full w-1/5 overflow-y-auto scroll-container">

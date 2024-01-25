@@ -35,31 +35,15 @@ export const EditorOptions = () => {
         }));
     };
 
-    const deleteExercises = async () => {
+    const updateWorkout = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout/exercise`, {
-                method: 'DELETE',
-                headers: {
-                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(context.deletedSetsIds)
-            });
-            if (!response.ok) throw new Error('Something went wrong!');
-        } catch (error) {
-            console.error('Error deleting workout', error);
-        }
-    };
-
-    const updateExercises = async () => {
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout/exercise`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout`, {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(context.editedSets)
+                body: JSON.stringify(context.workout)
             });
             if (!response.ok) throw new Error('Something went wrong!');
         } catch (error) {
@@ -76,9 +60,7 @@ export const EditorOptions = () => {
 
     const handleSave = () => {
 
-        deleteExercises();
-        updateExercises();
-
+        updateWorkout();
 
         context.setState(prevState => ({
             ...prevState,

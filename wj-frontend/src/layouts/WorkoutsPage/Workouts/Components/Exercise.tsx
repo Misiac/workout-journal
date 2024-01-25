@@ -17,19 +17,30 @@ export const Exercise: React.FC<{
     const [isExpanded, setIsExpanded] = useState(false);
 
     const totalSets = props.exercise.workoutExerciseSets.length;
-    const minReps = Math.min(...props.exercise.workoutExerciseSets.map(set => set.reps));
-    const maxReps = Math.max(...props.exercise.workoutExerciseSets.map(set => set.reps));
-    const minKg = Math.min(...props.exercise.workoutExerciseSets.map(set => set.load));
-    const maxKg = Math.max(...props.exercise.workoutExerciseSets.map(set => set.load));
 
-    const addToDelete = () => {
-        const newDeletedExercises = [...context.deletedSetsIds, ...props.exercise.workoutExerciseSets.map(set => set.id)];
+    let minReps = 0;
+    let maxReps = 0;
+    let minKg = 0;
+    let maxKg = 0;
+
+    if (totalSets > 0) {
+        minReps = Math.min(...props.exercise.workoutExerciseSets.map(set => set.reps));
+        maxReps = Math.max(...props.exercise.workoutExerciseSets.map(set => set.reps));
+        minKg = Math.min(...props.exercise.workoutExerciseSets.map(set => set.load));
+        maxKg = Math.max(...props.exercise.workoutExerciseSets.map(set => set.load));
+    }
+
+    const addExerciseToDelete = () => {
+
         const filtered = context.workout?.workoutExercises.filter(ex => ex !== props.exercise);
+        let newWorkout = context.workout;
 
+        if (newWorkout) {
+            newWorkout = {...newWorkout, workoutExercises: filtered || []};
+        }
         context.setState(prevState => ({
             ...prevState,
-            exercises: filtered,
-            deletedExercises: newDeletedExercises,
+            workout: newWorkout,
             wasChangeMade: true
         }));
     };
@@ -46,7 +57,7 @@ export const Exercise: React.FC<{
                     className="flex flex-col items-center rounded-lg md:max-w-xl md:flex-row"
                 >
                     {context.isEditModeOn &&
-                        <button onClick={addToDelete}
+                        <button onClick={addExerciseToDelete}
                                 className="absolute top-0 right-0 m-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white fade-animation hover:bg-red-700"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
@@ -74,7 +85,7 @@ export const Exercise: React.FC<{
                             <hr/>
                             <div className="flex flex-row justify-center py-1 text-xs">
                                 <h5>
-                                    {totalSets > 1 ? totalSets + ' Sets' : totalSets + ' Set'}
+                                    {totalSets !== 1 ? totalSets + ' Sets' : totalSets + ' Set'}
                                 </h5>
                                 <h3>&nbsp; &#x2022; &nbsp;</h3>
                                 <h5>

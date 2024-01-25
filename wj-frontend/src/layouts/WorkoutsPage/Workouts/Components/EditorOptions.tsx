@@ -62,6 +62,7 @@ export const EditorOptions = () => {
     const handleSave = () => {
 
         updateWorkout();
+        console.log(context.exerciseTypes);
 
         context.setState(prevState => ({
             ...prevState,

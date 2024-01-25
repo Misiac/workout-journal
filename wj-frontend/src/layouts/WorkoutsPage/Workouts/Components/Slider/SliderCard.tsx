@@ -29,11 +29,11 @@ export const SliderCard: React.FC<{
             <div className="flex items-center rounded-md border-gray-100 bg-white p-3 hover:bg-gray-100">
 
                 <div
-                    className={`w-1 h-16 bg-regal-blue mr-3 rounded-t-lg rounded-b-lg flex-none ${selectedWorkoutId === workout.id ? '' : 'invisible'}`}
+                    className={`w-1 h-11 bg-regal-blue mr-3 rounded-t-lg rounded-b-lg flex-none ${selectedWorkoutId === workout.id ? '' : 'invisible'}`}
                 ></div>
 
-                <div>
-                    <h1 className="font-bold overflow-hidden text-overflow ellipsis">
+                <div className=''>
+                    <h1 className="font-bold overflow-hidden text-overflow ellipsis ">
                         {workout.name}
                     </h1>
                     <p className="overflow-hidden text-overflow ellipsis">{workout.date}</p>

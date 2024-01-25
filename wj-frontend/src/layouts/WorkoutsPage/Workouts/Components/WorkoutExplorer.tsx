@@ -7,8 +7,7 @@ import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import EditorOptions from "./EditorOptions.tsx";
 import LogNewExercise from "./EditMode/LogNewExercise.tsx";
 import {formatDate} from "../../../Utils/DateFormatter.ts";
-import {Edit} from "lucide-react";
-
+import {Edit2Icon} from "lucide-react";
 
 export const WorkoutExplorer = () => {
 
@@ -23,7 +22,39 @@ export const WorkoutExplorer = () => {
     const {selectedWorkoutId, workout, isEditModeOn, setState} = context; //todo
 
     const [totals, setTotals] = useState({totalExercises: 0, totalSets: 0, totalReps: 0, tvl: 0});
-    const [isEditing, setIsEditing] = useState(false);
+    const [isNameEditing, setIsNameEditing] = useState(false);
+
+    useEffect(() => {
+        const fetchExercises = async () => {
+            const url = `${import.meta.env.VITE_API_ADDRESS}/api/exercises/tiny`;
+            const requestOptions = {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                    'Content-Type': 'application/json'
+                }
+            };
+
+            try {
+                const response = await fetch(url, requestOptions);
+
+                if (!response.ok) {
+                    throw new Error('Something went wrong!');
+                }
+
+                const data = await response.json();
+                setState(prevState => ({
+                    ...prevState,
+                    exerciseTypes: data
+                }));
+            } catch (error) {
+                console.error('Error fetching exercise data', error);
+            }
+        };
+
+        fetchExercises();
+    }, []);
+
 
     const fetchWorkout = async () => {
         const url = `${import.meta.env.VITE_API_ADDRESS}/api/workout/${selectedWorkoutId}`;
@@ -47,6 +78,7 @@ export const WorkoutExplorer = () => {
             workout: workout
         }));
     };
+
 
     useEffect(() => {
         if (selectedWorkoutId !== 0) {
@@ -77,9 +109,6 @@ export const WorkoutExplorer = () => {
         }
     }, [context.workout]);
 
-    useEffect(() => {
-        setIsEditing(false);
-    }, [isEditModeOn,workout]);
 
     const changeWorkoutName = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length <= 50) {
@@ -114,34 +143,43 @@ export const WorkoutExplorer = () => {
                     <div className="flex w-full items-start gap-2 py-4 h-[100px] fade-animation">
 
                         <div className='w-1/2 flex flex-col items-start'>
-                            {isEditModeOn && isEditing ? (
+                            {isEditModeOn ? (
                                 <>
-                                    <input
-                                        className='text-2xl py-1 font-bold w-full border border-slate-500 rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-slate-500'
-                                        value={workout.name}
-                                        onChange={(e) => changeWorkoutName(e)}
-                                    />
-                                    <div className='flex items-center'>
-                                        <input
-                                            type='datetime-local'
-                                            value={workout.date}
-                                            onChange={(e) => changeWorkoutDate(e)}
+                                    <div className='flex'>
+                                        {isNameEditing ? (
+                                            <input
+                                                className='text-2xl py-1 font-bold rounded-md ring-1 ring-black w-full'
+                                                value={workout.name}
+                                                onChange={(e) => changeWorkoutName(e)}
+                                                onBlur={() => setIsNameEditing(false)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        e.preventDefault();
+                                                        setIsNameEditing(false);
+                                                    }
+                                                }}
+                                            />
+                                        ) : (
+                                            <>
+                                                <p className='text-2xl py-1 font-bold'>{workout.name}</p>
+                                                <Edit2Icon className='ml-3 mt-2 fade-animation'
+                                                           onClick={() => setIsNameEditing(true)}/>
+                                            </>
+                                        )}
+                                    </div>
+                                    <div className='pt-1'>
+                                        <input className='fade-animation text-xl'
+                                               type='datetime-local'
+                                               value={workout.date}
+                                               onChange={(e) => changeWorkoutDate(e)}
                                         />
-                                        <button onClick={() => setIsEditing(!isEditing)} className='px-2'>
-                                            <Edit size={24}/>
-                                        </button>
                                     </div>
                                 </>
                             ) : (
                                 <>
                                     <p className='text-2xl py-1 font-bold'> {workout.name}</p>
                                     <div className='flex items-center'>
-                                        <p className='py-1'>{formatDate(workout.date)}</p>
-                                        {isEditModeOn && (
-                                            <button onClick={() => setIsEditing(!isEditing)} className='px-2'>
-                                                <Edit size={24}/>
-                                            </button>
-                                        )}
+                                        <p className='py-1 text-xl'>{formatDate(workout.date)}</p>
                                     </div>
                                 </>
                             )}

@@ -2,18 +2,22 @@ import {useState} from "react";
 import WorkoutsSlider from "./Components/Slider/WorkoutsSlider.tsx";
 import WorkoutExplorer from "./Components/WorkoutExplorer";
 import {WorkoutExplorerContext} from '../WorkoutExplorerContext.tsx';
-import Workout from "../../../models/Workout.ts";
+import Workout, {ExerciseType} from "../../../models/Workout.ts";
 import {confirmModal} from "../../Utils/ConfirmModal.tsx";
 
+
 export const Workouts = () => {
+
     const [state, setState] = useState({
         selectedWorkoutId: 0,
         workout: null as Workout | null,
+        exerciseTypes: [] as ExerciseType[],
         isEditModeOn: false,
         wasChangeMade: false,
         workoutReloadTrigger: 0,
         sliderReloadTrigger: 0
     });
+
 
     const handleOpenModal = async (): Promise<boolean> => {
         if (state.isEditModeOn && state.wasChangeMade) {

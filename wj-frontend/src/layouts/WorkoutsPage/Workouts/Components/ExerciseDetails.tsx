@@ -64,7 +64,7 @@ export const ExerciseDetails: React.FC<{
                 {isEditModeOn ? (
                     <input className="text-center w-1/2 ml-3.5" type="number" value={load}
                            onChange={(e) => handleValueChange(e, true)}
-                           onKeyPress={(e) => {
+                           onKeyDown={(e) => {
                                if (e.key === 'Enter') e.currentTarget.blur();
                            }}
                     />
@@ -74,7 +74,7 @@ export const ExerciseDetails: React.FC<{
                 {isEditModeOn ? (
                     <input type="number" className="text-center w-1/2 ml-3.5" value={reps}
                            onChange={(e) => handleValueChange(e, false)}
-                           onKeyPress={(e) => {
+                           onKeyDown={(e) => {
                                if (e.key === 'Enter') e.currentTarget.blur();
                            }}
                     />

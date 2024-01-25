@@ -14,7 +14,7 @@ export const Exercise: React.FC<{
     if (!context) {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
-    const {workout, setState, isEditModeOn} = context;
+    const {workout, setState, isEditModeOn, exerciseTypes} = context;
 
     const [isExpanded, setIsExpanded] = useState(false);
 
@@ -46,6 +46,30 @@ export const Exercise: React.FC<{
             wasChangeMade: true
         }));
     };
+
+    const [selectedExerciseName, setSelectedExerciseName] = useState('');
+
+    const setExerciseType = (exerciseName: string) => {
+        const exerciseType = exerciseTypes.find(exercise => exercise.name === exerciseName);
+
+        if (exerciseType && workout) {
+            const exerciseIndex = workout.workoutExercises.findIndex(exercise => exercise === props.exercise);
+
+            if (exerciseIndex !== -1) {
+                props.exercise.exerciseType = exerciseType;
+
+                workout.workoutExercises[exerciseIndex] = props.exercise;
+
+                setState(prevState => ({
+                    ...prevState,
+                    workout: workout,
+                    wasChangeMade: true
+                }));
+
+                setSelectedExerciseName(exerciseName);
+            }
+        }
+    }
 
     const handleToggle = () => setIsExpanded(!isExpanded);
 
@@ -80,10 +104,25 @@ export const Exercise: React.FC<{
                             {props.exercise.sequenceNumber}
                         </h5>
                         <div className="flex w-full flex-col px-3">
-                            <h3 className="py-1 font-bold">
-                                {props.exercise.exerciseType.name}
+                            {isEditModeOn ?
+                                <div className="py-2">
+                                    <select id="exercises"
+                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-1.5 font-bold focus:border-blue-500 focus:ring-blue-500"
+                                            value={selectedExerciseName}
+                                            onChange={(e) => setExerciseType(e.target.value)}>
 
-                            </h3>
+                                        {exerciseTypes.map((exercise) => (
+                                            <option key={exercise.id} value={exercise.name}>
+                                                {exercise.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                                :
+                                <h3 className="py-1 font-bold">
+                                    {props.exercise.exerciseType.name}
+                                </h3>
+                            }
                             <hr/>
                             <div className="flex flex-row justify-center py-1 text-xs">
                                 <h5>

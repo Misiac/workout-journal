@@ -11,7 +11,7 @@ export const ExerciseDetails: React.FC<{
     if (!context) {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
-    const {isEditModeOn} = context;
+    const {isEditModeOn, setState} = context;
 
     const [load, setLoad] = useState(props.set.load);
     const [reps, setReps] = useState(props.set.reps);
@@ -22,7 +22,7 @@ export const ExerciseDetails: React.FC<{
         if (newValue > 0) {
             isLoad ? setLoad(newValue) : setReps(newValue);
             isLoad ? (props.set.load = newValue) : (props.set.reps = newValue);
-            context.setState(prevState => ({
+            setState(prevState => ({
                 ...prevState,
                 wasChangeMade: true
             }));

@@ -4,10 +4,7 @@ import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
 import com.misiac.workoutjournal.exception.UnauthorizedException;
-import com.misiac.workoutjournal.mapper.WorkoutMapper;
 import com.misiac.workoutjournal.repository.UserRepository;
-import com.misiac.workoutjournal.repository.WorkoutExerciseRepository;
-import com.misiac.workoutjournal.repository.WorkoutExerciseSetRepository;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,23 +22,16 @@ public class WorkoutService {
 
     private final WorkoutRepository workoutRepository;
     private final UserRepository userRepository;
-    private final WorkoutExerciseSetRepository workoutExerciseSetRepository;
-    private final WorkoutExerciseRepository workoutExerciseRepository;
-    private final WorkoutMapper workoutMapper;
+
 
     @Autowired
-    public WorkoutService(WorkoutRepository workoutRepository, UserRepository userRepository, WorkoutExerciseSetRepository workoutExerciseSetRepository, WorkoutExerciseRepository workoutExerciseRepository, WorkoutMapper workoutMapper) {
+    public WorkoutService(WorkoutRepository workoutRepository, UserRepository userRepository) {
         this.workoutRepository = workoutRepository;
         this.userRepository = userRepository;
-        this.workoutExerciseSetRepository = workoutExerciseSetRepository;
-        this.workoutExerciseRepository = workoutExerciseRepository;
-        this.workoutMapper = workoutMapper;
     }
 
 //    public void addWorkout(WorkoutRequest addWorkoutRequest, String email) {
-//
-//        Workout workout = workoutMapper.toWorkout(addWorkoutRequest, email);
-//        workoutRepository.save(workout);
+
 //    }
 
     public List<WorkoutTiny> getExercisesTiny(String email) {

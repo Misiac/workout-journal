@@ -55,7 +55,6 @@ export const WorkoutExplorer = () => {
         } else {
             context.setState(prevState => ({
                 ...prevState,
-                exercises: []
             }));
         }
     }, [authState, selectedWorkoutId, context.workoutReloadTrigger]);

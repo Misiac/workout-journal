@@ -65,9 +65,7 @@ export const EditorOptions = () => {
         context.setState(prevState => ({
             ...prevState,
             wasChangeMade: false,
-            isEditModeOn: !prevState.isEditModeOn,
-            editedExercises: [],
-            deletedExercises: []
+            isEditModeOn: !prevState.isEditModeOn
         }));
     };
     return (

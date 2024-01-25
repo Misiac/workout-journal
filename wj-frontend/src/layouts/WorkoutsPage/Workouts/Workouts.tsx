@@ -34,7 +34,6 @@ export const Workouts = () => {
             wasChangeMade: false,
             workoutReloadTrigger: prevState.workoutReloadTrigger + 1,
             isEditModeOn: !prevState.isEditModeOn,
-            editedExercises: []
         }));
     }
 

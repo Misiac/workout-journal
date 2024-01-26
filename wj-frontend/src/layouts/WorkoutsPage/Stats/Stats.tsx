@@ -2,15 +2,18 @@ import MuscleRadar from "./Components/MuscleRadar";
 import {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import StatCard from "./Components/StatCard";
+import ProcessingSpinner from "../../Utils/ProcessingSpinner.tsx";
 
 
 export const Stats = () => {
     const {authState} = useOktaAuth();
+    const [isLoading, setIsLoading] = useState(true);
 
     const [reps, setReps] = useState('')
     const [sets, setSets] = useState('')
     const [volume, setVolume] = useState('')
     const [workouts, setWorkouts] = useState('')
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,6 +39,7 @@ export const Stats = () => {
                 setWorkouts(data.workouts)
                 setVolume(data.volume)
 
+                setIsLoading(false);
             } catch (error) {
                 console.error('Error fetching exercise data', error);
             }
@@ -43,31 +47,40 @@ export const Stats = () => {
 
         fetchData();
     }, [authState]);
-    return (
-        <>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-            <div className="grid grid-cols-4 grid-rows-2 gap-6 py-6">
-                <div className="">
-                    <StatCard heading={reps} caption={'Total Reps'} gradientMode={'bg-gradient-to-tl'}/>
+return (
+    <>
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+        <div className="grid grid-cols-4 grid-rows-2 gap-6 py-6 h-auto">
+            {isLoading ?
+                <div className='flex items-center justify-center row-span-3 col-span-2 h-full w-full'>
+                    <ProcessingSpinner/>
                 </div>
+                :
+                <>
+                    <div className="">
+                        <StatCard heading={reps} caption={'Total Reps'} gradientMode={'bg-gradient-to-tl'}/>
+                    </div>
 
-                <div className="col-start-1 row-start-2">
-                    <StatCard heading={sets} caption={'Total Sets'} gradientMode={'bg-gradient-to-bl'}/>
-                </div>
-                <div className="col-start-2 row-start-1">
-                    <StatCard heading={volume + ' Kg'} caption={'Total Volume'} gradientMode={'bg-gradient-to-tr'}/>
-                </div>
-                <div className="col-start-2 row-start-2">
-                    <StatCard heading={workouts} caption={'Total Workouts'} gradientMode={'bg-gradient-to-br'}/>
-                </div>
-                <div className="col-span-2 col-start-3 row-span-3 row-start-1 flex items-center justify-center">
-                    <MuscleRadar/>
-                </div>
+                    <div className="col-start-1 row-start-2">
+                        <StatCard heading={sets} caption={'Total Sets'} gradientMode={'bg-gradient-to-bl'}/>
+                    </div>
+                    <div className="col-start-2 row-start-1">
+                        <StatCard heading={volume + ' Kg'} caption={'Total Volume'}
+                                  gradientMode={'bg-gradient-to-tr'}/>
+                    </div>
+                    <div className="col-start-2 row-start-2">
+                        <StatCard heading={workouts} caption={'Total Workouts'} gradientMode={'bg-gradient-to-br'}/>
+                    </div>
+
+                </>
+            }
+            <div className="col-span-2 col-start-3 row-span-3 row-start-1 flex items-center justify-center">
+                <MuscleRadar/>
             </div>
-        </>
+        </div>
+    </>
 
-    )
-        ;
+);
 }
 export default Stats;
 

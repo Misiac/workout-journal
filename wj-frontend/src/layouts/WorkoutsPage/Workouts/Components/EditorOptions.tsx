@@ -36,7 +36,6 @@ export const EditorOptions = () => {
     };
 
     const updateWorkout = async () => {
-        console.log(JSON.stringify(context.workout));
         try {
             const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout`, {
                 method: 'PUT',

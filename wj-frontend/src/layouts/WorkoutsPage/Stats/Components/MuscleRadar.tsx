@@ -118,8 +118,6 @@ export const MuscleRadar = () => {
     };
 
     return (
-
-
         <div>
             {isLoading ? (
                 <ProcessingSpinner/>

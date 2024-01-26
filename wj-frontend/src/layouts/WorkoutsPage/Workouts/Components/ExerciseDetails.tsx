@@ -4,7 +4,8 @@ import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import DeleteSVG from "../../../Utils/DeleteSVG.tsx";
 
 export const ExerciseDetails: React.FC<{
-    set: WorkoutExerciseSet
+    set: WorkoutExerciseSet,
+    recountSets: () => void
 }> = (props) => {
 
     const context = useContext(WorkoutExplorerContext);
@@ -39,10 +40,16 @@ export const ExerciseDetails: React.FC<{
             if (!workout) return prevState;
             const exercise = workout.workoutExercises.find((ex) => ex.workoutExerciseSets.includes(props.set));
             if (!exercise) return prevState;
+
             const newExercise = {
                 ...exercise,
                 workoutExerciseSets: exercise.workoutExerciseSets.filter(s => s !== props.set)
             };
+            let counter = 1;
+            for (const set of newExercise.workoutExerciseSets) {
+                set.setNumber = counter;
+                counter++;
+            }
             return {
                 ...prevState,
                 workout: {

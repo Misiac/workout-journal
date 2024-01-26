@@ -1,6 +1,6 @@
 import test from "../../../../resources/test.png";
 import arrow from "../../../../resources/collapse-arrow.png";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {WorkoutExercise} from "../../../../models/Workout.ts";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import ExerciseDetails from "./ExerciseDetails.tsx";
@@ -47,29 +47,43 @@ export const Exercise: React.FC<{
         }));
     };
 
-    const [selectedExerciseName, setSelectedExerciseName] = useState('');
+    const [selectedExerciseName, setSelectedExerciseName] = useState(props.exercise.exerciseType.name);
+
+    const recountSets = () => {
+        let counter = 1;
+        for (const set of props.exercise.workoutExerciseSets) {
+            set.setNumber = counter;
+            counter++;
+        }
+    }
 
     const setExerciseType = (exerciseName: string) => {
-        const exerciseType = exerciseTypes.find(exercise => exercise.name === exerciseName);
 
-        if (exerciseType && workout) {
-            const exerciseIndex = workout.workoutExercises.findIndex(exercise => exercise === props.exercise);
+        if (exerciseName != props.exercise.exerciseType.name) {
+            const exerciseType = exerciseTypes.find(exercise => exercise.name === exerciseName);
 
-            if (exerciseIndex !== -1) {
-                props.exercise.exerciseType = exerciseType;
+            if (exerciseType && workout) {
+                const exerciseIndex = workout.workoutExercises.findIndex(exercise => exercise === props.exercise);
 
-                workout.workoutExercises[exerciseIndex] = props.exercise;
+                if (exerciseIndex !== -1) {
+                    props.exercise.exerciseType = exerciseType;
 
-                setState(prevState => ({
-                    ...prevState,
-                    workout: workout,
-                    wasChangeMade: true
-                }));
+                    workout.workoutExercises[exerciseIndex] = props.exercise;
+                    setState(prevState => ({
+                        ...prevState,
+                        workout: workout,
+                        wasChangeMade: true
+                    }));
 
-                setSelectedExerciseName(exerciseName);
+                    setSelectedExerciseName(exerciseName);
+                }
             }
         }
     }
+
+    useEffect(() => {
+        setSelectedExerciseName(props.exercise.exerciseType.name)
+    }, [isEditModeOn]);
 
     const handleToggle = () => setIsExpanded(!isExpanded);
 
@@ -105,9 +119,9 @@ export const Exercise: React.FC<{
                         </h5>
                         <div className="flex w-full flex-col px-3">
                             {isEditModeOn ?
-                                <div className="py-2">
+                                <div className="py-1">
                                     <select id="exercises"
-                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-sm text-gray-900 p-1.5 font-bold focus:border-blue-500 focus:ring-blue-500"
+                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-1.5 font-bold focus:border-blue-500 focus:ring-blue-500"
                                             value={selectedExerciseName}
                                             onChange={(e) => setExerciseType(e.target.value)}>
 
@@ -119,7 +133,7 @@ export const Exercise: React.FC<{
                                     </select>
                                 </div>
                                 :
-                                <h3 className="py-1 font-bold">
+                                <h3 className="py-2 font-bold">
                                     {props.exercise.exerciseType.name}
                                 </h3>
                             }
@@ -166,7 +180,7 @@ export const Exercise: React.FC<{
 
                         <tbody>
                         {props.exercise.workoutExerciseSets.map((set) => (
-                            <ExerciseDetails set={set} key={set.id}/>
+                            <ExerciseDetails set={set} key={set.id} recountSets={recountSets}/>
                         ))}
                         {isEditModeOn &&
                             <LogNewSet/>

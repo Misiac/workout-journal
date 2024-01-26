@@ -4,6 +4,7 @@ import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutTiny} from "../../../../../models/WorkoutTiny.ts";
 import {WorkoutExplorerContext} from "../../../WorkoutExplorerContext.tsx";
 import LogNewWorkoutSliderCard from "../EditMode/LogNewWorkoutSliderCard.tsx";
+import ProcessingSpinner from "../../../../Utils/ProcessingSpinner.tsx";
 
 export const WorkoutsSlider: React.FC<{
     handleOpenModal: () => Promise<boolean>
@@ -17,6 +18,7 @@ export const WorkoutsSlider: React.FC<{
     const {sliderReloadTrigger} = context;
 
     const [workouts, setWorkouts] = useState<WorkoutTiny[]>([])
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,11 +32,13 @@ export const WorkoutsSlider: React.FC<{
 
             if (!response.ok) throw new Error('Something went wrong!');
 
+            setIsLoading(false);
             const data = await response.json();
             setWorkouts(data.map((workoutData: any) => new WorkoutTiny(workoutData.id, workoutData.date, workoutData.name)));
         };
 
         fetchData();
+
         console.log("slider reload");
     }, [authState, sliderReloadTrigger]);
 
@@ -42,9 +46,18 @@ export const WorkoutsSlider: React.FC<{
         <div className="h-full w-1/5 overflow-y-auto scroll-container">
             <div className="flex flex-col gap-4">
                 <LogNewWorkoutSliderCard/>
-                {workouts.map((workout) => (
-                    <SliderCard workout={workout} key={workout.id} handleOpenModal={handleOpenModal}/>
-                ))}
+                {isLoading ?
+                    <div className='h-full flex justify-center'>
+                        <ProcessingSpinner/>
+                    </div>
+
+                    :
+                    (
+                        workouts.map((workout) => (
+                            <SliderCard workout={workout} key={workout.id} handleOpenModal={handleOpenModal}/>
+                        ))
+                    )
+                }
             </div>
         </div>
     );

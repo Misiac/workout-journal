@@ -79,6 +79,9 @@ export const WorkoutExplorer = () => {
         }));
     };
 
+    useEffect(() => {
+        setIsNameEditing(false);
+    }, [isEditModeOn]);
 
     useEffect(() => {
         if (selectedWorkoutId !== 0) {
@@ -136,16 +139,18 @@ export const WorkoutExplorer = () => {
         }));
     };
 
+
     return (
         <>
             <div className="w-full overflow-y-auto px-2">
-                {workout &&
+
+                {workout ?
                     <div className="flex w-full items-start gap-2 py-4 h-[100px] fade-animation">
 
                         <div className='w-1/2 flex flex-col items-start'>
                             {isEditModeOn ? (
                                 <>
-                                    <div className='flex'>
+                                    <div className='flex w-full'>
                                         {isNameEditing ? (
                                             <input
                                                 className='text-2xl py-1 font-bold rounded-md ring-1 ring-black w-full'
@@ -162,7 +167,7 @@ export const WorkoutExplorer = () => {
                                         ) : (
                                             <>
                                                 <p className='text-2xl py-1 font-bold'>{workout.name}</p>
-                                                <Edit2Icon className='ml-3 mt-2 fade-animation'
+                                                <Edit2Icon className='ml-2 mt-2.5 fade-animation w-5 h-5'
                                                            onClick={() => setIsNameEditing(true)}/>
                                             </>
                                         )}
@@ -192,6 +197,8 @@ export const WorkoutExplorer = () => {
                             }
                         </div>
                     </div>
+                    :
+                    <h3>SELECT WORKOUT</h3>
                 }
 
                 {selectedWorkoutId !== 0 && <hr/>}

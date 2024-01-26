@@ -50,9 +50,9 @@ export const Stats = () => {
 return (
     <>
         <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-        <div className="grid grid-cols-4 grid-rows-2 gap-6 py-6 h-auto">
+        <div className="grid h-auto grid-cols-4 grid-rows-2 gap-6 py-6">
             {isLoading ?
-                <div className='flex items-center justify-center row-span-3 col-span-2 h-full w-full'>
+                <div className='col-span-2 row-span-3 flex h-full w-full items-center justify-center'>
                     <ProcessingSpinner/>
                 </div>
                 :

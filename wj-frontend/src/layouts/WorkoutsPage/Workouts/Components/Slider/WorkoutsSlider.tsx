@@ -47,7 +47,7 @@ export const WorkoutsSlider: React.FC<{
             <div className="flex flex-col gap-4">
                 <LogNewWorkoutSliderCard/>
                 {isLoading ?
-                    <div className='h-full flex justify-center'>
+                    <div className='flex h-full justify-center'>
                         <ProcessingSpinner/>
                     </div>
 

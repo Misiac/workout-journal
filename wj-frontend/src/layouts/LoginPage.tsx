@@ -8,7 +8,7 @@ export const LoginPage = () => {
         <>
             <div className='flex h-screen items-center justify-center fade-animation'>
                 <div className='items-center'>
-                    <div className='flex items-center justify-center w-full'>
+                    <div className='flex w-full items-center justify-center'>
                         <img src={logo} width={396} alt="logo"/>
                     </div>
                     <LoginWidget config={oktaConfig}/>

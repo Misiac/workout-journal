@@ -4,10 +4,10 @@ const NotSupported: React.FC<{
     minWidth: number
 }> = (props) => {
     return (
-        <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
-            <h1 className="text-3xl font-bold text-red-500 mb-4">This screen is not supported</h1>
+        <div className="flex h-screen flex-col items-center justify-center bg-gray-100">
+            <h1 className="mb-4 text-3xl font-bold text-red-500">This screen is not supported</h1>
             <p className="text-xl text-gray-700">{`The minimal width supported is ${props.minWidth}px`}</p>
-            <p className="text-lg text-gray-600 mt-4">If you have resized your browser, please refresh the page.</p>
+            <p className="mt-4 text-lg text-gray-600">If you have resized your browser, please refresh the page.</p>
         </div>
     );
 }

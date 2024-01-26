@@ -63,13 +63,13 @@ export const ExerciseDetails: React.FC<{
 
     return (
         <tr className={isEditModeOn ? 'hover:bg-gray-100 group' : 'group'}>
-            <td className="border-b border-slate-300 relative items-center">
+            <td className="relative items-center border-b border-slate-300">
                 {isEditModeOn && <button onClick={deleteSet}><DeleteSVG/></button>}
                 {props.set.setNumber}
             </td>
-            <td className="border-b border-slate-300 relative items-center">
+            <td className="relative items-center border-b border-slate-300">
                 {isEditModeOn ? (
-                    <input className="text-center w-1/2 ml-3.5" type="number" value={load}
+                    <input className="w-1/2 text-center ml-3.5" type="number" value={load}
                            onChange={(e) => handleValueChange(e, true)}
                            onKeyDown={(e) => {
                                if (e.key === 'Enter') e.currentTarget.blur();
@@ -77,9 +77,9 @@ export const ExerciseDetails: React.FC<{
                     />
                 ) : load}
             </td>
-            <td className="border-b border-slate-300 relative">
+            <td className="relative border-b border-slate-300">
                 {isEditModeOn ? (
-                    <input type="number" className="text-center w-1/2 ml-3.5" value={reps}
+                    <input type="number" className="w-1/2 text-center ml-3.5" value={reps}
                            onChange={(e) => handleValueChange(e, false)}
                            onKeyDown={(e) => {
                                if (e.key === 'Enter') e.currentTarget.blur();

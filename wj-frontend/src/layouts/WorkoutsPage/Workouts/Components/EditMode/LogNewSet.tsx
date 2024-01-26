@@ -5,7 +5,7 @@ export const LogNewSet = () => {
     return (
         <tr className='fade-animation'>
             <td colSpan={3} className='text-center'>
-                <div className='flex  w-full  justify-center'>
+                <div className='flex w-full justify-center'>
                     <PlusIcon/>
                     Add new set
                 </div>

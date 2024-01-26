@@ -25,7 +25,7 @@ export const SliderCard: React.FC<{
     }
 
     return (
-        <div className="relative mx-auto max-w-md w-full" onClick={handleClick}>
+        <div className="relative mx-auto w-full max-w-md" onClick={handleClick}>
             <div className="flex items-center rounded-md border-gray-100 bg-white p-3 hover:bg-gray-100">
 
                 <div
@@ -33,7 +33,7 @@ export const SliderCard: React.FC<{
                 ></div>
 
                 <div className=''>
-                    <h1 className="font-bold overflow-hidden text-overflow ellipsis ">
+                    <h1 className="overflow-hidden font-bold text-overflow ellipsis">
                         {workout.name}
                     </h1>
                     <p className="overflow-hidden text-overflow ellipsis">{workout.date}</p>

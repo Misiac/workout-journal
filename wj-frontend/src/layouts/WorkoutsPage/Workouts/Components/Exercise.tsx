@@ -121,7 +121,7 @@ export const Exercise: React.FC<{
                             {isEditModeOn ?
                                 <div className="py-1">
                                     <select id="exercises"
-                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 text-gray-900 p-1.5 font-bold focus:border-blue-500 focus:ring-blue-500"
+                                            className="block w-full rounded-lg border border-gray-300 bg-gray-50 font-bold text-gray-900 p-1.5 focus:border-blue-500 focus:ring-blue-500"
                                             value={selectedExerciseName}
                                             onChange={(e) => setExerciseType(e.target.value)}>
 

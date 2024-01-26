@@ -147,13 +147,13 @@ export const WorkoutExplorer = () => {
                 {workout ?
                     <div className="flex w-full items-start gap-2 py-4 h-[100px] fade-animation">
 
-                        <div className='w-1/2 flex flex-col items-start'>
+                        <div className='flex w-1/2 flex-col items-start'>
                             {isEditModeOn ? (
                                 <>
                                     <div className='flex w-full'>
                                         {isNameEditing ? (
                                             <input
-                                                className='text-2xl py-1 font-bold rounded-md ring-1 ring-black w-full'
+                                                className='w-full rounded-md py-1 text-2xl font-bold ring-1 ring-black'
                                                 value={workout.name}
                                                 onChange={(e) => changeWorkoutName(e)}
                                                 onBlur={() => setIsNameEditing(false)}
@@ -166,14 +166,14 @@ export const WorkoutExplorer = () => {
                                             />
                                         ) : (
                                             <>
-                                                <p className='text-2xl py-1 font-bold'>{workout.name}</p>
-                                                <Edit2Icon className='ml-2 mt-2.5 fade-animation w-5 h-5'
+                                                <p className='py-1 text-2xl font-bold'>{workout.name}</p>
+                                                <Edit2Icon className='ml-2 h-5 w-5 mt-2.5 fade-animation'
                                                            onClick={() => setIsNameEditing(true)}/>
                                             </>
                                         )}
                                     </div>
                                     <div className='pt-1'>
-                                        <input className='fade-animation text-xl'
+                                        <input className='text-xl fade-animation'
                                                type='datetime-local'
                                                value={workout.date}
                                                onChange={(e) => changeWorkoutDate(e)}
@@ -182,7 +182,7 @@ export const WorkoutExplorer = () => {
                                 </>
                             ) : (
                                 <>
-                                    <p className='text-2xl py-1 font-bold'> {workout.name}</p>
+                                    <p className='py-1 text-2xl font-bold'> {workout.name}</p>
                                     <div className='flex items-center'>
                                         <p className='py-1 text-xl'>{formatDate(workout.date)}</p>
                                     </div>

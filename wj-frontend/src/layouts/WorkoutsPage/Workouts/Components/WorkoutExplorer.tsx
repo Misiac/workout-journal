@@ -4,7 +4,7 @@ import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutExercise, WorkoutExerciseSet} from "../../../../models/Workout.ts";
 import WorkoutTotals from "./WorkoutTotals.tsx";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
-import EditorOptions from "./EditorOptions.tsx";
+import EditorOptions from "./EditMode/EditorOptions.tsx";
 import LogNewExercise from "./EditMode/LogNewExercise.tsx";
 import {formatDate} from "../../../Utils/DateFormatter.ts";
 import {Edit2Icon} from "lucide-react";
@@ -19,7 +19,7 @@ export const WorkoutExplorer = () => {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
 
-    const {selectedWorkoutId, workout, isEditModeOn, setState} = context; //todo
+    const {selectedWorkoutId, workout, isEditModeOn, setState, workoutReloadTrigger} = context; //todo
 
     const [totals, setTotals] = useState({totalExercises: 0, totalSets: 0, totalReps: 0, tvl: 0});
     const [isNameEditing, setIsNameEditing] = useState(false);
@@ -73,7 +73,7 @@ export const WorkoutExplorer = () => {
 
         const workout = await response.json();
 
-        context.setState(prevState => ({
+        setState(prevState => ({
             ...prevState,
             workout: workout
         }));
@@ -88,13 +88,14 @@ export const WorkoutExplorer = () => {
             fetchWorkout();
             console.log("fetch workout")
         } else {
-            context.setState(prevState => ({
+            setState(prevState => ({
                 ...prevState,
             }));
         }
-    }, [authState, selectedWorkoutId, context.workoutReloadTrigger]);
+    }, [authState, selectedWorkoutId, workoutReloadTrigger]);
 
     useEffect(() => {
+        console.log("recount")
         if (selectedWorkoutId !== 0) {
             const totalExercises: number = workout?.workoutExercises.length ?? 0;
             let totalSets: number = 0;
@@ -110,8 +111,7 @@ export const WorkoutExplorer = () => {
             })
             setTotals({totalExercises, totalSets, totalReps, tvl});
         }
-    }, [context.workout]);
-
+    }, [authState, workout]);
 
     const changeWorkoutName = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length <= 50) {
@@ -145,9 +145,9 @@ export const WorkoutExplorer = () => {
             <div className="w-full overflow-y-auto px-2">
 
                 {workout ?
-                    <div className="flex w-full items-start gap-2 py-4 h-[100px] fade-animation">
+                    <div className="flex w-full items-start gap-2 py-1 h-[100px] fade-animation">
 
-                        <div className='flex w-1/2 flex-col items-start'>
+                        <div className='flex w-1/2 flex-col items-start px-3'>
                             {isEditModeOn ? (
                                 <>
                                     <div className='flex w-full'>
@@ -198,7 +198,9 @@ export const WorkoutExplorer = () => {
                         </div>
                     </div>
                     :
-                    <h3>SELECT WORKOUT</h3>
+                    <div className='mt-10 flex justify-center'>
+                        <h3 className='font-semibold'>Select or log workout</h3>
+                    </div>
                 }
 
                 {selectedWorkoutId !== 0 && <hr/>}

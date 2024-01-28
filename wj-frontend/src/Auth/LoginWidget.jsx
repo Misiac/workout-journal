@@ -1,4 +1,3 @@
-
 import {useOktaAuth} from '@okta/okta-react';
 import ProcessingSpinner from '../layouts/Utils/ProcessingSpinner';
 import {useEffect} from "react";
@@ -17,14 +16,19 @@ const LoginWidget = ({config}) => {
         if (authState?.isAuthenticated) {
             navigate('/workouts');
         }
-    }, [authState,navigate]);
+    }, [authState, navigate]);
 
     const onError = (err) => {
         console.error('Sign in error: ', err);
     };
 
     if (!authState) {
-        return <ProcessingSpinner/>;
+        return (
+            <div className='mt-10 flex w-full justify-center'>
+                <ProcessingSpinner/>
+            </div>
+        );
+
     }
 
 

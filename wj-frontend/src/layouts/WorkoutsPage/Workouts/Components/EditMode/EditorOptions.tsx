@@ -1,7 +1,8 @@
 import {useContext} from "react";
-import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
+import {WorkoutExplorerContext} from "../../../WorkoutExplorerContext.tsx";
 import {useOktaAuth} from "@okta/okta-react";
-import {confirmModal} from "../../../Utils/ConfirmModal.tsx";
+import {confirmModal} from "../../../../Utils/ConfirmModal.tsx";
+import {Check, Trash2} from "lucide-react";
 
 export const EditorOptions = () => {
 
@@ -73,23 +74,16 @@ export const EditorOptions = () => {
         <>
             <div className='flex h-full w-full items-center justify-center gap-4'>
                 <button onClick={handleModalOpen}
-                        className="inline-flex items-center rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white fade-animation hover:bg-red-700">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                    </svg>
+                        className="inline-flex items-center rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors duration-300 fade-animation hover:bg-red-700">
+                    <Trash2 className='mr-2'/>
                     Delete Workout
                 </button>
 
                 <button
                     disabled={!context.wasChangeMade} onClick={handleSave}
-                    className={`inline-flex items-center px-4 py-2 text-white text-sm font-medium rounded-md fade-animation ${context.wasChangeMade ? 'bg-regal-blue hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
+                    className={`inline-flex items-center px-4 py-2 text-white text-sm font-medium rounded-md transition-colors duration-300 fade-animation ${context.wasChangeMade ? 'bg-regal-blue hover:bg-blue-700' : 'bg-gray-400 cursor-not-allowed'}`}
                 >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="mr-2 h-5 w-5" fill="none" viewBox="0 0 24 24"
-                         stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"/>
-                    </svg>
+                    <Check className='mr-2'/>
                     Save
                 </button>
             </div>

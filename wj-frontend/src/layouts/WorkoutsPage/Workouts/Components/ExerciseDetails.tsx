@@ -1,7 +1,7 @@
 import {WorkoutExerciseSet} from "../../../../models/Workout.ts";
 import React, {useContext, useEffect, useState} from "react";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
-import DeleteSVG from "../../../Utils/DeleteSVG.tsx";
+import {Trash2} from "lucide-react";
 
 export const ExerciseDetails: React.FC<{
     set: WorkoutExerciseSet,
@@ -22,11 +22,32 @@ export const ExerciseDetails: React.FC<{
 
         if (newValue > 0) {
             isLoad ? setLoad(newValue) : setReps(newValue);
-            isLoad ? (props.set.load = newValue) : (props.set.reps = newValue);
-            setState(prevState => ({
-                ...prevState,
-                wasChangeMade: true
-            }));
+
+            const updatedSet = {
+                ...props.set,
+                load: isLoad ? newValue : props.set.load,
+                reps: !isLoad ? newValue : props.set.reps,
+            };
+
+            setState(prevState => {
+                if (!workout) return prevState;
+                const exercise = workout.workoutExercises.find(ex => ex.workoutExerciseSets.includes(props.set));
+                if (!exercise) return prevState;
+
+                const newExercise = {
+                    ...exercise,
+                    workoutExerciseSets: exercise.workoutExerciseSets.map(set => set === props.set ? updatedSet : set)
+                };
+
+                return {
+                    ...prevState,
+                    workout: {
+                        ...workout,
+                        workoutExercises: workout.workoutExercises.map(ex => ex === exercise ? newExercise : ex)
+                    },
+                    wasChangeMade: true,
+                };
+            });
         }
     };
 
@@ -64,7 +85,10 @@ export const ExerciseDetails: React.FC<{
     return (
         <tr className={isEditModeOn ? 'hover:bg-gray-100 group' : 'group'}>
             <td className="relative items-center border-b border-slate-300">
-                {isEditModeOn && <button onClick={deleteSet}><DeleteSVG/></button>}
+                {isEditModeOn && <button onClick={deleteSet}>
+                    <Trash2
+                        className='absolute left-2 mr-2 h-5 w-5 opacity-0 transition-colors duration-200 top-0.5 group-hover:opacity-100 hover:text-red-500'/>
+                </button>}
                 {props.set.setNumber}
             </td>
             <td className="relative items-center border-b border-slate-300">

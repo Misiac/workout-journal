@@ -1,10 +1,11 @@
 import test from "../../../../resources/test.png";
 import arrow from "../../../../resources/collapse-arrow.png";
 import React, {useContext, useEffect, useState} from "react";
-import {WorkoutExercise} from "../../../../models/Workout.ts";
+import {WorkoutExercise, WorkoutExerciseSet} from "../../../../models/Workout.ts";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import ExerciseDetails from "./ExerciseDetails.tsx";
 import LogNewSet from "./EditMode/LogNewSet.tsx";
+import {Trash2} from "lucide-react";
 
 export const Exercise: React.FC<{
     exercise: WorkoutExercise,
@@ -14,9 +15,11 @@ export const Exercise: React.FC<{
     if (!context) {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
+
     const {workout, setState, isEditModeOn, exerciseTypes} = context;
 
     const [isExpanded, setIsExpanded] = useState(false);
+    const [tempId, setTempId] = useState(-1);
 
     const totalSets = props.exercise.workoutExerciseSets.length;
 
@@ -81,6 +84,27 @@ export const Exercise: React.FC<{
         }
     }
 
+    const addNewSet = () => {
+        if (workout) {
+            const lastSet = props.exercise.workoutExerciseSets[props.exercise.workoutExerciseSets.length - 1];
+            const newSet = new WorkoutExerciseSet(
+                tempId,
+                lastSet.load,
+                lastSet.reps,
+                lastSet.setNumber + 1
+            );
+            setTempId(tempId - 1);
+            props.exercise.workoutExerciseSets.push(newSet);
+            const exerciseIndex = workout.workoutExercises.findIndex(exercise => exercise === props.exercise);
+            workout.workoutExercises[exerciseIndex] = props.exercise;
+            setState(prevState => ({
+                ...prevState,
+                workout: workout,
+                wasChangeMade: true
+            }));
+        }
+    }
+
     useEffect(() => {
         setSelectedExerciseName(props.exercise.exerciseType.name)
     }, [isEditModeOn]);
@@ -91,20 +115,16 @@ export const Exercise: React.FC<{
         <div className="w-full px-2 fade-animation">
 
             <div
-                className="relative flex w-full flex-col rounded-lg border border-gray-200 bg-white shadow focus:outline-none"
+                className="relative flex w-full flex-col rounded-lg border border-gray-200 bg-white shadow-lg focus:outline-none"
             >
                 <div
                     className="flex flex-col items-center rounded-lg md:max-w-xl md:flex-row"
                 >
                     {isEditModeOn &&
                         <button onClick={addExerciseToDelete}
-                                className="absolute top-0 right-0 m-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white fade-animation hover:bg-red-700"
+                                className="absolute top-0 right-0 m-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white transition-colors duration-300 fade-animation hover:bg-red-700"
                         >
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8"
-                                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-                            </svg>
+                            <Trash2 className='w-5'/>
                         </button>}
 
                     <img
@@ -183,7 +203,7 @@ export const Exercise: React.FC<{
                             <ExerciseDetails set={set} key={set.id} recountSets={recountSets}/>
                         ))}
                         {isEditModeOn &&
-                            <LogNewSet/>
+                            <LogNewSet addNewSet={addNewSet}/>
                         }
                         </tbody>
                     </table>

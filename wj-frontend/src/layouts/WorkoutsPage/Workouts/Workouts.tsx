@@ -18,7 +18,6 @@ export const Workouts = () => {
         sliderReloadTrigger: 0
     });
 
-
     const handleOpenModal = async (): Promise<boolean> => {
         if (state.isEditModeOn && state.wasChangeMade) {
             if (await confirmModal('This will revert changes, are you sure?')) {

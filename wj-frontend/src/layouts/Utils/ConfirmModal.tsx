@@ -27,11 +27,11 @@ export const ConfirmModal: React.FC<ConfirmModalProps> = ({message, onConfirm, o
                 </div>
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button onClick={onConfirm} type="button"
-                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-red-700 sm:ml-3 sm:w-auto sm:text-sm">
+                            className="inline-flex w-full justify-center rounded-md border border-transparent bg-red-500 px-4 py-2 text-base font-medium text-white shadow-sm transition-colors duration-200 hover:bg-red-700 sm:ml-3 sm:w-auto sm:text-sm">
                         Yes
                     </button>
                     <button onClick={onCancel} type="button"
-                            className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 px-4 py-2 text-base font-medium text-white shadow-sm bg-regal-blue hover:bg-blue-700 sm:mt-0 sm:w-auto sm:text-sm">
+                            className="mt-3 inline-flex w-full justify-center rounded-md border border-gray-300 px-4 py-2 text-base font-medium text-white shadow-sm transition-colors duration-200 bg-regal-blue hover:bg-blue-700 sm:mt-0 sm:w-auto sm:text-sm">
                         No
                     </button>
                 </div>

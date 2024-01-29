@@ -41,11 +41,14 @@ export const App = () => {
         };
     }, []);
 
+
     return (
         <div>
             <Security
                 oktaAuth={oktaAuth}
-                restoreOriginalUri={(_oktaAuth, originalUri) => navigate(originalUri || "/")}
+                restoreOriginalUri={async (_oktaAuth, originalUri) => {
+                    navigate(originalUri || "/workouts");
+                }}
                 onAuthRequired={() => navigate("/login")}>
 
                 {!isLoginPage && wasEnoughAtStart.current && <Navbar/>}

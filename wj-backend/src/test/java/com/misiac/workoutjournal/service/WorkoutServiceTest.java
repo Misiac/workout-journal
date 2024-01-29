@@ -39,7 +39,7 @@ class WorkoutServiceTest {
         String email = "test@email.com";
 
         when(workoutRepository.findById(workoutId)).thenReturn(Optional.of(workout));
-        when(userRepository.findUserByEmail(email)).thenReturn(user);
+        when(userRepository.findUserByEmail(email)).thenReturn(Optional.of(user));
 
         workoutService.deleteWorkout(email, workoutId);
 
@@ -58,7 +58,7 @@ class WorkoutServiceTest {
         String email = "user2@email.com";
 
         when(workoutRepository.findById(workoutId)).thenReturn(Optional.of(workout));
-        when(userRepository.findUserByEmail(email)).thenReturn(user2);
+        when(userRepository.findUserByEmail(email)).thenReturn(Optional.of(user2));
 
         assertThrows(UnauthorizedException.class,
                 () -> workoutService.deleteWorkout(email, workoutId)

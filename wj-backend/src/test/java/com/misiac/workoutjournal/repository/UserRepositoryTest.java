@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,7 +63,7 @@ class UserRepositoryTest {
         user.setEmail(TEST_EMAIL);
         userRepository.save(user);
 
-        User foundUser = userRepository.findUserByEmail(TEST_EMAIL);
+        User foundUser = userRepository.findUserByEmail(TEST_EMAIL).get();
 
         assertNotNull(foundUser);
         assertEquals(TEST_EMAIL, foundUser.getEmail());
@@ -84,8 +85,8 @@ class UserRepositoryTest {
 
         userRepository.delete(user);
 
-        assertNull(
-                userRepository.findUserByEmail(TEST_EMAIL)
+        assertThrows(NoSuchElementException.class,
+                () -> userRepository.findUserByEmail(TEST_EMAIL).get()
         );
 
         assertNull(workoutRepository.findById(workout.getId()).orElse(null));

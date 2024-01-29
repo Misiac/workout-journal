@@ -5,5 +5,9 @@ export const oktaConfig = {
     scopes: ['openid', 'profile', 'email'],
     pkce: true,
     disableHttpsCheck: true,
-    useClassicEngine: true
+    brandName: 'Workout Journal',
+    features: {registration: true},
+    colors: {
+        brand: '#288dff'
+    }
 }

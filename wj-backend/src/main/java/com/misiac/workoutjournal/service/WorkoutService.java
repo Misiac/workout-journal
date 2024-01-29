@@ -13,8 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 import static com.misiac.workoutjournal.repository.WorkoutRepository.WorkoutTiny;
-import static com.misiac.workoutjournal.util.MessageProvider.WORKOUT_DOES_NOT_BELONG;
-import static com.misiac.workoutjournal.util.MessageProvider.WORKOUT_DOES_NOT_EXIST;
+import static com.misiac.workoutjournal.util.MessageProvider.*;
 
 @Service
 @Transactional
@@ -43,7 +42,8 @@ public class WorkoutService {
         Workout workout = workoutRepository.findById(id).orElseThrow(
                 () -> new EntityDoesNotExistException(WORKOUT_DOES_NOT_EXIST));
 
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
         if (!user.getWorkouts().contains(workout)) {
             throw new UnauthorizedException(WORKOUT_DOES_NOT_BELONG);
         }
@@ -55,7 +55,9 @@ public class WorkoutService {
         Workout workoutFromDb = workoutRepository.findById(modifiedWorkout.getId()).orElseThrow(
                 () -> new EntityDoesNotExistException(WORKOUT_DOES_NOT_EXIST));
 
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
+
         if (!user.getWorkouts().contains(workoutFromDb)) {
             throw new UnauthorizedException(WORKOUT_DOES_NOT_BELONG);
         }
@@ -75,7 +77,9 @@ public class WorkoutService {
         Workout deletion = workoutRepository.findById(workoutId).orElseThrow(
                 () -> new EntityDoesNotExistException(WORKOUT_DOES_NOT_EXIST));
 
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
+
         if (!user.getWorkouts().contains(deletion)) {
             throw new UnauthorizedException(WORKOUT_DOES_NOT_BELONG);
         }

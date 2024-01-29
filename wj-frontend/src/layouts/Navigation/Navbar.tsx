@@ -1,10 +1,19 @@
 import {useOktaAuth} from "@okta/okta-react";
 import {NavLink} from "react-router-dom";
 import {LogOut} from "lucide-react";
+import {useNavigate} from 'react-router-dom';
 
 export const Navbar = () => {
     const {oktaAuth, authState} = useOktaAuth();
-    const handleLogout = async () => oktaAuth.signOut();
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        await oktaAuth.closeSession();
+        localStorage.removeItem('okta-token-storage');
+        await oktaAuth.authStateManager.updateAuthState();
+        console.log("signout")
+        navigate('/login');
+    };
 
     return (
         <div className="min-h-full bg-regal-blue">
@@ -14,13 +23,13 @@ export const Navbar = () => {
                         <div className="md:block">
                             <div className="ml-10 flex items-baseline space-x-4">
                                 <NavLink to='/workouts'
-                                    className="rounded-md px-3 py-2 font-medium text-white text-md hover:text-regal-blue hover:bg-white"
-                                    aria-current="page">Workout</NavLink>
+                                         className="rounded-md px-3 py-2 font-medium text-white text-md hover:text-regal-blue hover:bg-white"
+                                         aria-current="page">Workout</NavLink>
                                 <a className="pointer-events-none rounded-md px-3 py-2 text-sm font-medium text-white opacity-50 hover:text-regal-blue hover:bg-white">Diet</a>
                                 <a className="pointer-events-none rounded-md px-3 py-2 text-sm font-medium text-white opacity-50 hover:text-regal-blue hover:bg-white">Sleep</a>
                                 {authState?.isAuthenticated && authState?.accessToken?.claims.userType === 'admin' &&
                                     <NavLink to='/admin'
-                                        className="rounded-md px-3 py-2 text-sm font-medium text-white hover:text-regal-blue hover:bg-white">Admin
+                                             className="rounded-md px-3 py-2 text-sm font-medium text-white hover:text-regal-blue hover:bg-white">Admin
                                     </NavLink>
                                 }
                             </div>
@@ -29,9 +38,9 @@ export const Navbar = () => {
                     <div className="md:block">
                         <div className="ml-4 flex items-center md:ml-6">
                             <button type="button" onClick={handleLogout}
-                                className="relative rounded-full p-1 text-white hover:ring-1 hover:ring-white hover:ring-offset-1 focus:outline-none">
+                                    className="relative rounded-full p-1 text-white hover:ring-1 hover:ring-white hover:ring-offset-1 focus:outline-none">
                                 <span className="sr-only">View notifications</span>
-                               <LogOut />
+                                <LogOut/>
                             </button>
                         </div>
                     </div>

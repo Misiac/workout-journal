@@ -16,7 +16,7 @@ export const Stats = () => {
 
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchTotals = async () => {
             const url = `${import.meta.env.VITE_API_ADDRESS}/api/stats/total`;
             const requestOptions = {
                 method: 'GET',
@@ -28,7 +28,6 @@ export const Stats = () => {
 
             try {
                 const response = await fetch(url, requestOptions);
-
                 if (!response.ok) {
                     throw new Error('Something went wrong!');
                 }
@@ -44,43 +43,46 @@ export const Stats = () => {
                 console.error('Error fetching exercise data', error);
             }
         };
+        if (authState?.isAuthenticated) {
+            fetchTotals();
+            console.log("fetch stats")
+        }
 
-        fetchData();
     }, [authState]);
-return (
-    <>
-        <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
-        <div className="grid h-auto grid-cols-4 grid-rows-2 gap-6 py-6">
-            {isLoading ?
-                <div className='col-span-2 row-span-3 flex h-full w-full items-center justify-center'>
-                    <ProcessingSpinner/>
+    return (
+        <>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <div className="grid h-auto grid-cols-4 grid-rows-2 gap-6 py-6">
+                {isLoading ?
+                    <div className='col-span-2 row-span-3 flex h-full w-full items-center justify-center'>
+                        <ProcessingSpinner/>
+                    </div>
+                    :
+                    <>
+                        <div className="">
+                            <StatCard heading={reps} caption={'Total Reps'} gradientMode={'bg-gradient-to-tl'}/>
+                        </div>
+
+                        <div className="col-start-1 row-start-2">
+                            <StatCard heading={sets} caption={'Total Sets'} gradientMode={'bg-gradient-to-bl'}/>
+                        </div>
+                        <div className="col-start-2 row-start-1">
+                            <StatCard heading={volume + ' Kg'} caption={'Total Volume'}
+                                      gradientMode={'bg-gradient-to-tr'}/>
+                        </div>
+                        <div className="col-start-2 row-start-2">
+                            <StatCard heading={workouts} caption={'Total Workouts'} gradientMode={'bg-gradient-to-br'}/>
+                        </div>
+
+                    </>
+                }
+                <div className="col-span-2 col-start-3 row-span-3 row-start-1 flex items-center justify-center">
+                    <MuscleRadar/>
                 </div>
-                :
-                <>
-                    <div className="">
-                        <StatCard heading={reps} caption={'Total Reps'} gradientMode={'bg-gradient-to-tl'}/>
-                    </div>
-
-                    <div className="col-start-1 row-start-2">
-                        <StatCard heading={sets} caption={'Total Sets'} gradientMode={'bg-gradient-to-bl'}/>
-                    </div>
-                    <div className="col-start-2 row-start-1">
-                        <StatCard heading={volume + ' Kg'} caption={'Total Volume'}
-                                  gradientMode={'bg-gradient-to-tr'}/>
-                    </div>
-                    <div className="col-start-2 row-start-2">
-                        <StatCard heading={workouts} caption={'Total Workouts'} gradientMode={'bg-gradient-to-br'}/>
-                    </div>
-
-                </>
-            }
-            <div className="col-span-2 col-start-3 row-span-3 row-start-1 flex items-center justify-center">
-                <MuscleRadar/>
             </div>
-        </div>
-    </>
+        </>
 
-);
+    );
 }
 export default Stats;
 

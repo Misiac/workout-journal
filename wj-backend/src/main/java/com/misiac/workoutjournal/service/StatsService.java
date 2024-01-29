@@ -1,12 +1,15 @@
 package com.misiac.workoutjournal.service;
 
 import com.misiac.workoutjournal.entity.*;
+import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
 import com.misiac.workoutjournal.repository.UserRepository;
 import com.misiac.workoutjournal.responsemodels.RadarDataDTO;
 import com.misiac.workoutjournal.responsemodels.StatsDTO;
 import com.misiac.workoutjournal.util.RadarAllocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import static com.misiac.workoutjournal.util.MessageProvider.USER_DOES_NOT_EXIST;
 
 @Service
 public class StatsService {
@@ -52,7 +55,8 @@ public class StatsService {
     }
 
     public RadarDataDTO getRadarData(String email) {
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
         RadarDataDTO radarDataDTO = new RadarDataDTO();
         for (Workout workout : user.getWorkouts()) {
             for (WorkoutExercise we : workout.getWorkoutExercises()) {
@@ -70,7 +74,12 @@ public class StatsService {
 
     public StatsDTO getTotalStats(String email) {
 
-        User user = userRepository.findUserByEmail(email);
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
+
+        if (user.getWorkouts().isEmpty()) {
+            return new StatsDTO(0L, 0D, 0L, 0L);
+        }
 
         return new StatsDTO(
                 getTotalReps(user),

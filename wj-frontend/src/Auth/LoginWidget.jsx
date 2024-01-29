@@ -7,12 +7,13 @@ import {useNavigate} from "react-router";
 const LoginWidget = ({config}) => {
     const {oktaAuth, authState} = useOktaAuth();
     const navigate = useNavigate();
-
+    
     const onSuccess = (tokens) => {
         oktaAuth.handleLoginRedirect(tokens);
     };
 
     useEffect(() => {
+
         if (authState?.isAuthenticated) {
             navigate('/workouts');
         }
@@ -30,7 +31,6 @@ const LoginWidget = ({config}) => {
         );
 
     }
-
 
     return <OktaSignInWidget config={config} onSuccess={onSuccess} onError={onError}/>;
 };

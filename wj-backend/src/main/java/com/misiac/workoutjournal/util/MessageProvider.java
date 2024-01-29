@@ -24,6 +24,7 @@ public final class MessageProvider {
     public static final String WORKOUT_DOES_NOT_EXIST = "Workout does not exist";
     public static final String SET_DOES_NOT_BELONG = "This workout exercise does not belong to this user";
     public static final String WORKOUT_DOES_NOT_BELONG = "This workout does not belong to this user";
+    public static final String USER_DOES_NOT_EXIST = "User does not exists";
 
 
     //Validation

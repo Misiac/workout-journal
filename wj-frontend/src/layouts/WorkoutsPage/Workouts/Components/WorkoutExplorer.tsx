@@ -77,7 +77,6 @@ export const WorkoutExplorer = () => {
             ...prevState,
             workout: workout
         }));
-        console.log(workout);
     };
 
     useEffect(() => {

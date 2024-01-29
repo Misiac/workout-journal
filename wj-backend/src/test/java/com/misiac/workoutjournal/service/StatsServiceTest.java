@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -109,7 +110,7 @@ class StatsServiceTest {
     void testGetTotalStats() {
 
         var user = constructUser();
-        Mockito.when(userRepository.findUserByEmail("email")).thenReturn(user);
+        Mockito.when(userRepository.findUserByEmail("email")).thenReturn(Optional.of(user));
 
         StatsDTO statsDTO = statsService.getTotalStats("email");
 

@@ -22,7 +22,7 @@ export const WorkoutsSlider: React.FC<{
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout/tiny`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workouts/tiny`, {
                 method: 'GET',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,

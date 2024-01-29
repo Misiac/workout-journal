@@ -14,7 +14,7 @@ import static com.misiac.workoutjournal.repository.WorkoutRepository.WorkoutTiny
 import static com.misiac.workoutjournal.util.MessageProvider.*;
 
 @RestController
-@RequestMapping("/api/workout")
+@RequestMapping("/api/workouts")
 public class WorkoutController {
 
     private final WorkoutService workoutService;
@@ -46,7 +46,7 @@ public class WorkoutController {
             @RequestHeader(value = "Authorization") String token, @RequestBody Workout workout) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.updateWorkout(email, workout);
-        return new ResponseEntity<>(SET_UPDATED, HttpStatus.OK);
+        return new ResponseEntity<>(WORKOUT_UPDATED, HttpStatus.OK);
     }
 
     @GetMapping("/tiny")

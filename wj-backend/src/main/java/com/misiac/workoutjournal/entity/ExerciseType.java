@@ -1,15 +1,16 @@
 package com.misiac.workoutjournal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.misiac.workoutjournal.util.MessageProvider;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -20,6 +21,9 @@ import java.util.Set;
 @Entity
 @Table(name = "exercise_types")
 public class ExerciseType {
+
+    @NotNull(message = MessageProvider.EXERCISE_TYPE_ID_NULL)
+    @Positive(message = MessageProvider.EXERCISE_TYPE_ID_NEGATIVE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -33,15 +37,10 @@ public class ExerciseType {
     @JoinTable(name = "equipment_jointable",
             joinColumns = @JoinColumn(name = "exercise_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<EquipmentCategory> equipmentCategories = new ArrayList<>();
+    private Set<EquipmentCategory> equipmentCategories = new LinkedHashSet<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "exercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<MuscleGroup> muscleGroups = new LinkedHashSet<>();
-
-    public ExerciseType(String name) {
-        this.name = name;
-    }
-
 }
 

@@ -93,7 +93,7 @@ class AdminServiceTest {
     void testUnbindEquipmentCategory() {
 
         ExerciseType exercise = constructExercise();
-        EquipmentCategory equipmentCategory = exercise.getEquipmentCategories().getFirst();
+        EquipmentCategory equipmentCategory = exercise.getEquipmentCategories().iterator().next();
 
         when(exerciseTypeRepository.findById(1L)).thenReturn(Optional.of(exercise));
         when(equipmentCategoryRepository.findEquipmentCategoryByName("Dumbbells")).thenReturn(Optional.of(equipmentCategory));

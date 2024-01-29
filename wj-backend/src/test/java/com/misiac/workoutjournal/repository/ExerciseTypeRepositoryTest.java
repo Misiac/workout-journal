@@ -1,6 +1,9 @@
 package com.misiac.workoutjournal.repository;
 
-import com.misiac.workoutjournal.entity.*;
+import com.misiac.workoutjournal.entity.EquipmentCategory;
+import com.misiac.workoutjournal.entity.ExerciseType;
+import com.misiac.workoutjournal.entity.MuscleGroup;
+import com.misiac.workoutjournal.entity.MuscleGroupCategory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,8 @@ import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.DataIntegrityViolationException;
+
+import java.util.LinkedHashSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,8 +30,7 @@ class ExerciseTypeRepositoryTest {
     @Test
     @DisplayName("Search for exercise with name")
     void findExerciseByName() {
-        ExerciseType exerciseType = new ExerciseType();
-        exerciseType.setName("Lat Raise");
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", null, null);
         exerciseTypeRepository.save(exerciseType);
 
         ExerciseType savedExercise = exerciseTypeRepository.findExerciseByName("Lat Raise").orElse(null);
@@ -38,29 +42,27 @@ class ExerciseTypeRepositoryTest {
     @Test
     @DisplayName("Search for exercises with equipment category name")
     void findExercisesByEquipmentCategories() {
-        ExerciseType exercise = new ExerciseType();
-        exercise.setName("Lat Raise");
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", new LinkedHashSet<>(), new LinkedHashSet<>());
 
         EquipmentCategory equipmentCategory = new EquipmentCategory();
         equipmentCategory.setName("Dumbbell");
         egcRepository.save(equipmentCategory);
 
-        exercise.getEquipmentCategories().add(equipmentCategory);
-        exerciseTypeRepository.save(exercise);
+        exerciseType.getEquipmentCategories().add(equipmentCategory);
+        exerciseTypeRepository.save(exerciseType);
 
         ExerciseType savedExercise = exerciseTypeRepository.findExercisesByEquipmentCategory("Dumbbell").getFirst();
 
         assertNotNull(savedExercise);
-        assertEquals(exercise.getName(), savedExercise.getName());
-        assertEquals("Dumbbell", savedExercise.getEquipmentCategories().getFirst().getName());
+        assertEquals(exerciseType.getName(), savedExercise.getName());
+        assertEquals("Dumbbell", savedExercise.getEquipmentCategories().iterator().next().getName());
 
     }
 
     @Test
     @DisplayName("Search for exercises with muscle group name")
     void findExercisesByMuscleGroups() {
-        ExerciseType exercise = new ExerciseType();
-        exercise.setName("Lat Raise");
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", new LinkedHashSet<>(), new LinkedHashSet<>());
 
         MuscleGroupCategory mgc = new MuscleGroupCategory("Shoulders");
         mgcRepository.save(mgc);
@@ -68,9 +70,11 @@ class ExerciseTypeRepositoryTest {
         MuscleGroup muscleGroup = new MuscleGroup();
         muscleGroup.setCategory(mgc);
         muscleGroup.setIsPrimary((byte) 1);
-        muscleGroup.setExercise(exercise);
-        exercise.getMuscleGroups().add(muscleGroup);
-        exerciseTypeRepository.save(exercise);
+        muscleGroup.setExercise(exerciseType);
+        exerciseType.getMuscleGroups().add(muscleGroup);
+        exerciseType = exerciseTypeRepository.save(exerciseType);
+
+        muscleGroup.setExercise(exerciseType);
 
         ExerciseType savedExercise = exerciseTypeRepository.findExercisesByMuscleGroup("Shoulders", true).getFirst();
 
@@ -82,11 +86,11 @@ class ExerciseTypeRepositoryTest {
     @Test
     @DisplayName("Saving Exercise with name exceeding length limit")
     void testTooLongExerciseName() {
-        ExerciseType exercise = new ExerciseType();
-        exercise.setName("This is a very long exercise name that is over 50 characters long");
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", null, null);
+        exerciseType.setName("This is a very long exercise name that is over 50 characters long");
 
         assertThrows(
-                DataIntegrityViolationException.class, () -> exerciseTypeRepository.save(exercise)
+                DataIntegrityViolationException.class, () -> exerciseTypeRepository.save(exerciseType)
         );
     }
 }

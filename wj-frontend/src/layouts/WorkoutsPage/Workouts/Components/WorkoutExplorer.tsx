@@ -57,7 +57,7 @@ export const WorkoutExplorer = () => {
 
 
     const fetchWorkout = async () => {
-        const url = `${import.meta.env.VITE_API_ADDRESS}/api/workout/${selectedWorkoutId}`;
+        const url = `${import.meta.env.VITE_API_ADDRESS}/api/workouts/${selectedWorkoutId}`;
         const requestOptions = {
             method: 'GET',
             headers: {
@@ -77,6 +77,7 @@ export const WorkoutExplorer = () => {
             ...prevState,
             workout: workout
         }));
+        console.log(workout);
     };
 
     useEffect(() => {
@@ -95,7 +96,6 @@ export const WorkoutExplorer = () => {
     }, [authState, selectedWorkoutId, workoutReloadTrigger]);
 
     useEffect(() => {
-        console.log("recount")
         if (selectedWorkoutId !== 0) {
             const totalExercises: number = workout?.workoutExercises.length ?? 0;
             let totalSets: number = 0;
@@ -138,7 +138,6 @@ export const WorkoutExplorer = () => {
             wasChangeMade: true
         }));
     };
-
 
     return (
         <>
@@ -190,9 +189,13 @@ export const WorkoutExplorer = () => {
                             )}
                         </div>
 
-                        <div className='h-full w-1/2'>
+                        <div className='h-full w-1/2 flex flex-col items-center justify-center'>
                             {selectedWorkoutId !== 0 &&
-                                (isEditModeOn ? <EditorOptions/> :
+                                (isEditModeOn ?
+                                    <div className='h-full w-full flex flex-col items-center justify-center'>
+                                        <EditorOptions />
+                                    </div>
+                                    :
                                     <WorkoutTotals {...totals}/>)
                             }
                         </div>

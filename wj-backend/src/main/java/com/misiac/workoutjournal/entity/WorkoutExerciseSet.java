@@ -1,8 +1,10 @@
 package com.misiac.workoutjournal.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.misiac.workoutjournal.util.MessageProvider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 @Getter
@@ -24,15 +26,18 @@ public class WorkoutExerciseSet {
     @JoinColumn(name = "workout_exercise_id", nullable = false)
     private WorkoutExercise parentWorkoutExercise;
 
-    @NotNull
+    @NotNull(message = MessageProvider.LOAD_NULL)
+    @Positive(message = MessageProvider.LOAD_NEGATIVE)
     @Column(name = "`load`", nullable = false)
     private Float load;
 
-    @NotNull
+    @NotNull(message = MessageProvider.REPS_NULL)
+    @Positive(message = MessageProvider.REPS_NEGATIVE)
     @Column(name = "reps", nullable = false)
     private Integer reps;
 
-    @NotNull
+    @NotNull(message = MessageProvider.SET_NUMBER_NULL)
+    @Positive(message = MessageProvider.SET_NUMBER_NEGATIVE)
     @Column(name = "set_number", nullable = false)
     private Integer setNumber;
 

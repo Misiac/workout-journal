@@ -11,8 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
 @Component
@@ -31,7 +29,7 @@ public class ExerciseMapper {
         ExerciseType exercise = new ExerciseType();
 
         exercise.setName(adminExerciseRequest.getName());
-        List<EquipmentCategory> equipmentCategories = new LinkedList<>();
+        Set<EquipmentCategory> equipmentCategories = new LinkedHashSet<>();
         Set<MuscleGroup> muscleGroups = new LinkedHashSet<>();
 
         for (String equipmentCategoryName : adminExerciseRequest.getEquipmentCategories()) {

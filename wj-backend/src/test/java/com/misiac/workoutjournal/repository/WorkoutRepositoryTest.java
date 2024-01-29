@@ -4,13 +4,13 @@ import com.misiac.workoutjournal.entity.ExerciseType;
 import com.misiac.workoutjournal.entity.User;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
-import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.EmbeddedDatabaseConnection;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -51,15 +51,14 @@ class WorkoutRepositoryTest {
     @DisplayName("Cascade: saving workout without saving its exercises")
     void testWorkoutExercisesCascade() {
 
-        ExerciseType exercise = new ExerciseType();
-        exercise.setName("Lat Raise");
-        exerciseTypeRepository.save(exercise);
+        ExerciseType exerciseType = new ExerciseType(1L,"Lat Raise",null,null);
+        exerciseTypeRepository.save(exerciseType);
 
         Workout workout = constructTestWorkoutAndUser();
 
         for (int i = 1; i < 3; i++) {
             WorkoutExercise we = WorkoutExercise.builder()
-                    .exerciseType(exercise)
+                    .exerciseType(exerciseType)
                     .sequenceNumber(i)
                     .parentWorkout(workout)
                     .build();
@@ -106,7 +105,7 @@ class WorkoutRepositoryTest {
                 .workoutExercises(new LinkedList<>())
                 .build();
 
-        assertThrows(ConstraintViolationException.class,
+        assertThrows(DataIntegrityViolationException.class,
                 () -> workoutRepository.save(workout)
         );
     }

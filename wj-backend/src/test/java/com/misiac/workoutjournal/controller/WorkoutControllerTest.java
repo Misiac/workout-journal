@@ -42,7 +42,7 @@ class WorkoutControllerTest {
     void testDeleteWorkout() throws Exception {
         when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
 
-        mockMvc.perform(delete("/api/workout/{id}", 1)
+        mockMvc.perform(delete("/api/workouts/{id}", 1)
                         .header("Authorization", TEST_TOKEN))
                 .andExpect(status().isOk());
 
@@ -62,7 +62,7 @@ class WorkoutControllerTest {
         when(jwtExtractor.extractTokenParameter(TEST_TOKEN, JWTExtractor.ExtractionType.EMAIL)).thenReturn(TEST_EMAIL);
         when(workoutService.getSpecificWorkout(TEST_EMAIL, 1L)).thenReturn(workout);
 
-        mockMvc.perform(get("/api/workout/{id}", 1)
+        mockMvc.perform(get("/api/workouts/{id}", 1)
                         .header("Authorization", TEST_TOKEN))
                 .andExpect(status().isOk())
                 .andExpect(content().json(objectMapper.writeValueAsString(workout)));

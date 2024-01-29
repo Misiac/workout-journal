@@ -48,7 +48,7 @@ class ExerciseMapperTest {
         var result = exerciseMapper.toExercise(request);
 
         assertEquals("Lat Raise", result.getName());
-        assertEquals("Dumbbells", result.getEquipmentCategories().getFirst().getName());
+        assertEquals("Dumbbells", result.getEquipmentCategories().iterator().next().getName());
         assertEquals(mgc1,
                 result.getMuscleGroups().iterator().next().getCategory()
         );

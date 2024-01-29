@@ -68,7 +68,6 @@ public class WorkoutService {
         workoutFromDb.getWorkoutExercises().addAll(modifiedWorkout.getWorkoutExercises());
 
         workoutRepository.save(workoutFromDb);
-
     }
 
     public void deleteWorkout(String email, Long workoutId) {

@@ -85,24 +85,30 @@ export const Exercise: React.FC<{
     }
 
     const addNewSet = () => {
-        if (workout) {
-            const lastSet = props.exercise.workoutExerciseSets[props.exercise.workoutExerciseSets.length - 1];
-            const newSet = new WorkoutExerciseSet(
-                tempId,
-                lastSet.load,
-                lastSet.reps,
-                lastSet.setNumber + 1
-            );
-            setTempId(tempId - 1);
-            props.exercise.workoutExerciseSets.push(newSet);
-            const exerciseIndex = workout.workoutExercises.findIndex(exercise => exercise === props.exercise);
-            workout.workoutExercises[exerciseIndex] = props.exercise;
-            setState(prevState => ({
-                ...prevState,
-                workout: workout,
-                wasChangeMade: true
-            }));
-        }
+        if (!workout) return;
+
+        const lastSet = props.exercise.workoutExerciseSets.length > 0
+            ? props.exercise.workoutExerciseSets[props.exercise.workoutExerciseSets.length - 1]
+            : null
+
+        const newSet = new WorkoutExerciseSet(
+            tempId,
+            lastSet ? lastSet.load : 10,
+            lastSet ? lastSet.reps : 10,
+            lastSet ? lastSet.setNumber + 1 : 1
+        );
+
+        setTempId(tempId - 1);
+        props.exercise.workoutExerciseSets.push(newSet);
+
+        const exerciseIndex = workout.workoutExercises.findIndex(exercise => exercise === props.exercise);
+        workout.workoutExercises[exerciseIndex] = props.exercise;
+
+        setState(prevState => ({
+            ...prevState,
+            workout: workout,
+            wasChangeMade: true
+        }));
     }
 
     useEffect(() => {

@@ -2,8 +2,10 @@ package com.misiac.workoutjournal.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.misiac.workoutjournal.util.MessageProvider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -27,16 +29,16 @@ public class Workout {
     private Long id;
 
     @JsonIgnore
-    @NotNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @NotNull
+    @NotNull(message = MessageProvider.DATE_NULL)
+    @PastOrPresent(message = MessageProvider.DATE_FUTURE)
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 
-    @Size(max = 50)
+    @Size(max = 50, message = MessageProvider.NAME_SHORT)
     @Column(name = "name", length = 50)
     private String name;
 

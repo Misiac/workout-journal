@@ -15,7 +15,7 @@ export const EditorOptions = () => {
 
     const deleteWorkout = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout/${context.selectedWorkoutId}`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workouts/${context.selectedWorkoutId}`, {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
@@ -38,7 +38,7 @@ export const EditorOptions = () => {
 
     const updateWorkout = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workout`, {
+            const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workouts`, {
                 method: 'PUT',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
@@ -46,9 +46,16 @@ export const EditorOptions = () => {
                 },
                 body: JSON.stringify(context.workout)
             });
-            if (!response.ok) throw new Error('Something went wrong!');
+            if (!response.ok) {
+                const responseText = await response.text()
+                throw new Error(responseText);
+            }
         } catch (error) {
-            console.error('Error deleting workout', error);
+            console.error('Error updating workout', error);
+            context.setState(prevState => ({
+                ...prevState,
+                workoutReloadTrigger: prevState.workoutReloadTrigger + 1
+            }));
         }
     };
 
@@ -62,8 +69,6 @@ export const EditorOptions = () => {
     const handleSave = () => {
 
         updateWorkout();
-        console.log(context.exerciseTypes);
-
         context.setState(prevState => ({
             ...prevState,
             wasChangeMade: false,

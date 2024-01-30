@@ -7,7 +7,7 @@ import {useNavigate} from "react-router";
 const LoginWidget = ({config}) => {
     const {oktaAuth, authState} = useOktaAuth();
     const navigate = useNavigate();
-    
+
     const onSuccess = (tokens) => {
         oktaAuth.handleLoginRedirect(tokens);
     };

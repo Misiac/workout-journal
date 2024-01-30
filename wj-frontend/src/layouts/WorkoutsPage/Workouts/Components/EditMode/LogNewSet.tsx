@@ -1,4 +1,5 @@
 import {PlusIcon} from "lucide-react";
+import React from "react";
 
 export const LogNewSet: React.FC<{
     addNewSet: () => void

@@ -3,8 +3,10 @@ import React, {useContext, useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import {WorkoutTiny} from "../../../../../models/WorkoutTiny.ts";
 import {WorkoutExplorerContext} from "../../../WorkoutExplorerContext.tsx";
-import LogNewWorkoutSliderCard from "../EditMode/LogNewWorkoutSliderCard.tsx";
+import LogNewWorkout from "../EditMode/LogNewWorkout.tsx";
 import ProcessingSpinner from "../../../../Utils/ProcessingSpinner.tsx";
+import Workout from "../../../../../models/Workout.ts";
+import {formatDateToInput, getNameFromDate} from "../../../../Utils/DateUtils.ts";
 
 export const WorkoutsSlider: React.FC<{
     handleOpenModal: () => Promise<boolean>
@@ -15,7 +17,7 @@ export const WorkoutsSlider: React.FC<{
     if (!context) {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
-    const {sliderReloadTrigger} = context;
+    const {sliderReloadTrigger, setState} = context;
 
     const [workouts, setWorkouts] = useState<WorkoutTiny[]>([])
     const [isLoading, setIsLoading] = useState(true);
@@ -38,19 +40,31 @@ export const WorkoutsSlider: React.FC<{
         };
 
         fetchData();
-
         console.log("slider reload");
     }, [authState, sliderReloadTrigger]);
+
+    const addNewWorkout = async () => {
+        const dateNow = new Date();
+        const newWorkout = new Workout(-1, formatDateToInput(dateNow), getNameFromDate(dateNow), []);
+
+        if (!context.wasChangeMade || await handleOpenModal()) {
+            setState(prevState => ({
+                ...prevState,
+                workout: newWorkout,
+                isEditModeOn: true,
+                selectedWorkoutId: -1
+            }));
+        }
+    };
 
     return (
         <div className="h-full w-1/5 overflow-y-auto scroll-container">
             <div className="flex flex-col gap-4">
-                <LogNewWorkoutSliderCard/>
+                <LogNewWorkout addNewWorkout={addNewWorkout}/>
                 {isLoading ?
                     <div className='flex h-full justify-center'>
                         <ProcessingSpinner/>
                     </div>
-
                     :
                     (
                         workouts.map((workout) => (

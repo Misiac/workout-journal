@@ -6,7 +6,7 @@ import WorkoutTotals from "./WorkoutTotals.tsx";
 import {WorkoutExplorerContext} from "../../WorkoutExplorerContext.tsx";
 import EditorOptions from "./EditMode/EditorOptions.tsx";
 import LogNewExercise from "./EditMode/LogNewExercise.tsx";
-import {formatDate} from "../../../Utils/DateFormatter.ts";
+import {prettyFormatDate} from "../../../Utils/DateUtils.ts";
 import {Edit2Icon} from "lucide-react";
 
 export const WorkoutExplorer = () => {
@@ -19,10 +19,11 @@ export const WorkoutExplorer = () => {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
 
-    const {selectedWorkoutId, workout, isEditModeOn, setState, workoutReloadTrigger} = context; //todo
+    const {selectedWorkoutId, workout, isEditModeOn, setState, workoutReloadTrigger, exerciseTypes} = context; //todo
 
     const [totals, setTotals] = useState({totalExercises: 0, totalSets: 0, totalReps: 0, tvl: 0});
     const [isNameEditing, setIsNameEditing] = useState(false);
+    const [exerciseTempId, setExerciseTempId] = useState(-1);
 
     useEffect(() => {
         const fetchExercises = async () => {
@@ -67,12 +68,12 @@ export const WorkoutExplorer = () => {
         };
 
         const response = await fetch(url, requestOptions);
+
         if (!response.ok) {
             throw new Error('Something went wrong!');
         }
 
         const workout = await response.json();
-
         setState(prevState => ({
             ...prevState,
             workout: workout
@@ -84,7 +85,7 @@ export const WorkoutExplorer = () => {
     }, [isEditModeOn]);
 
     useEffect(() => {
-        if (selectedWorkoutId !== 0) {
+        if (selectedWorkoutId > 0) {
             fetchWorkout();
             console.log("fetch workout")
         } else {
@@ -95,7 +96,7 @@ export const WorkoutExplorer = () => {
     }, [authState, selectedWorkoutId, workoutReloadTrigger]);
 
     useEffect(() => {
-        if (selectedWorkoutId !== 0) {
+        if (selectedWorkoutId > 0) {
             const totalExercises: number = workout?.workoutExercises.length ?? 0;
             let totalSets: number = 0;
             let totalReps: number = 0;
@@ -136,6 +137,27 @@ export const WorkoutExplorer = () => {
             } : null,
             wasChangeMade: true
         }));
+    };
+
+    const addNewExercise = () => {
+        if (!workout) return;
+
+        const lastExercise = workout?.workoutExercises[workout?.workoutExercises.length - 1];
+
+        const newExercise = new WorkoutExercise(exerciseTempId,
+            lastExercise ? lastExercise.exerciseType : exerciseTypes[0],
+            lastExercise ? lastExercise.sequenceNumber + 1 : 1,
+            []
+        )
+        setExerciseTempId(exerciseTempId - 1);
+        workout.workoutExercises.push(newExercise);
+
+        setState(prevState => ({
+            ...prevState,
+            workout: workout,
+            wasChangeMade: true
+        }));
+
     };
 
     return (
@@ -182,17 +204,17 @@ export const WorkoutExplorer = () => {
                                 <>
                                     <p className='py-1 text-2xl font-bold'> {workout.name}</p>
                                     <div className='flex items-center'>
-                                        <p className='py-1 text-xl'>{formatDate(workout.date)}</p>
+                                        <p className='py-1 text-xl'>{prettyFormatDate(workout.date)}</p>
                                     </div>
                                 </>
                             )}
                         </div>
 
-                        <div className='h-full w-1/2 flex flex-col items-center justify-center'>
+                        <div className='flex h-full w-1/2 flex-col items-center justify-center'>
                             {selectedWorkoutId !== 0 &&
                                 (isEditModeOn ?
-                                    <div className='h-full w-full flex flex-col items-center justify-center'>
-                                        <EditorOptions />
+                                    <div className='flex h-full w-full flex-col items-center justify-center'>
+                                        <EditorOptions/>
                                     </div>
                                     :
                                     <WorkoutTotals {...totals}/>)
@@ -213,7 +235,7 @@ export const WorkoutExplorer = () => {
                         <Exercise exercise={exercise} key={exercise.sequenceNumber}/>
                     ))}
 
-                    {isEditModeOn && workout && <LogNewExercise/>}
+                    {isEditModeOn && workout && <LogNewExercise addNewExercise={addNewExercise}/>}
 
                 </div>
             </div>

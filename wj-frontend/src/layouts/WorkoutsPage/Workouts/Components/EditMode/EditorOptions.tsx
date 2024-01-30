@@ -14,6 +14,7 @@ export const EditorOptions = () => {
     }
 
     const deleteWorkout = async () => {
+
         try {
             const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workouts/${context.selectedWorkoutId}`, {
                 method: 'DELETE',
@@ -36,10 +37,11 @@ export const EditorOptions = () => {
         }));
     };
 
-    const updateWorkout = async () => {
+    const saveWorkout = async () => {
+        const isNew = context.selectedWorkoutId < 0;
         try {
             const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workouts`, {
-                method: 'PUT',
+                method: isNew ? 'POST' : 'PUT',
                 headers: {
                     Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
                     'Content-Type': 'application/json'
@@ -59,16 +61,27 @@ export const EditorOptions = () => {
         }
     };
 
-    const handleModalOpen = async () => {
+    const handleDeleteClick = async () => {
         const confirm = await confirmModal('Are you sure you want to delete this workout?');
         if (confirm) {
-            await deleteWorkout();
+            if (context.selectedWorkoutId < 0) {
+
+                context.setState(prevState => ({
+                    ...prevState,
+                    selectedWorkoutId: 0,
+                    workout: null,
+                    isEditModeOn: false
+                }));
+                return;
+            } else {
+                await deleteWorkout();
+            }
         }
     };
 
     const handleSave = () => {
 
-        updateWorkout();
+        saveWorkout();
         context.setState(prevState => ({
             ...prevState,
             wasChangeMade: false,
@@ -78,7 +91,7 @@ export const EditorOptions = () => {
     return (
         <>
             <div className='flex h-full w-full items-center justify-center gap-4'>
-                <button onClick={handleModalOpen}
+                <button onClick={handleDeleteClick}
                         className="inline-flex items-center rounded-md bg-red-500 px-4 py-2 text-sm font-medium text-white transition-colors duration-300 fade-animation hover:bg-red-700">
                     <Trash2 className='mr-2'/>
                     Delete Workout

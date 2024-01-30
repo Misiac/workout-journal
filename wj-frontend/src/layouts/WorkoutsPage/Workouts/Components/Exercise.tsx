@@ -19,7 +19,7 @@ export const Exercise: React.FC<{
     const {workout, setState, isEditModeOn, exerciseTypes} = context;
 
     const [isExpanded, setIsExpanded] = useState(false);
-    const [tempId, setTempId] = useState(-1);
+    const [setTempId, setSetTempId] = useState(-1);
 
     const totalSets = props.exercise.workoutExerciseSets.length;
 
@@ -35,14 +35,22 @@ export const Exercise: React.FC<{
         maxKg = Math.max(...props.exercise.workoutExerciseSets.map(set => set.load));
     }
 
-    const addExerciseToDelete = () => {
-
-        const filtered = workout?.workoutExercises.filter(ex => ex !== props.exercise);
+    const deleteExercise = () => {
+        const filtered = workout?.workoutExercises.filter(ex => ex !== props.exercise) || [];
         let newWorkout = workout;
 
-        if (newWorkout) {
-            newWorkout = {...newWorkout, workoutExercises: filtered || []};
+        if (filtered.some(exercise => exercise.sequenceNumber < props.exercise.sequenceNumber)) {
+            let counter = 1;
+            filtered.forEach((exercise) => {
+                exercise.sequenceNumber = counter;
+                counter++;
+            });
         }
+
+        if (newWorkout) {
+            newWorkout = {...newWorkout, workoutExercises: filtered};
+        }
+
         setState(prevState => ({
             ...prevState,
             workout: newWorkout,
@@ -92,13 +100,13 @@ export const Exercise: React.FC<{
             : null
 
         const newSet = new WorkoutExerciseSet(
-            tempId,
+            setTempId,
             lastSet ? lastSet.load : 10,
             lastSet ? lastSet.reps : 10,
             lastSet ? lastSet.setNumber + 1 : 1
         );
 
-        setTempId(tempId - 1);
+        setSetTempId(setTempId - 1);
         props.exercise.workoutExerciseSets.push(newSet);
 
         const exerciseIndex = workout.workoutExercises.findIndex(exercise => exercise === props.exercise);
@@ -127,7 +135,7 @@ export const Exercise: React.FC<{
                     className="flex flex-col items-center rounded-lg md:max-w-xl md:flex-row"
                 >
                     {isEditModeOn &&
-                        <button onClick={addExerciseToDelete}
+                        <button onClick={deleteExercise}
                                 className="absolute top-0 right-0 m-2 flex h-7 w-7 items-center justify-center rounded-full bg-red-500 text-white transition-colors duration-300 fade-animation hover:bg-red-700"
                         >
                             <Trash2 className='w-5'/>

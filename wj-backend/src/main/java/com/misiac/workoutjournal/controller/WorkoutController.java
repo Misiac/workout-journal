@@ -26,7 +26,7 @@ public class WorkoutController {
         this.jwtExtractor = jwtExtractor;
     }
 
-//    @PostMapping("/new")
+//    @PostMapping("")
 //    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
 //                                                @RequestBody WorkoutRequest addWorkoutRequest) {
 //        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);

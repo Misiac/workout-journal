@@ -6,7 +6,10 @@ import Workout, {ExerciseType} from "../../../models/Workout.ts";
 import {confirmModal} from "../../Utils/ConfirmModal.tsx";
 
 
-export const Workouts = () => {
+export const Workouts: React.FC<{
+    reloadStats: number
+    setReloadStats: (value:number) => void
+}> = (props) => {
 
     const [state, setState] = useState({
         selectedWorkoutId: 0,
@@ -68,7 +71,7 @@ export const Workouts = () => {
             </div>
             <div className="mx-auto flex flex-row h-[60vh]">
                 <WorkoutsSlider handleOpenModal={handleOpenModal}/>
-                <WorkoutExplorer/>
+                <WorkoutExplorer reloadStats={props.reloadStats} setReloadStats={props.setReloadStats}/>
             </div>
         </WorkoutExplorerContext.Provider>
     );

@@ -23,7 +23,7 @@ export const WorkoutsSlider: React.FC<{
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchWorkoutsTiny = async () => {
             const response = await fetch(`${import.meta.env.VITE_API_ADDRESS}/api/workouts/tiny`, {
                 method: 'GET',
                 headers: {
@@ -36,10 +36,10 @@ export const WorkoutsSlider: React.FC<{
 
             setIsLoading(false);
             const data = await response.json();
-            setWorkouts(data.map((workoutData: any) => new WorkoutTiny(workoutData.id, workoutData.date, workoutData.name)));
+            setWorkouts(data.map((workoutData: Workout) => new WorkoutTiny(workoutData.id, workoutData.date, workoutData.name)));
         };
 
-        fetchData();
+        fetchWorkoutsTiny();
         console.log("slider reload");
     }, [authState, sliderReloadTrigger]);
 

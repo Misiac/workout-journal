@@ -22,7 +22,8 @@ public final class MessageProvider {
     public static final String EXERCISE_DOES_NOT_HAVE_THIS_CAT = "Exercise does not have this category";
     public static final String ADMIN_REQUIRED = "Admin privileges required";
     public static final String WORKOUT_DOES_NOT_EXIST = "Workout does not exist";
-    public static final String SET_DOES_NOT_BELONG = "This workout exercise does not belong to this user";
+    public static final String SET_DOES_NOT_BELONG = "Set does not belong to this workout";
+    public static final String EXERCISE_DOES_NOT_BELONG = "Workout exercise does not belong to this workout";
     public static final String WORKOUT_DOES_NOT_BELONG = "This workout does not belong to this user";
     public static final String USER_DOES_NOT_EXIST = "User does not exists";
 
@@ -30,7 +31,6 @@ public final class MessageProvider {
     //Validation
     public static final String REQUEST_NAME_BLANK = "Name can't be blank";
     public static final String DATE_NULL = "Date can't be null";
-    public static final String DATE_FUTURE = "Date can't be in future";
     public static final String NAME_SHORT = "Workout name can't be longer than 50 characters";
     public static final String LOAD_NULL = "Load can't be null";
     public static final String LOAD_NEGATIVE = "Load can't be negative";
@@ -43,6 +43,7 @@ public final class MessageProvider {
     public static final String SEQUENCE_NUMBER_NEGATIVE = "Sequence number can't be negative";
     public static final String EXERCISE_TYPE_ID_NULL = "Exercise type ID can't be null";
     public static final String EXERCISE_TYPE_ID_NEGATIVE = "Exercise type ID has to be positive number";
+    public static final String NEW_ENTIY_ID = "Id of a new entity can't be positive";
 
 
 }

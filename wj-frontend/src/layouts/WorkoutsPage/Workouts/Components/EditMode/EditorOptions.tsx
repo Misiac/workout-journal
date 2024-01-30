@@ -1,10 +1,13 @@
-import {useContext} from "react";
+import React, {useContext} from "react";
 import {WorkoutExplorerContext} from "../../../WorkoutExplorerContext.tsx";
 import {useOktaAuth} from "@okta/okta-react";
 import {confirmModal} from "../../../../Utils/ConfirmModal.tsx";
 import {Check, Trash2} from "lucide-react";
 
-export const EditorOptions = () => {
+export const EditorOptions: React.FC<{
+    reloadStats: number
+    setReloadStats: (value: number) => void
+}> = (props) => {
 
     const {authState} = useOktaAuth();
 
@@ -35,6 +38,7 @@ export const EditorOptions = () => {
             isEditModeOn: false,
             sliderReloadTrigger: prevState.sliderReloadTrigger + 1
         }));
+        props.setReloadStats(props.reloadStats + 1);
     };
 
     const saveWorkout = async () => {
@@ -52,8 +56,15 @@ export const EditorOptions = () => {
                 const responseText = await response.text()
                 throw new Error(responseText);
             }
+            context.setState(prevState => ({
+                ...prevState,
+                sliderReloadTrigger: isNew ? prevState.sliderReloadTrigger + 1 : prevState.sliderReloadTrigger,
+                workoutReloadTrigger: prevState.workoutReloadTrigger + 1
+            }));
+            props.setReloadStats(props.reloadStats + 1);
+
         } catch (error) {
-            console.error('Error updating workout', error);
+            console.error('Error saving workout', error);
             context.setState(prevState => ({
                 ...prevState,
                 workoutReloadTrigger: prevState.workoutReloadTrigger + 1
@@ -86,6 +97,7 @@ export const EditorOptions = () => {
             ...prevState,
             wasChangeMade: false,
             isEditModeOn: !prevState.isEditModeOn
+
         }));
     };
     return (

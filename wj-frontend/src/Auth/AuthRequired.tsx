@@ -16,12 +16,13 @@ export const AuthRequired: React.FC = () => {
             const originalUri = toRelativeUrl(window.location.href, window.location.origin);
             oktaAuth.setOriginalUri(originalUri);
         }
+
     }, [oktaAuth, !!authState, authState?.isAuthenticated]);
 
     if (!authState || !authState?.isAuthenticated) {
         return (<ProcessingSpinner/>);
     }
-
+    console.log(authState?.accessToken)
     return (<Outlet/>);
 }
 export default AuthRequired;

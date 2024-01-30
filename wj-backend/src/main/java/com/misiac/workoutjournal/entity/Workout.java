@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.misiac.workoutjournal.util.MessageProvider;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
@@ -34,7 +33,6 @@ public class Workout {
     private User user;
 
     @NotNull(message = MessageProvider.DATE_NULL)
-    @PastOrPresent(message = MessageProvider.DATE_FUTURE)
     @Column(name = "date", nullable = false)
     private LocalDateTime date;
 

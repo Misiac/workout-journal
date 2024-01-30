@@ -29,9 +29,23 @@ public class WorkoutService {
     }
 
 
-//    public void addWorkout(WorkoutRequest addWorkoutRequest, String email) {
+    public void addWorkout(Workout workout, String email) {
 
-//    }
+        if (workout.getId() >= 0) throw new IllegalArgumentException(NEW_ENTIY_ID);
+
+        workout.getWorkoutExercises().forEach(exercise -> {
+            if (exercise.getId() >= 0) throw new IllegalArgumentException(NEW_ENTIY_ID);
+
+            exercise.getWorkoutExerciseSets().forEach(set -> {
+                if (set.getId() >= 0) throw new IllegalArgumentException(NEW_ENTIY_ID);
+            });
+        });
+
+        workout.setUser(userRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST)));
+
+        workoutRepository.save(workout);
+    }
 
     public List<WorkoutTiny> getExercisesTiny(String email) {
         return workoutRepository.findByUserEmailOrderByDateDesc(email);
@@ -62,6 +76,28 @@ public class WorkoutService {
             throw new UnauthorizedException(WORKOUT_DOES_NOT_BELONG);
         }
 
+        modifiedWorkout.getWorkoutExercises().forEach(exercise -> {
+            if (exercise.getId() > 0) {
+                if (!workoutFromDb.getWorkoutExercises().contains(exercise)) {
+                    throw new UnauthorizedException(EXERCISE_DOES_NOT_BELONG);
+                }
+            }
+        });
+
+        var listOfModifiedSets = modifiedWorkout.getWorkoutExercises().stream()
+                .flatMap(workoutExercise -> workoutExercise.getWorkoutExerciseSets().stream())
+                .filter(set -> set.getId() > 0)
+                .toList();
+        var listOfOriginalSets = workoutFromDb.getWorkoutExercises().stream()
+                .flatMap(workoutExercise -> workoutExercise.getWorkoutExerciseSets().stream())
+                .toList();
+
+        listOfModifiedSets.forEach(modifiedSet -> {
+            if (!listOfOriginalSets.contains(modifiedSet)) {
+                throw new UnauthorizedException(SET_DOES_NOT_BELONG);
+            }
+        });
+
         workoutFromDb.setDate(modifiedWorkout.getDate());
         workoutFromDb.setName(modifiedWorkout.getName());
 
@@ -85,4 +121,6 @@ public class WorkoutService {
         }
         workoutRepository.delete(deletion);
     }
+
+
 }

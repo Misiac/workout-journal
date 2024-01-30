@@ -10,6 +10,7 @@ import lombok.*;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -45,4 +46,18 @@ public class WorkoutExercise {
     @OneToMany(mappedBy = "parentWorkoutExercise", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutExerciseSet> workoutExerciseSets = new LinkedList<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        WorkoutExercise exercise = (WorkoutExercise) o;
+
+        return Objects.equals(id, exercise.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
 }

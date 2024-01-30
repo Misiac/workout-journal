@@ -5,7 +5,9 @@ import StatCard from "./Components/StatCard";
 import ProcessingSpinner from "../../Utils/ProcessingSpinner.tsx";
 
 
-export const Stats = () => {
+export const Stats: React.FC<{
+    reloadStats: number
+}> = (props) => {
     const {authState} = useOktaAuth();
     const [isLoading, setIsLoading] = useState(true);
 
@@ -14,6 +16,7 @@ export const Stats = () => {
     const [volume, setVolume] = useState('')
     const [workouts, setWorkouts] = useState('')
 
+    const userName = authState?.accessToken?.claims.given_name;
 
     useEffect(() => {
         const fetchTotals = async () => {
@@ -48,10 +51,12 @@ export const Stats = () => {
             console.log("fetch stats")
         }
 
-    }, [authState]);
+    }, [authState, props.reloadStats]);
     return (
         <>
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+                {`${userName}'s Dashboard`}
+            </h1>
             <div className="grid h-auto grid-cols-4 grid-rows-2 gap-6 py-6">
                 {isLoading ?
                     <div className='col-span-2 row-span-3 flex h-full w-full items-center justify-center'>

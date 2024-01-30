@@ -22,10 +22,8 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
 
-        // DISABLE CSRF
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
-        // PROTECT ENDPOINTS
         httpSecurity.authorizeHttpRequests(request -> request
                         .requestMatchers("/api/**")
                         .authenticated())
@@ -33,17 +31,13 @@ public class SecurityConfiguration {
                 }));
 
 
-        // ADD CORS FILTERS
         httpSecurity.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer
                 .configurationSource(corsConfigurationSource()));
 
-        //ADD content negotiation strategy
         httpSecurity.setSharedObject(ContentNegotiationStrategy.class,
                 new HeaderContentNegotiationStrategy());
 
-        // force a non-empty response body for 4-1's to make it user-friendly
         Okta.configureResourceServer401ResponseBody(httpSecurity);
-
 
         return httpSecurity.build();
     }

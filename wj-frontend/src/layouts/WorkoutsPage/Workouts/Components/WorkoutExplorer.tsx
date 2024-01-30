@@ -8,8 +8,12 @@ import EditorOptions from "./EditMode/EditorOptions.tsx";
 import LogNewExercise from "./EditMode/LogNewExercise.tsx";
 import {prettyFormatDate} from "../../../Utils/DateUtils.ts";
 import {Edit2Icon} from "lucide-react";
+import ProcessingSpinner from "../../../Utils/ProcessingSpinner.tsx";
 
-export const WorkoutExplorer = () => {
+export const WorkoutExplorer: React.FC<{
+    reloadStats: number
+    setReloadStats: (value: number) => void
+}> = (props) => {
 
     const {authState} = useOktaAuth();
 
@@ -19,11 +23,12 @@ export const WorkoutExplorer = () => {
         throw new Error('Component must be used within a WorkoutExplorerContext Provider')
     }
 
-    const {selectedWorkoutId, workout, isEditModeOn, setState, workoutReloadTrigger, exerciseTypes} = context; //todo
+    const {selectedWorkoutId, workout, isEditModeOn, setState, workoutReloadTrigger, exerciseTypes} = context;
 
     const [totals, setTotals] = useState({totalExercises: 0, totalSets: 0, totalReps: 0, tvl: 0});
     const [isNameEditing, setIsNameEditing] = useState(false);
     const [exerciseTempId, setExerciseTempId] = useState(-1);
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         const fetchExercises = async () => {
@@ -52,8 +57,9 @@ export const WorkoutExplorer = () => {
                 console.error('Error fetching exercise data', error);
             }
         };
-
+        setIsLoading(true);
         fetchExercises();
+        setIsLoading(false);
     }, []);
 
 
@@ -79,7 +85,7 @@ export const WorkoutExplorer = () => {
             workout: workout
         }));
     };
-
+    0
     useEffect(() => {
         setIsNameEditing(false);
     }, [isEditModeOn]);
@@ -96,7 +102,7 @@ export const WorkoutExplorer = () => {
     }, [authState, selectedWorkoutId, workoutReloadTrigger]);
 
     useEffect(() => {
-        if (selectedWorkoutId > 0) {
+        if (selectedWorkoutId != 0 && !isEditModeOn) {
             const totalExercises: number = workout?.workoutExercises.length ?? 0;
             let totalSets: number = 0;
             let totalReps: number = 0;
@@ -111,7 +117,7 @@ export const WorkoutExplorer = () => {
             })
             setTotals({totalExercises, totalSets, totalReps, tvl});
         }
-    }, [authState, workout]);
+    }, [authState, workout, workoutReloadTrigger]);
 
     const changeWorkoutName = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length <= 50) {
@@ -214,7 +220,8 @@ export const WorkoutExplorer = () => {
                             {selectedWorkoutId !== 0 &&
                                 (isEditModeOn ?
                                     <div className='flex h-full w-full flex-col items-center justify-center'>
-                                        <EditorOptions/>
+                                        <EditorOptions reloadStats={props.reloadStats}
+                                                       setReloadStats={props.setReloadStats}/>
                                     </div>
                                     :
                                     <WorkoutTotals {...totals}/>)
@@ -230,13 +237,12 @@ export const WorkoutExplorer = () => {
                 {selectedWorkoutId !== 0 && <hr/>}
 
                 <div className="grid grid-cols-2 gap-y-4 px-4 pt-4">
-
-                    {workout?.workoutExercises.map((exercise) => (
-                        <Exercise exercise={exercise} key={exercise.sequenceNumber}/>
-                    ))}
-
+                    {isLoading ? <ProcessingSpinner/> :
+                        workout?.workoutExercises.map((exercise) => (
+                            <Exercise exercise={exercise} key={exercise.sequenceNumber}/>
+                        ))
+                    }
                     {isEditModeOn && workout && <LogNewExercise addNewExercise={addNewExercise}/>}
-
                 </div>
             </div>
         </>

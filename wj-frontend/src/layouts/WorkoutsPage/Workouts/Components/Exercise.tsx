@@ -39,13 +39,11 @@ export const Exercise: React.FC<{
         const filtered = workout?.workoutExercises.filter(ex => ex !== props.exercise) || [];
         let newWorkout = workout;
 
-        if (filtered.some(exercise => exercise.sequenceNumber < props.exercise.sequenceNumber)) {
             let counter = 1;
             filtered.forEach((exercise) => {
                 exercise.sequenceNumber = counter;
                 counter++;
             });
-        }
 
         if (newWorkout) {
             newWorkout = {...newWorkout, workoutExercises: filtered};

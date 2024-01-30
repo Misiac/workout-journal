@@ -3,6 +3,7 @@ package com.misiac.workoutjournal.controller;
 import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.service.WorkoutService;
 import com.misiac.workoutjournal.util.JWTExtractor;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,13 +27,13 @@ public class WorkoutController {
         this.jwtExtractor = jwtExtractor;
     }
 
-//    @PostMapping("")
-//    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
-//                                                @RequestBody WorkoutRequest addWorkoutRequest) {
-//        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
-//        workoutService.addWorkout(addWorkoutRequest, email);
-//        return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
-//    }
+    @PostMapping("")
+    public ResponseEntity<String> addNewWorkout(@RequestHeader(value = "Authorization") String token,
+                                                @Valid @RequestBody Workout workout) {
+        String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
+        workoutService.addWorkout(workout, email);
+        return new ResponseEntity<>(WORKOUT_CREATED, HttpStatus.CREATED);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteWorkout(@RequestHeader(value = "Authorization") String token, @PathVariable(name = "id") Long workoutId) {
@@ -43,7 +44,7 @@ public class WorkoutController {
 
     @PutMapping("")
     public ResponseEntity<String> updateWorkout(
-            @RequestHeader(value = "Authorization") String token, @RequestBody Workout workout) {
+            @RequestHeader(value = "Authorization") String token, @Valid @RequestBody Workout workout) {
         String email = jwtExtractor.extractTokenParameter(token, JWTExtractor.ExtractionType.EMAIL);
         workoutService.updateWorkout(email, workout);
         return new ResponseEntity<>(WORKOUT_UPDATED, HttpStatus.OK);

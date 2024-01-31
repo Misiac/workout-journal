@@ -37,6 +37,7 @@ services:
       DATASOURCE_PASSWORD: userpass
       OKTA_CLIENT_ID: ${OKTA_CLIENT_ID}
       OKTA_ISSUER: ${OKTA_ISSUER}
+      OPENAI_KEY: ${OPENAI_KEY}
     networks:
       - workout-journal-network
 
@@ -60,7 +61,3 @@ volumes:
   mysql-database-data-volume:
 networks:
   workout-journal-network:
-
-
-
-

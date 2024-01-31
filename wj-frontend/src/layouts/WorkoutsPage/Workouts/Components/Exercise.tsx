@@ -1,4 +1,4 @@
-import test from "../../../../resources/test.png";
+import defaultExerciseImage from "../../../../resources/defaultExerciseImage.jpg";
 import arrow from "../../../../resources/collapse-arrow.png";
 import React, {useContext, useEffect, useState} from "react";
 import {WorkoutExercise, WorkoutExerciseSet} from "../../../../models/Workout.ts";
@@ -39,11 +39,11 @@ export const Exercise: React.FC<{
         const filtered = workout?.workoutExercises.filter(ex => ex !== props.exercise) || [];
         let newWorkout = workout;
 
-            let counter = 1;
-            filtered.forEach((exercise) => {
-                exercise.sequenceNumber = counter;
-                counter++;
-            });
+        let counter = 1;
+        filtered.forEach((exercise) => {
+            exercise.sequenceNumber = counter;
+            counter++;
+        });
 
         if (newWorkout) {
             newWorkout = {...newWorkout, workoutExercises: filtered};
@@ -123,6 +123,11 @@ export const Exercise: React.FC<{
 
     const handleToggle = () => setIsExpanded(!isExpanded);
 
+const searchForImage = (exerciseTypeId: number): string => {
+    const exerciseType = exerciseTypes.find(type => type.id === exerciseTypeId);
+    return exerciseType?.image ? `data:image/jpeg;base64,${exerciseType.image}` : defaultExerciseImage;
+}
+
     return (
         <div className="w-full px-2 fade-animation">
 
@@ -143,7 +148,7 @@ export const Exercise: React.FC<{
                         className={`object-cover h-28 md:w-48 w-1/3 ${
                             isExpanded ? 'md:rounded-none md:rounded-tl-lg duration-300' : 'md:rounded-none md:rounded-l-lg transition-all duration-700'
                         }`}
-                        src={test}
+                        src={searchForImage(props.exercise.exerciseType.id)}
                         alt="Exercise"/>
                     <div className="flex max-h-20 w-2/3 flex-row items-center justify-between p-4 leading-normal">
                         <h5 className="mb-2 text-4xl tracking-tight text-gray-900">

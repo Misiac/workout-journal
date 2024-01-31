@@ -5,6 +5,7 @@ import com.misiac.workoutjournal.responsemodels.ExerciseTinyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,7 +26,8 @@ public class ExerciseService {
         exercises.forEach(exercise -> {
             ExerciseTinyDTO exerciseTinyDTO = new ExerciseTinyDTO(
                     exercise.getId(),
-                    exercise.getName()
+                    exercise.getName(),
+                    exercise.getImage() == null ? null : Base64.getEncoder().encodeToString(exercise.getImage())
             );
             returnList.add(exerciseTinyDTO);
         });

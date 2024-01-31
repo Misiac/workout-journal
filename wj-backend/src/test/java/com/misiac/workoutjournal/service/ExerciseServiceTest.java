@@ -26,8 +26,8 @@ class ExerciseServiceTest {
     @DisplayName("GetAllExercisesTiny normal conditions")
     void getAllExercisesTiny() {
 
-        ExerciseType exercise1 = new ExerciseType(1L, "Lat Raise", null, null);
-        ExerciseType exercise2 = new ExerciseType(2L, "Biceps Curl", null, null);
+        ExerciseType exercise1 = new ExerciseType(1L, "Lat Raise",null, null, null);
+        ExerciseType exercise2 = new ExerciseType(2L, "Biceps Curl",null, null, null);
 
         List<ExerciseType> exercises = List.of(exercise1, exercise2);
 

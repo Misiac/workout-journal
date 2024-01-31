@@ -60,6 +60,7 @@ export const WorkoutExplorer: React.FC<{
         setIsLoading(true);
         fetchExercises();
         setIsLoading(false);
+
     }, []);
 
 

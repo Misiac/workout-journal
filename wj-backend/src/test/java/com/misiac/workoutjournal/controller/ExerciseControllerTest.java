@@ -34,8 +34,8 @@ class ExerciseControllerTest {
     @DisplayName("GetAllExercisesTiny normal conditions")
     void testGetAllExercisesTiny() throws Exception {
 
-        ExerciseTinyDTO exercise1 = new ExerciseTinyDTO(1L, "Exercise1");
-        ExerciseTinyDTO exercise2 = new ExerciseTinyDTO(2L, "Exercise2");
+        ExerciseTinyDTO exercise1 = new ExerciseTinyDTO(1L, "Exercise1",null);
+        ExerciseTinyDTO exercise2 = new ExerciseTinyDTO(2L, "Exercise2",null);
         List<ExerciseTinyDTO> mockExerciseList = Arrays.asList(exercise1, exercise2);
 
         when(exerciseService.getAllExercisesTiny()).thenReturn(mockExerciseList);

@@ -33,6 +33,10 @@ public class ExerciseType {
     private String name;
 
     @JsonIgnore
+    @Column(name = "image")
+    private byte[] image;
+
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "equipment_jointable",
             joinColumns = @JoinColumn(name = "exercise_id"),

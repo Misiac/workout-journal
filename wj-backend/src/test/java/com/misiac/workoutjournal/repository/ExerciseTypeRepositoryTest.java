@@ -30,7 +30,7 @@ class ExerciseTypeRepositoryTest {
     @Test
     @DisplayName("Search for exercise with name")
     void findExerciseByName() {
-        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", null, null);
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", null, null,null);
         exerciseTypeRepository.save(exerciseType);
 
         ExerciseType savedExercise = exerciseTypeRepository.findExerciseByName("Lat Raise").orElse(null);
@@ -42,7 +42,7 @@ class ExerciseTypeRepositoryTest {
     @Test
     @DisplayName("Search for exercises with equipment category name")
     void findExercisesByEquipmentCategories() {
-        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", new LinkedHashSet<>(), new LinkedHashSet<>());
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise",null, new LinkedHashSet<>(), new LinkedHashSet<>());
 
         EquipmentCategory equipmentCategory = new EquipmentCategory();
         equipmentCategory.setName("Dumbbell");
@@ -62,7 +62,7 @@ class ExerciseTypeRepositoryTest {
     @Test
     @DisplayName("Search for exercises with muscle group name")
     void findExercisesByMuscleGroups() {
-        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", new LinkedHashSet<>(), new LinkedHashSet<>());
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise",null, new LinkedHashSet<>(), new LinkedHashSet<>());
 
         MuscleGroupCategory mgc = new MuscleGroupCategory("Shoulders");
         mgcRepository.save(mgc);
@@ -86,7 +86,7 @@ class ExerciseTypeRepositoryTest {
     @Test
     @DisplayName("Saving Exercise with name exceeding length limit")
     void testTooLongExerciseName() {
-        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise", null, null);
+        ExerciseType exerciseType = new ExerciseType(1L, "Lat Raise",null, null, null);
         exerciseType.setName("This is a very long exercise name that is over 50 characters long");
 
         assertThrows(

@@ -51,7 +51,7 @@ class WorkoutRepositoryTest {
     @DisplayName("Cascade: saving workout without saving its exercises")
     void testWorkoutExercisesCascade() {
 
-        ExerciseType exerciseType = new ExerciseType(1L,"Lat Raise",null,null);
+        ExerciseType exerciseType = new ExerciseType(1L,"Lat Raise",null,null,null);
         exerciseTypeRepository.save(exerciseType);
 
         Workout workout = constructTestWorkoutAndUser();

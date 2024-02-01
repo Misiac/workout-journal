@@ -28,3 +28,44 @@
 .fade-animation {
     animation: fadeIn 250ms ease-in-out;
 }
+
+
+.ai-btn-grad {
+    background-image: linear-gradient(to right, #4776E6 0%, #8E54E9 51%, #4776E6 100%);
+    margin: 19px;
+    padding: 7px 20px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.ai-btn-grad:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+    scale: 1.05;
+}
+
+.log-new-workout-btn {
+    background-image: linear-gradient(to right, #4776E6 0%, #288dff 51%, #2563eb 100%);
+    margin: 5px;
+    padding: 1px 5px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+}
+
+.log-new-workout-btn:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+    transform: scale(1.05);
+}

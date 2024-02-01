@@ -1,5 +1,5 @@
 import MuscleRadar from "./Components/MuscleRadar";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import StatCard from "./Components/StatCard";
 import ProcessingSpinner from "../../Utils/ProcessingSpinner.tsx";

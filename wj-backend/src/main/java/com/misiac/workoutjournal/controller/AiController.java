@@ -1,33 +1,25 @@
 package com.misiac.workoutjournal.controller;
 
-import org.springframework.ai.chat.ChatClient;
+import com.misiac.workoutjournal.requestmodels.AiPlanRequest;
+import com.misiac.workoutjournal.service.AiService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/ai")
 public class AiController {
 
-    private final ChatClient chatClient;
+    private final AiService aiService;
 
     @Autowired
-    public AiController(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    public AiController(AiService aiService) {
+        this.aiService = aiService;
     }
 
-    @GetMapping("/joke")
-    public Map generate(@RequestParam(value = "message", defaultValue = "Tell me a joke") String message) {
-        return Map.of("generation", chatClient.call(message));
+    @GetMapping("/plan")
+    public String getTrainingPlan(@RequestHeader(value = "Authorization") String token,
+                                  @Valid @RequestBody AiPlanRequest aiPlanRequest) {
+        return aiService.getTrainingPlan(aiPlanRequest);
     }
-
-    @GetMapping("/test")
-    public String test(){
-        return "success!";
-    }
-
 }

@@ -5,17 +5,20 @@ import ProcessingSpinner from "../../../../Utils/ProcessingSpinner.tsx";
 
 export const GeneratePlan = () => {
     const {authState} = useOktaAuth();
-    const [form, setForm] = useState(new AiPlanRequest('', '', '', 'male', '', '', '', '', '', ''));
+    const [form, setForm] = useState(new AiPlanRequest('Lose weight', 'Beginner', '1', 'Male', '', '', '', '', 'Low', ''));
     const [response, setResponse] = useState('');
     const [wasRequestSent, setWasRequestSent] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleChange = (e: any) => {
         setForm({...form, [e.target.name]: e.target.value});
+        console.log(form)
     };
 
     const handleSubmit = async () => {
         setWasRequestSent(true);
+        console.log(JSON.stringify(form));
+
         const url = `${import.meta.env.VITE_API_ADDRESS}/api/ai/plan`;
 
         try {

@@ -12,12 +12,10 @@ export const GeneratePlan = () => {
 
     const handleChange = (e: any) => {
         setForm({...form, [e.target.name]: e.target.value});
-        console.log(form)
     };
 
     const handleSubmit = async () => {
         setWasRequestSent(true);
-        console.log(JSON.stringify(form));
 
         const url = `${import.meta.env.VITE_API_ADDRESS}/api/ai/plan`;
 
@@ -38,12 +36,24 @@ export const GeneratePlan = () => {
             setIsLoading(false);
 
             const data = await response.json();
+
             setResponse(data.generation);
+
         } catch (error) {
             console.error('Fetch error:', error);
             setIsLoading(false);
         }
     };
+
+    const downloadAsTxt = () => {
+        const element = document.createElement("a");
+        const file = new Blob([response], {type: 'text/plain'});
+        element.href = URL.createObjectURL(file);
+        element.download = "Workout Plan " + new Date().toDateString() + ".txt";
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
 
     const inputClassName = 'flex justify-between gap-x-3 items-center';
     return (
@@ -140,9 +150,21 @@ export const GeneratePlan = () => {
                             <span className='font-semibold text-gray-500'>This can take up to 30 seconds</span>
                         </div>
                         :
-                        <div className='flex flex-col items-center'>
-                            <span className='font-semibold text-gray-500'>{response}</span>
+                        <div className='flex flex-col '>
+                            {response.split('\n').map((line, index) => (
+                                <span key={index} className='font-semibold text-gray-500'>
+                             {line === '' ? '\u00A0' : line}
+                                  </span>
+                            ))}
+
+                            <div className='flex w-full items-center justify-center pt-2'>
+                                <button onClick={downloadAsTxt}
+                                        className="mt-4 rounded px-4 py-2 text-white transition-colors bg-regal-blue hover:bg-blue-600">
+                                    Download plan
+                                </button>
+                            </div>
                         </div>
+
                 )
             }
         </div>

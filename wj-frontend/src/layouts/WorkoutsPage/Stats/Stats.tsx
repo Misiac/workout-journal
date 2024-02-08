@@ -42,7 +42,6 @@ export const Stats: React.FC<{
                 const stats = data.totalsDTO;
                 setRadarData(data.radarDataDTO);
 
-                console.log(data)
                 setReps(stats.reps)
                 setSets(stats.sets)
                 setWorkouts(stats.workouts)

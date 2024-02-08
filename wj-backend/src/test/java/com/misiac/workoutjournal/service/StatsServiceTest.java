@@ -5,17 +5,15 @@ import com.misiac.workoutjournal.entity.Workout;
 import com.misiac.workoutjournal.entity.WorkoutExercise;
 import com.misiac.workoutjournal.entity.WorkoutExerciseSet;
 import com.misiac.workoutjournal.repository.UserRepository;
-import com.misiac.workoutjournal.responsemodels.StatsDTO;
+import com.misiac.workoutjournal.responsemodels.TotalsDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -110,14 +108,13 @@ class StatsServiceTest {
     void testGetTotalStats() {
 
         var user = constructUser();
-        Mockito.when(userRepository.findUserByEmail("email")).thenReturn(Optional.of(user));
 
-        StatsDTO statsDTO = statsService.getTotalStats("email");
+        TotalsDTO totalsDTO = statsService.getTotalStats(user);
 
-        assertEquals(6, statsDTO.getReps());
-        assertEquals(1, statsDTO.getWorkouts());
-        assertEquals(2, statsDTO.getSets());
-        assertEquals(33, statsDTO.getVolume(), 0.01);
+        assertEquals(6, totalsDTO.getReps());
+        assertEquals(1, totalsDTO.getWorkouts());
+        assertEquals(2, totalsDTO.getSets());
+        assertEquals(33, totalsDTO.getVolume(), 0.01);
     }
 
 

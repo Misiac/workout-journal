@@ -27,35 +27,35 @@ export const AiPersonalTrainer = () => {
 
     return (
         <>
-            <button onClick={handleModalOpen} className="ai-btn-grad rounded-lg font-semibold">
+            <button onClick={handleModalOpen} className="rounded-lg font-semibold ai-btn-grad">
                 ✨ AI Personal Trainer
             </button>
             {isModalOpen && (
-                <div className="fixed z-10 inset-0 overflow-y-auto flex items-center justify-center"
+                <div className="fixed inset-0 z-10 flex items-center justify-center overflow-y-auto"
                      aria-labelledby="modal-title" role="dialog"
                      aria-modal="true">
                     <div className="fixed inset-0 bg-black bg-opacity-50 transition-opacity"
                          aria-hidden="true"></div>
                     <div
-                        className="inline-block align-middle bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all w-1/4 h-auto relative">
+                        className="relative inline-block h-auto w-1/4 transform overflow-hidden rounded-lg bg-white text-left align-middle shadow-xl transition-all">
                         <button onClick={handleModalClose}
                                 className="absolute top-0 right-0 m-4 text-gray-500 hover:text-gray-700">
                             <X/>
                         </button>
-                        <div className="bg-white flex flex-col justify-between h-full">
-                            <div className="text-center mb-4 bg-gray-50 py-5">
+                        <div className="flex h-full flex-col justify-between bg-white">
+                            <div className="mb-4 bg-gray-50 py-5 text-center">
                                 <h2 className="text-2xl font-bold">AI Personal Trainer</h2>
                             </div>
-                            <div className="flex flex-col items-center justify-between h-full py-10">
+                            <div className="flex h-full flex-col items-center justify-between py-10">
                                 {selectedOption === null && (
                                     <>
                                         <button
-                                            className='text-blue-600 font-semibold px-4 py-2'
+                                            className='px-4 py-2 font-semibold text-blue-600'
                                             onClick={() => handleOptionSelect('analyzeWorkouts')}>
                                             Analyze Workouts
                                         </button>
                                         <button
-                                            className='text-blue-600 font-semibold px-4 py-2'
+                                            className='px-4 py-2 font-semibold text-blue-600'
                                             onClick={() => handleOptionSelect('generatePlan')}>
                                             Generate Personalized Training Plan
                                         </button>
@@ -64,10 +64,10 @@ export const AiPersonalTrainer = () => {
                                 {selectedOption === 'analyzeWorkouts' && <AnalyzeWorkouts/>}
                                 {selectedOption === 'generatePlan' && <GeneratePlan/>}
                             </div>
-                            <div className="mt-4 text-center bg-gray-50 px-4 py-7">
+                            <div className="mt-4 bg-gray-50 px-4 py-7 text-center">
                                 {selectedOption !== null &&
                                     <button onClick={getBack}
-                                            className=" text-blue-600 font-semibold flex flex-row absolute bottom-4 left-5">
+                                            className="absolute bottom-4 left-5 flex flex-row font-semibold text-blue-600">
                                         <ArrowLeft/> Back
                                     </button>}
                             </div>

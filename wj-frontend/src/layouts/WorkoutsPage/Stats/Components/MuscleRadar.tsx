@@ -8,9 +8,8 @@ import {
     Legend
 } from 'chart.js';
 import {Radar} from 'react-chartjs-2';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
-import ProcessingSpinner from "../../../Utils/ProcessingSpinner";
 import {RadarData} from "../../../../models/RadarData";
 
 ChartJS.register(
@@ -21,10 +20,11 @@ ChartJS.register(
     Tooltip,
     Legend
 );
-export const MuscleRadar = () => {
+export const MuscleRadar: React.FC<{
+    radarData: RadarData
+}> = (props) => {
 
     const {authState} = useOktaAuth();
-    const [isLoading, setIsLoading] = useState(true);
     const [chartData, setChartData] = useState({
         labels: [''],
         datasets: [
@@ -34,36 +34,11 @@ export const MuscleRadar = () => {
         ],
     });
 
-
     useEffect(() => {
-        setIsLoading(true);
-        const fetchData = async (): Promise<RadarData | undefined> => {
-            const url = `${import.meta.env.VITE_API_ADDRESS}/api/stats/radar`;
-            const requestOptions = {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
-                    'Content-Type': 'application/json'
-                }
-            };
-
-            try {
-                const response = await fetch(url, requestOptions);
-
-                if (!response.ok) {
-                    throw new Error('Something went wrong!');
-                }
-
-                return await response.json();
-            } catch (error) {
-                console.error('Error fetching data', error);
-                return undefined;
-            }
-        };
 
         const fetchDataAndSetState = async () => {
             try {
-                const data = await fetchData();
+                const data = props.radarData;
 
                 if (data) {
                     const updatedChartData = {
@@ -79,7 +54,6 @@ export const MuscleRadar = () => {
                         ],
                     };
                     setChartData(updatedChartData);
-                    setIsLoading(false);
                 }
             } catch (error) {
                 console.error('Error setting chart data', error);
@@ -119,11 +93,9 @@ export const MuscleRadar = () => {
 
     return (
         <div>
-            {isLoading ? (
-                <ProcessingSpinner/>
-            ) : (
+            {
                 chartData && <Radar data={chartData} options={chartOptions}/>
-            )}
+            }
         </div>
     );
 }

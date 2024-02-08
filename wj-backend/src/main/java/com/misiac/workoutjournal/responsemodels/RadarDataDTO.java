@@ -9,7 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-
 public class RadarDataDTO {
 
     private Long chest = 0L;

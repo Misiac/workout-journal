@@ -1,6 +1,5 @@
 package com.misiac.workoutjournal.controller;
 
-import com.misiac.workoutjournal.responsemodels.RadarDataDTO;
 import com.misiac.workoutjournal.responsemodels.StatsDTO;
 import com.misiac.workoutjournal.service.StatsService;
 import com.misiac.workoutjournal.util.JWTExtractor;
@@ -25,15 +24,10 @@ public class StatsController {
         this.jwtExtractor = jwtExtractor;
     }
 
-    @GetMapping("/radar")
-    public RadarDataDTO getRadarData(@RequestHeader(value = "Authorization") String token) {
-        String email = jwtExtractor.extractTokenParameter(token, ExtractionType.EMAIL);
-        return statsService.getRadarData(email);
-    }
-
-    @GetMapping("/total")
+        @GetMapping("")
     public StatsDTO getStats(@RequestHeader(value = "Authorization") String token) {
         String email = jwtExtractor.extractTokenParameter(token, ExtractionType.EMAIL);
-        return statsService.getTotalStats(email);
+        return statsService.getStatsData(email);
     }
+
 }

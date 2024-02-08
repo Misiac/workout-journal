@@ -5,6 +5,7 @@ import com.misiac.workoutjournal.exception.EntityDoesNotExistException;
 import com.misiac.workoutjournal.repository.UserRepository;
 import com.misiac.workoutjournal.responsemodels.RadarDataDTO;
 import com.misiac.workoutjournal.responsemodels.StatsDTO;
+import com.misiac.workoutjournal.responsemodels.TotalsDTO;
 import com.misiac.workoutjournal.util.RadarAllocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,13 @@ public class StatsService {
 
     private final UserRepository userRepository;
     private final RadarAllocator radarAllocator;
+    private final UserService userService;
 
     @Autowired
-    public StatsService(UserRepository userRepository, RadarAllocator radarAllocator) {
+    public StatsService(UserRepository userRepository, RadarAllocator radarAllocator, UserService userService) {
         this.userRepository = userRepository;
         this.radarAllocator = radarAllocator;
+        this.userService = userService;
     }
 
 
@@ -54,9 +57,8 @@ public class StatsService {
                 .sum();
     }
 
-    public RadarDataDTO getRadarData(String email) {
-        User user = userRepository.findUserByEmail(email).orElseThrow(
-                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
+    public RadarDataDTO getRadarData(User user) {
+
         RadarDataDTO radarDataDTO = new RadarDataDTO();
         for (Workout workout : user.getWorkouts()) {
             for (WorkoutExercise we : workout.getWorkoutExercises()) {
@@ -72,20 +74,30 @@ public class StatsService {
         return radarDataDTO;
     }
 
-    public StatsDTO getTotalStats(String email) {
+    public TotalsDTO getTotalStats(User user) {
 
-        User user = userRepository.findUserByEmail(email).orElseThrow(
-                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
 
         if (user.getWorkouts().isEmpty()) {
-            return new StatsDTO(0L, 0D, 0L, 0L);
+            return new TotalsDTO(0L, 0D, 0L, 0L);
         }
 
-        return new StatsDTO(
+        return new TotalsDTO(
                 getTotalReps(user),
                 getTotalVolume(user),
                 getTotalSets(user),
                 getTotalWorkouts(user)
+        );
+    }
+
+    public StatsDTO getStatsData(String email) {
+        userService.createUserIfNotExists(email);
+
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
+
+        return new StatsDTO(
+                getTotalStats(user),
+                getRadarData(user)
         );
     }
 }

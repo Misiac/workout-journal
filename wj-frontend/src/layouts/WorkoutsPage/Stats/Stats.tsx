@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {useOktaAuth} from "@okta/okta-react";
 import StatCard from "./Components/StatCard";
 import ProcessingSpinner from "../../Utils/ProcessingSpinner.tsx";
+import {RadarData} from "../../../models/RadarData.ts";
 
 
 export const Stats: React.FC<{
@@ -16,11 +17,13 @@ export const Stats: React.FC<{
     const [volume, setVolume] = useState('')
     const [workouts, setWorkouts] = useState('')
 
+    const [radarData, setRadarData] = useState<RadarData | null>(null);
+
     const userName = authState?.accessToken?.claims.given_name;
 
     useEffect(() => {
-        const fetchTotals = async () => {
-            const url = `${import.meta.env.VITE_API_ADDRESS}/api/stats/total`;
+        const fetchStats = async () => {
+            const url = `${import.meta.env.VITE_API_ADDRESS}/api/stats`;
             const requestOptions = {
                 method: 'GET',
                 headers: {
@@ -36,10 +39,14 @@ export const Stats: React.FC<{
                 }
 
                 const data = await response.json();
-                setReps(data.reps)
-                setSets(data.sets)
-                setWorkouts(data.workouts)
-                setVolume(data.volume)
+                const stats = data.totalsDTO;
+                setRadarData(data.radarDataDTO);
+
+                console.log(data)
+                setReps(stats.reps)
+                setSets(stats.sets)
+                setWorkouts(stats.workouts)
+                setVolume(stats.volume)
 
                 setIsLoading(false);
             } catch (error) {
@@ -47,7 +54,7 @@ export const Stats: React.FC<{
             }
         };
         if (authState?.isAuthenticated) {
-            fetchTotals();
+            fetchStats();
             console.log("fetch stats")
         }
 
@@ -59,7 +66,7 @@ export const Stats: React.FC<{
             </h1>
             <div className="grid h-auto grid-cols-4 grid-rows-2 gap-6 py-6">
                 {isLoading ?
-                    <div className='col-span-2 row-span-3 flex h-full w-full items-center justify-center'>
+                    <div className='col-span-4 row-span-2 flex h-full w-full items-center justify-center'>
                         <ProcessingSpinner/>
                     </div>
                     :
@@ -79,11 +86,13 @@ export const Stats: React.FC<{
                             <StatCard heading={workouts} caption={'Total Workouts'} gradientMode={'bg-gradient-to-br'}/>
                         </div>
 
+                        <div className="col-span-2 col-start-3 row-span-3 row-start-1 flex items-center justify-center">
+                            {radarData && <MuscleRadar radarData={radarData}/>}
+                        </div>
+
                     </>
                 }
-                <div className="col-span-2 col-start-3 row-span-3 row-start-1 flex items-center justify-center">
-                    <MuscleRadar/>
-                </div>
+
             </div>
         </>
 

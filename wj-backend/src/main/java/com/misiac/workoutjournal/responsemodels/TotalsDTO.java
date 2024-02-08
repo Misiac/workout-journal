@@ -9,8 +9,9 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class StatsDTO {
-
-    private TotalsDTO totalsDTO;
-    private RadarDataDTO radarDataDTO;
+public class TotalsDTO {
+    private Long reps;
+    private Double volume;
+    private Long sets;
+    private Long workouts;
 }

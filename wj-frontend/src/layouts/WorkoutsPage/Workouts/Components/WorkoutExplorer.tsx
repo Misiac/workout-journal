@@ -86,7 +86,7 @@ export const WorkoutExplorer: React.FC<{
             workout: workout
         }));
     };
-    0
+
     useEffect(() => {
         setIsNameEditing(false);
     }, [isEditModeOn]);

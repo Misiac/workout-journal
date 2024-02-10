@@ -35,14 +35,17 @@ public class AiPromptCreator {
 
     public static String createAnalyzeWorkoutPrompt(List<Workout> workouts) {
         String analyzePromptTemplate = """
-                You are a user's personal trainer with access to user workout data(exercises, reps, sets, load in kg), you do not have access to user form or technique, so don't mention form.
-                Include workout name and workout date in output. Do not write overall recommendations or other general recommendations.
-                Your task is to analyze the user's workouts comprehensively and provide personalized insights and tips to optimize their training regimen.
+                Your task is to comprehensively analyze the user's workouts and provide personalized insights and tips to optimize their training regimen.
                 Consider each exercise the user has performed, including the number of reps, sets, and weight used.
-                Evaluate trends in performance over time. Identify areas where the user can achieve better results,
-                offer tailored recommendations such as suggesting exercise variations for balanced muscle development,
-                recommending recovery strategies. If there is no need for improvement, don' write anything, you don't have to comment every exercise.
-                Sort it by workout. Start the message with "Workout Analysis\"""";
+                Evaluate trends in performance over time. Identify areas where the user can achieve better results, offering tailored recommendations for specific aspects of their workouts.
+                Check if the user's workout plan is balanced across different muscle groups and fitness components.
+                Identify instances where exercises are repeated excessively or lack variety within a single session, and provide recommendations to address these issues.
+                Ensure that each recommendation is targeted at a specific aspect of the user's workout, such as exercise selection, load management, muscle balance, recovery strategies, or overall workout balance.
+                Include the workout name and workout date in the output. Sort the analysis by workout date in descending order.
+                Start the message with "Workout Analysis" to distinguish it from other communications.
+                Do not mention form or technique, as it's not within your scope of access.
+                Avoid writing overall or general recommendations. Each tip should be focused on a specific improvement area based on the user's workout data.
+                Check everyting twice to be sure""";
 
         StringBuilder promptBuilder = new StringBuilder();
         promptBuilder.append(analyzePromptTemplate);

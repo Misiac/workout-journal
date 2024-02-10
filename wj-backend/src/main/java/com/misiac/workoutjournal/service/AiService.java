@@ -1,9 +1,10 @@
 package com.misiac.workoutjournal.service;
 
 import com.misiac.workoutjournal.entity.Workout;
-import com.misiac.workoutjournal.repository.UserRepository;
+import com.misiac.workoutjournal.entity.WorkoutExercise;
 import com.misiac.workoutjournal.repository.WorkoutRepository;
 import com.misiac.workoutjournal.requestmodels.AiPlanRequest;
+import com.misiac.workoutjournal.util.MessageProvider;
 import org.springframework.ai.chat.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -15,13 +16,11 @@ import java.util.List;
 public class AiService {
 
     private final ChatClient chatClient;
-    private final UserRepository userRepository;
     private final WorkoutRepository workoutRepository;
 
     @Autowired
-    public AiService(ChatClient chatClient, UserRepository userRepository, WorkoutRepository workoutRepository) {
+    public AiService(ChatClient chatClient, WorkoutRepository workoutRepository) {
         this.chatClient = chatClient;
-        this.userRepository = userRepository;
         this.workoutRepository = workoutRepository;
     }
 
@@ -33,16 +32,23 @@ public class AiService {
 
     public String analyzeUserWorkouts(String email) {
 
-//        User user = userRepository.findUserByEmail(email).orElseThrow(
-//                () -> new EntityDoesNotExistException(USER_DOES_NOT_EXIST));
 
         List<Workout> workouts = workoutRepository.findWorkoutsByUserEmailOrderByDateDesc(
                 email,
                 PageRequest.of(0, 3)
         ).toList();
 
+        if (workouts.size() < 3) throw new IllegalArgumentException(MessageProvider.NOT_ENOUGH_WORKOUTS);
+        for (Workout workout : workouts) {
+            if (workout.getWorkoutExercises().size() < 2)
+                throw new IllegalArgumentException(MessageProvider.NOT_ENOUGH_WORKOUTS);
+            for (WorkoutExercise exercise : workout.getWorkoutExercises()) {
+                if (exercise.getWorkoutExerciseSets().isEmpty())
+                    throw new IllegalArgumentException(MessageProvider.NOT_ENOUGH_WORKOUTS);
+            }
+        }
+
         String prompt = AiPromptCreator.createAnalyzeWorkoutPrompt(workouts);
-        System.out.println(prompt);
 
         return chatClient.call(prompt);
 

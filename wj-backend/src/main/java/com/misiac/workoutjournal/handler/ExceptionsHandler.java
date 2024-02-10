@@ -29,6 +29,11 @@ public class ExceptionsHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<String> handleException(IllegalArgumentException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException e) {
         StringBuilder sb = new StringBuilder();
         e.getBindingResult().getAllErrors().forEach(err -> sb.append(err.getDefaultMessage()).append("\n"));

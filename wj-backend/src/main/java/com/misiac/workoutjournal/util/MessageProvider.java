@@ -46,4 +46,5 @@ public final class MessageProvider {
     public static final String NEW_ENTIY_ID = "Id of a new entity can't be positive";
 
 
+    public static final String NOT_ENOUGH_WORKOUTS = "You need to have at least 3 properly logged workouts (with at least 2 exercises with at least 1 set)";
 }

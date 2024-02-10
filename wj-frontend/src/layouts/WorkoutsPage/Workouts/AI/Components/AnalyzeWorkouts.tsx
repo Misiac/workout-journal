@@ -22,6 +22,10 @@ export const AnalyzeWorkouts = () => {
             });
 
             if (!response.ok) {
+                const data = await response.text();
+                console.log(data);
+                setResponse(data);
+                setIsLoading(false);
                 throw new Error('HTTP error ' + response.status);
             }
             setIsLoading(false);
@@ -29,6 +33,7 @@ export const AnalyzeWorkouts = () => {
             const data = await response.json();
 
             setResponse(data.generation);
+            console.log(data);
 
         } catch (error) {
             console.error('Fetch error:', error);
@@ -40,25 +45,24 @@ export const AnalyzeWorkouts = () => {
         handleAnalyze();
     }, [authState]);
 
-    return (
-        <div className="...">
-            {isLoading ?
-                <div className='flex flex-col items-center'>
-                    <ProcessingSpinner/>
-                    <span className='font-semibold text-gray-500'>This can take up to 30 seconds</span>
-                </div>
-                :
-                <div className='flex flex-col '>
-                    {response.split('\n').map((line, index) => (
-                        <span key={index} className='font-semibold text-gray-500'>
-                             {line === '' ? '\u00A0' : line}
-                                  </span>
-                    ))}
-                </div>
-
-            }
-        </div>
-    );
+return (
+    <div className="flex flex-col p-4 overflow-y-auto max-h-full">
+        {isLoading ?
+            <div className='flex flex-col items-center'>
+                <ProcessingSpinner/>
+                <span className='font-semibold text-gray-500'>This can take up to 30 seconds</span>
+            </div>
+            :
+            <div className='flex flex-col'>
+                {response.split('\n').map((line, index) => (
+                    <span key={index} className='font-semibold text-gray-500'>
+                        {line === '' ? '\u00A0' : line}
+                    </span>
+                ))}
+            </div>
+        }
+    </div>
+);
 }
 
 export default AnalyzeWorkouts;

@@ -36,7 +36,7 @@ export const MuscleRadar: React.FC<{
 
     useEffect(() => {
 
-        const fetchDataAndSetState = async () => {
+        const setRadarState = async () => {
             try {
                 const data = props.radarData;
 
@@ -60,9 +60,9 @@ export const MuscleRadar: React.FC<{
             }
         };
 
-        fetchDataAndSetState();
+        setRadarState();
 
-    }, [authState]);
+    }, [authState,props.radarData]);
     const chartOptions: {
         plugins: {
             legend: {

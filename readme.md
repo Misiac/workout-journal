@@ -3,14 +3,16 @@
 </h1>
 
 <h4 align="center">
-Workout Journal is your go-to fitness companion. It offers a user-friendly interface that makes tracking your fitness journey effortless. With Okta's secure user authentication, your data is always safe. The application provides detailed analysis of your workout sessions and generates personalized workout plans that are tailored to your individual preferences and performance. Experience a new level of fitness tracking with Workout Journal.
+Workout Journal is your go-to fitness companion. It offers a user-friendly interface that makes analyzing and analyzing your fitness journey effortless.
+With Okta's secure user authentication, your data is always safe.
+The application provides detailed analysis of your workout sessions and generates personalized workout plans that are tailored to your individual preferences.
+Experience a new level of fitness tracking with Workout Journal.
 </h4>
 <p align="center">
 	<a href="#description">Description</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#requirements">Requirements</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#credits">Credits</a> 
 
 </p>
  <img src="assets/login.jpeg" alt="Login Page">
@@ -19,6 +21,9 @@ Workout Journal is your go-to fitness companion. It offers a user-friendly inter
 
 * Log Workout Sessions
     - Easily record workout sessions, including exercises performed, duration, and intensity
+
+* Comprehensive Statistics
+    - Track your progress with detailed statistics for each workout and overall performance metrics.
 
 * AI Workout Analysis
     - Obtain in-depth analysis of your workout sessions using OpenAI's AI capabilities, including performance insights
@@ -63,26 +68,20 @@ application.
 
 **Backend:**
 
-- Java 21
-- Spring Boot 3.2.1
-- MySQL
+- Spring Boot, MySQL
 
 **Frontend:**
 
-- Vite
-- TypeScript
-- React
+- TypeScript, React
+
+- **Testing:**
+
+- Mockito, JUnit 5
 
 **Services/APIs:**
 
-- Okta
-- OpenAI
+- Okta, OpenAI
 
 **DevOps:**
 
 - Docker
-
-**Testing:**
-
-- Mockito
-- JUnit 5

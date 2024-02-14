@@ -8,27 +8,31 @@ A fitness tracking application that leverages AI for personalized workout analys
 
 </h4>
 <p align="center">
-  • <a href="#description">Description</a> •
+<a href="#description">Description</a> •
   <a href="#key-features">Key Features</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#how-to-deploy">How To Deploy</a> •
+  <a href="#how-to-deploy">How To Deploy</a> 
 
 </p>
  <img src="assets/login.jpeg" alt="Login Page">
 
 ## Description
 
-Workout Journal is a fitness tracking application designed for fitness enthusiasts and professionals alike. It offers a user-friendly interface that simplifies the process of logging workout sessions, tracking progress, and analyzing performance. The application was primarily developed to provide a more convenient and comprehensive way to analyze workouts on a larger screen, as opposed to the limited view on mobile devices.
+Workout Journal is a fitness tracking application designed for fitness enthusiasts and professionals alike. It offers a
+user-friendly interface that simplifies the process of logging workout sessions, tracking progress, and analyzing
+performance. The application was primarily developed to provide a more convenient and comprehensive way to analyze
+workouts on a larger screen, as opposed to the limited view on mobile devices.
 
-Leveraging the power of OpenAI, the application provides in-depth analysis of workout sessions and generates personalized workout plans tailored to individual fitness goals and preferences. 
+Leveraging the power of OpenAI, the application provides in-depth analysis of workout sessions and generates
+personalized workout plans tailored to individual fitness goals and preferences.
 
-In addition to its core features, Workout Journal also includes an admin panel for managing exercise types, muscle groups, and equipment groups, enhancing the flexibility and adaptability of the application. 
+In addition to its core features, Workout Journal also includes an admin panel for managing exercise types, muscle
+groups, and equipment groups, enhancing the flexibility and adaptability of the application.
 
-With secure user authentication powered by Okta, users can rest assured that their data is always safe. 
+With secure user authentication powered by Okta, users can rest assured that their data is always safe.
 
-Workout Journal is not intended for commercial use. This project was developed to explore the capabilities of AI in the context of fitness tracking. It serves as a practical tool for personal use.
-
-
+Workout Journal is not intended for commercial use. This project was developed to explore the capabilities of AI in the
+context of fitness tracking. It serves as a practical tool for personal use.
 
 ## Key Features
 

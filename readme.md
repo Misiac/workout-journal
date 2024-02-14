@@ -3,7 +3,7 @@
 </h1>
 
 <h4 align="center">
-Workout Journal is your go-to fitness companion. It offers a user-friendly interface that makes tracking your fitness journey effortless. With secure user authentication, your data is always safe. The application provides detailed analysis of your workout sessions and generates personalized workout plans that are tailored to your individual preferences and performance. Experience a new level of fitness tracking with Workout Journal.
+Workout Journal is your go-to fitness companion. It offers a user-friendly interface that makes tracking your fitness journey effortless. With Okta's secure user authentication, your data is always safe. The application provides detailed analysis of your workout sessions and generates personalized workout plans that are tailored to your individual preferences and performance. Experience a new level of fitness tracking with Workout Journal.
 </h4>
 <p align="center">
 	<a href="#description">Description</a> •
@@ -13,7 +13,7 @@ Workout Journal is your go-to fitness companion. It offers a user-friendly inter
   <a href="#credits">Credits</a> 
 
 </p>
- <img src="assets/login.jpeg" alt="Login Page" width="900">
+ <img src="assets/login.jpeg" alt="Login Page">
 
 ## Key Features
 
@@ -30,23 +30,11 @@ Workout Journal is your go-to fitness companion. It offers a user-friendly inter
 * User Authentication with Okta
     - Securely authenticate users and manage access to the application with Okta integration
 
-* Frontend with TypeScript
-
-- Enjoy a responsive and intuitive user interface built with TypeScript, providing a seamless user experience
-
-* Test Coverage with Mockito and JUnit
-
-- Ensure application reliability and functionality with comprehensive test coverage using Mockito and JUnit
-
-* Containerized with Docker
-
-- Deploy and manage the application effortlessly in a containerized environment with Docker
-
-
+ <img src="assets/page.jpeg" alt="Login Page">
 
 ## How To Use
 
-Access the app deployed on Heroku [here](https://workout-journal-ai.herokuapp.com/)
+Access the app deployed on ... tbd
 or follow the instructions below to deploy the application for yourself
 
 To clone the repo, use:

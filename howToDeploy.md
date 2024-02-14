@@ -68,7 +68,7 @@ OpenAI is an artificial intelligence research lab. In this project, it's used fo
 1. In the OpenAI api platform, ensure you have the credits to use the GPT-3.5 model (You can buy them in Settings -> Billing)
 2. Create and copy the API key then paste it into the `.env` file.
 
-   ![Example Image](./assets/openai.png)
+   ![OpenAI](./assets/openai.png)
 
 ## Step 4: Enabling User Registration
 
@@ -78,7 +78,7 @@ User registration is disabled by default. To enable it, modify the `oktaConfig.t
 2. Find the `registration`.
 3. Change it from `false` to `true`.
 
-![Example Image](./assets/registration.png)
+![Registration](./assets/registration.png)
 
 ## Step 5: Setting up Docker Compose
 

@@ -1,7 +1,7 @@
 <h1 align="center">
   <br>
  <img src="assets/logo.png" alt="Workout Journal">
-</h1>
+</h1>[howToDeploy.md](howToDeploy.md)
 
 <h4 align="center">
 Workout Journal is your go-to fitness companion. It offers a user-friendly interface that makes tracking your fitness journey effortless. With secure user authentication, your data is always safe. The application provides detailed analysis of your workout sessions and generates personalized workout plans that are tailored to your individual preferences and performance. Experience a new level of fitness tracking with Workout Journal.
@@ -52,6 +52,7 @@ ypeScript, provides a user-friendly interface, while Okta integration ensures se
 - Logo
 - Rework navbar
 - Data parser from some mobile app
+- Backend logs
 
 ## How To Use
 

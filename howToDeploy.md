@@ -15,12 +15,14 @@ Before you begin, ensure you have the following:
 1. Create a `.env` file in the root of the project with the following content:
 
 ```bash
-OKTA_CLIENT_ID = 
-OKTA_ISSUER = 
-OPENAI_KEY = 
+OKTA_CLIENT_ID = # Your Okta Client ID
+OKTA_ISSUER = # Your Okta Issuer
+OPENAI_KEY = # Your OpenAI Key
 ```
 
 ## Step 2: Setting up Okta
+
+Okta is an identity and access management platform. It's used in this project for user authentication.
 
 1. In Settings -> Account -> Embedded widget sign-in support. Enable Interaction Code.
 2. In Security -> API. Select pencil icon on the default authorization server. In the settings, in access policies,
@@ -31,30 +33,52 @@ OPENAI_KEY =
     * Redirect URI: YOUR_FRONTEND_URL/login/callback
     * Sign-out Redirect URI: YOUR_FRONTEND_URL
     * Federation Broker Mode: Enabled
+
+   <img src="assets/1.png" alt="Integration" width="500">
 4. In Directory -> Profile Editor. Click your app user and add following attribute:
     * Display Name: User Type
     * Variable name: userType
     * User permission: Read-write
     * Left all other values default.
     * In your app Mappings, ensure you have the following mappings:
-    * Photo here
+      * User to App:
+      
+        ![Mappings User To App](./assets/mappings_user_to_app.png)
+      * App to User
+      
+        ![Mappings App to User](./assets/mappings_app_to_user.png)
+      
 5. In Security -> API. Select pencil icon on the default authorization server. In the settings, in claims add following
    claims with the following values:
-    * photo here
-6. Copy the client ID and issuer from the created app and paste them into the `.env` file.
+
+   ![Claims](./assets/2.png)
+6. Copy the Client ID from Applications -> Applications, and paste it into the `.env` file.
+7. Get the Okta Company name from upper right corner and paste replace the value in: 
+   ``` bash 
+   https://YOUR-OKTA-COMPANY-NAME/oauth2/default
+   ```
+   ![Issuer](./assets/issuer.png)
+8. Paste the result into `.env` file as an issuer
 
 ## Step 3: Setting up OpenAI
 
-1. In the OpenAI api platform, ensure you have the credits to use the GPT-3.5 model.
-2. Copy the API key and paste it into the `.env` file.
+
+OpenAI is an artificial intelligence research lab. In this project, it's used for workout analysis and generating personalized workout plans.
+
+1. In the OpenAI api platform, ensure you have the credits to use the GPT-3.5 model (You can buy them in Settings -> Billing)
+2. Create and copy the API key then paste it into the `.env` file.
+
+   ![Example Image](./assets/openai.png)
 
 ## Step 4: Enabling User Registration
 
 User registration is disabled by default. To enable it, modify the `oktaConfig.ts` file:
 
-1. Open `oktaConfig.ts` in wj-frontend.
+1. Open `src/lib/oktaConfig.ts` in wj-frontend.
 2. Find the `registration`.
 3. Change it from `false` to `true`.
+
+![Example Image](./assets/registration.png)
 
 ## Step 5: Setting up Docker Compose
 

@@ -14,7 +14,7 @@ A fitness tracking application that leverages AI for personalized workout analys
   <a href="#how-to-deploy">How To Deploy</a> 
 
 </p>
- <img src="assets/login.jpeg" alt="Login Page">
+  <img src="assets/page.jpeg" alt="Main Page">
 
 ## Description
 
@@ -56,7 +56,7 @@ context of fitness tracking. It serves as a practical tool for personal use.
     - Administrators have the ability to add new exercise types, muscle groups, and equipment groups. They can also
       associate exercises with these groups for better organization and tracking.
 
- <img src="assets/page.jpeg" alt="Login Page">
+ <img src="assets/login.jpeg" alt="Login Page">
 
 ## How To Use
 

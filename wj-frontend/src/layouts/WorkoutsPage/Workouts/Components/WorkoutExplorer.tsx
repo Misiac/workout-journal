@@ -94,7 +94,6 @@ export const WorkoutExplorer: React.FC<{
     useEffect(() => {
         if (selectedWorkoutId > 0) {
             fetchWorkout();
-            console.log("fetch workout")
         } else {
             setState(prevState => ({
                 ...prevState,

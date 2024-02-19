@@ -4,9 +4,9 @@ export const oktaConfig = {
     redirectUri: import.meta.env.VITE_REDIRECT_URI,
     scopes: ['openid', 'profile', 'email'],
     pkce: true,
-    disableHttpsCheck: true,
+    disableHttpsCheck: false,
     brandName: 'Workout Journal',
-    features: {registration: true},
+    features: {registration: false},
     colors: {
         brand: '#288dff'
     }

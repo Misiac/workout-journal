@@ -11,7 +11,6 @@ export const Navbar = () => {
         await oktaAuth.closeSession();
         localStorage.removeItem('okta-token-storage');
         await oktaAuth.authStateManager.updateAuthState();
-        console.log("signout")
         navigate('/login');
     };
 

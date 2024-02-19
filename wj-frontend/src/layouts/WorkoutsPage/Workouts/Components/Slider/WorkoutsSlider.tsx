@@ -40,7 +40,6 @@ export const WorkoutsSlider: React.FC<{
         };
 
         fetchWorkoutsTiny();
-        console.log("slider reload");
     }, [authState, sliderReloadTrigger]);
 
     const addNewWorkout = async () => {

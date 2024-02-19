@@ -23,7 +23,6 @@ export const AnalyzeWorkouts = () => {
 
             if (!response.ok) {
                 const data = await response.text();
-                console.log(data);
                 setResponse(data);
                 setIsLoading(false);
                 throw new Error('HTTP error ' + response.status);
@@ -33,7 +32,6 @@ export const AnalyzeWorkouts = () => {
             const data = await response.json();
 
             setResponse(data.generation);
-            console.log(data);
 
         } catch (error) {
             console.error('Fetch error:', error);

@@ -54,7 +54,6 @@ export const Stats: React.FC<{
         };
         if (authState?.isAuthenticated) {
             fetchStats();
-            console.log("fetch stats")
         }
 
     }, [authState, props.reloadStats]);

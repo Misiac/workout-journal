@@ -22,7 +22,6 @@ export const AuthRequired: React.FC = () => {
     if (!authState || !authState?.isAuthenticated) {
         return (<ProcessingSpinner/>);
     }
-    console.log(authState?.accessToken)
     return (<Outlet/>);
 }
 export default AuthRequired;

@@ -60,7 +60,8 @@ context of fitness tracking. It serves as a practical tool for personal use.
 
 ## How To Use
 
-Access the app deployed on ... tbd
+Access the app deployed here:
+[Workout Journal](https://workoutjournal.ovh)
 
 ## How To Deploy
 

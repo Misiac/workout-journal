@@ -19,4 +19,4 @@ COPY --from=builder ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY --from=builder ${DEPENDENCY}/META-INF /app/META-INF
 COPY --from=builder ${DEPENDENCY}/BOOT-INF/classes /app
 
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.misiac.workoutjournal.WorkoutJournalApplication"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","ovh.workoutjournal.WorkoutJournalApplication"]

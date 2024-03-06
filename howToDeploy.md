@@ -101,4 +101,21 @@ User registration is disabled by default. To enable it, modify the `oktaConfig.t
 | MYSQL_ROOT_PASSWORD                 | The root password for the MySQL database. |
 | MYSQL_DATABASE                      | The name of the MySQL database.           |
 
+## (Optional) Set up Apache server rules
+If your server is compatibile with Apache HTTP server rules. You can use the following rules to always serve the main index.html file
+``` bash
+
+<IfModule mod_rewrite.c>
+
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+  RewriteRule . /index.html [L]
+
+</IfModule>
+```
+
 
